@@ -1,0 +1,4 @@
+#To install required items use:
+    #pip install -r requirements.txt
+Flask==2.2.3
+pymongo==4.6.1
