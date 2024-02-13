@@ -1,0 +1,17 @@
+
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: navy;
+}
+button {
+    border-radius: 12px;
+    background-color: gray;
+}
+button2 {
+    background-color: aquamarine;
+}
+

@@ -4,8 +4,6 @@ import flask
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
-
-
 @app.route('/')
 def index():
     pymongo_version = pymongo.__version__
