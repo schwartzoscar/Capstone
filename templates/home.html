@@ -2,8 +2,18 @@
 <link rel="stylesheet" href="/templates/styles.css">
 <html lang="en">
 <html>
-    <title>/home (Js Test)</title>
-    <h1>Check Console for javascript log!</h1>
-    <script src="/java.js" defer></script>
-    <button onclick="window.location.href='/'">Index</button>
+
+    <body>
+        {% extends 'base.html' %}
+        {% block title %}Profile{% endblock %}
+        {% block content %}
+
+            <title>JS Test</title>
+            <h4>Home Page</h4>
+            <h3>Check Console for javascript log!</h3>
+            <script src="/java.js" defer></script>
+            
+        {% endblock %}
+        
+    </body>
 </html>

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="/templates/styles.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>/  (Versions)</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="/templates/styles.css">
 </head>
-<h1>Thirdder</h1>
 <body>
-    <h3>Flask Pymongo Version</h3>
-    <p>The version of pymongo installed is: {{ pymongo_version }}</p>
-    <br>
-    <h3>Flask Version</h3>
-    <p>The version of flask installed is: {{ flask_version }}</p>
-    <br>
-    <button onclick="window.location.href='/home'">Java Test(home)</button>
-    <br>
+    {% extends 'base.html' %}
+    {% block title %}Profile{% endblock %}
+    {% block content %}
+
+        <h4>Index Information</h4>
+        <h3>Flask Pymongo Version</h3>
+        <p>The version of pymongo installed is: {{ pymongo_version }}</p>
+        <br>
+        <h3>Flask Version</h3>
+        <p>The version of flask installed is: {{ flask_version }}</p>
+        
+    {% endblock %}
+    
 </body>
 </html>
