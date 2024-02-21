@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from pymongo import MongoClient
+import pymongo
 import flask
 
 #app = Flask(__name__, static_url_path='', static_folder='.')
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 def get_db():
-    client = MongoClient(
+    client = pymongo.MongoClient(
         host=os.environ['MONGODB_HOST'],
         username=os.environ['MONGODB_USERNAME'],
         password=os.environ['MONGODB_PASSWORD'],
