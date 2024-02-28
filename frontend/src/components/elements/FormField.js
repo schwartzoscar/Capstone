@@ -1,24 +1,33 @@
+import { Form } from 'react-bootstrap';
+
 function FormFieldWrapper(props) {
-    return(
-      <div className="form-field">
-        <label>{props.label}</label>
-        <p>input here</p>
-      </div>
-    );
+
+  const {id, label, isInvalid, errorMessage, children} = props;
+
+  return(
+    <Form.Group controlId={id}>
+      <Form.Label>{label}</Form.Label>
+      {children}
+      {isInvalid && <span className="text-danger">{errorMessage}</span>}
+    </Form.Group>
+  );
 }
 
 export function TextField(props) {
-    return(
-      <FormFieldWrapper {...props}>
-        <p>text field</p>
-      </FormFieldWrapper>
-    );
+
+  const [value, setValue] = props.value;
+
+  return(
+    <FormFieldWrapper {...props}>
+      <Form.Control value={value} onChange={setValue}/>
+    </FormFieldWrapper>
+  );
 }
 
 export function EmailField(props) {
-    return <TextField {...props}/>;
+  return <TextField {...props}/>;
 }
 
 export function PasswordField(props) {
-    return <TextField {...props}/>
+  return <TextField {...props}/>
 }

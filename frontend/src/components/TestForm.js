@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { EmailField, PasswordField, TextField } from "./elements/FormField";
 
 export default function TestForm() {
@@ -11,10 +12,12 @@ export default function TestForm() {
   return(
     <div style={{margin: 50, padding: 10, border: "0.5px solid #202020"}}>
       <h1>Test Form</h1>
-      <TextField label="Name" value={[name, setName]}/>
-      <EmailField label="Email" value={[email, setEmail]}/>
-      <PasswordField label="Password" value={[password, setPassword]}/>
-      <PasswordField label="Confirm Password" value={[confirmPass, setConfirmPass]} confirming={password}/>
+      <Form>
+        <TextField id="name" label="Name" value={[name, setName]}/>
+        <EmailField id="email" label="Email" value={[email, setEmail]}/>
+        <PasswordField id="password" label="Password" value={[password, setPassword]}/>
+        <PasswordField id="confirmPass" label="Confirm Password" value={[confirmPass, setConfirmPass]} confirming={password}/>
+      </Form>
     </div>
   );
 }
