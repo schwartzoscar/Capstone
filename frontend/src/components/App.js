@@ -1,16 +1,10 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import TestForm from "./TestForm";
-import Home from "./home/Home";
-import Profile from "./profile/Profile";
-
-const router = createBrowserRouter([
-  { path: "/", element: <Home/> },
-  { path: "/profile", element: <Profile/> },
-  { path: "/test", element: <TestForm/> },
-]);
+import { AuthProvider } from "../contexts/AuthContext";
+import AppRouter from "./routing/AppRouter";
 
 export default function App() {
   return(
-    <RouterProvider router={router}/>
+    <AuthProvider>
+      <AppRouter/>
+    </AuthProvider>
   );
 }
