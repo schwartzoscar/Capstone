@@ -1,13 +1,16 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import TestForm from "./TestForm";
+import Home from "./home/Home";
+import Profile from "./profile/Profile";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home/> },
+  { path: "/profile", element: <Profile/> },
+  { path: "/test", element: <TestForm/> },
+]);
 
 export default function App() {
   return(
-    <div>
-      <header>
-        <p>React App</p>
-        <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
-      </header>
-      <TestForm/>
-    </div>
+    <RouterProvider router={router}/>
   );
 }
