@@ -1,23 +1,24 @@
-import { useState } from 'react';
-import { Form } from 'react-bootstrap';
-import { EmailField, PasswordField, TextField } from "./elements/FormField";
+import { useForm, FormProvider } from 'react-hook-form';
+import { SubmitButton, TextField } from "./elements/FormField";
 
 export default function TestForm() {
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
+  const form = useForm();
+
+  const submit = data => {
+    console.log(data);
+  }
 
   return(
     <div style={{margin: 50, padding: 10, border: "0.5px solid #202020"}}>
       <h1>Test Form</h1>
-      <Form>
-        <TextField id="name" label="Name" value={[name, setName]}/>
-        <EmailField id="email" label="Email" value={[email, setEmail]}/>
-        <PasswordField id="password" label="Password" value={[password, setPassword]}/>
-        <PasswordField id="confirmPass" label="Confirm Password" value={[confirmPass, setConfirmPass]} confirming={password}/>
-      </Form>
+      <FormProvider {...form}>
+        <TextField name="name" label="Name"/>
+        <TextField name="email" label="Email"/>
+        <TextField name="password" label="Password"/>
+        <TextField name="confirmPass" label="Confirm Password"/>
+        <SubmitButton onClick={submit} className="btn-primary" icon="fa-user"/>
+      </FormProvider>
     </div>
   );
 }

@@ -1,33 +1,47 @@
+import { useFormContext } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
+import Button from "./Button";
 
-function FormFieldWrapper(props) {
+function FormFieldLabel(props) {
 
-  const {id, label, isInvalid, errorMessage, children} = props;
+  let label = null;
 
-  return(
-    <Form.Group controlId={id}>
-      <Form.Label>{label}</Form.Label>
-      {children}
-      {isInvalid && <span className="text-danger">{errorMessage}</span>}
-    </Form.Group>
-  );
+  if(props.icon || props.label) {
+    const icon = props.icon ? <i className={`fas fa-${props.icon}`}/> : null;
+    label = <Form.Label>{icon}{props.label}</Form.Label>;
+  }
+
+  return label;
+}
+
+function FormFieldError(props) {
+
+  const { formState: { errors } } = useFormContext();
+
+  return errors[props.name] ? <p className="text-danger">{errors[props.name]?.message}</p> : null;
 }
 
 export function TextField(props) {
 
-  const [value, setValue] = props.value;
+  const { register } = useFormContext();
 
   return(
-    <FormFieldWrapper {...props}>
-      <Form.Control value={value} onChange={setValue}/>
-    </FormFieldWrapper>
+    <Form.Group>
+      <FormFieldLabel label={props.label} icon={props.icon}/>
+      <Form.Control {...register(props.name)}/>
+      <FormFieldError name={props.name}/>
+    </Form.Group>
   );
 }
 
-export function EmailField(props) {
-  return <TextField {...props}/>;
-}
+export function SubmitButton(props) {
 
-export function PasswordField(props) {
-  return <TextField {...props}/>
+  const { onClick, children, ...btnProps } = props;
+  const { handleSubmit } = useFormContext();
+
+  return(
+    <Button onClick={handleSubmit(onClick)} {...btnProps}>
+      {props.children ?? "Submit"}
+    </Button>
+  );
 }
