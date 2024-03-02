@@ -6,6 +6,6 @@ const router = createBrowserRouter([
   { path: "*", element: <Navigate to="/login" replace /> }
 ]);
 
-export default function UnauthenticatedRouter() {
+export default function NoAuthRouter() {
   return <RouterProvider router={router}/>;
 }

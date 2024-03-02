@@ -10,6 +10,6 @@ const router = createBrowserRouter([
   { path: "*", element: <Navigate to="/" replace /> }
 ]);
 
-export default function AuthenticatedRouter() {
+export default function AuthRouter() {
   return <RouterProvider router={router}/>;
 }

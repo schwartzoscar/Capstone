@@ -1,10 +1,10 @@
 import { useAuthContext } from "../../contexts/AuthContext";
-import AuthenticatedRouter from "./AuthenticatedRouter";
-import UnauthenticatedRouter from "./UnauthenticatedRouter";
+import AuthRouter from "./AuthRouter";
+import NoAuthRouter from "./NoAuthRouter";
 
 export default function AppRouter() {
 
   const [{ accessToken }] = useAuthContext();
 
-  return accessToken ? <AuthenticatedRouter/> : <UnauthenticatedRouter/>;
+  return accessToken ? <AuthRouter/> : <NoAuthRouter/>;
 }
