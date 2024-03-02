@@ -17,18 +17,18 @@ function FormFieldLabel(props) {
 function FormFieldError(props) {
 
   const { formState: { errors } } = useFormContext();
-
   return errors[props.name] ? <p className="text-danger">{errors[props.name]?.message}</p> : null;
 }
 
 export function TextField(props) {
 
-  const { register } = useFormContext();
+  const { register, formState: { errors } } = useFormContext();
 
   return(
     <Form.Group>
       <FormFieldLabel label={props.label} icon={props.icon}/>
-      <Form.Control {...register(props.name)}/>
+      <Form.Control {...register(props.name, props.validation)}
+                    isInvalid={errors[props.name]} aria-invalid={errors[props.name] ? "true" : "false"}/>
       <FormFieldError name={props.name}/>
     </Form.Group>
   );
