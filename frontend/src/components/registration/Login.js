@@ -13,7 +13,7 @@ export default function Login() {
   const handleSubmit = data => {
     apiClient.post( '/login', data)
       .then(resp => {
-        if(resp.data.message === "Success"){
+        if(resp.data?.message === "Success"){
           toast.success('Login successful!');
           const authData = {user: resp.data.user, accessToken: resp.data.access_token};
           dispatch({type: 'login', data: authData});
