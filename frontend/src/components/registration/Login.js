@@ -1,8 +1,8 @@
 import { useForm, FormProvider } from "react-hook-form";
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
 import { useAuthContext } from "../../contexts/AuthContext";
-import Button from "../elements/Button";
 import { TextField, SubmitButton } from "../elements/FormField";
 
 export default function Login() {
@@ -27,16 +27,17 @@ export default function Login() {
   return(
     <div id="login-page" className="page-container">
       <div className="page-section">
-        <h2>Login</h2>
-        <div>
+        <h2 className="mb-24">Login</h2>
+        <div className="mb-24">
           <FormProvider {...form}>
             <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
             <TextField name="password" label="Password" validation={{ required: "Password is required." }}/>
-            <SubmitButton className="btn-primary" onClick={handleSubmit}>Login</SubmitButton>
+            <SubmitButton className="btn-primary mt-12" onClick={handleSubmit}>Login</SubmitButton>
           </FormProvider>
         </div>
-        <p>Don&apos;t have an account?</p>
-        <Button to='/register' className="btn-secondary">Register</Button>
+        <div className="text-center">
+          <h6 className="m-0">Don&apos;t have an account? <Link to='/register'>Register Now!</Link></h6>
+        </div>
       </div>
     </div>
   )
