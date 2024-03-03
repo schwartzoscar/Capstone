@@ -21,9 +21,9 @@ export default function Login() {
   }
 
   return(
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="bg-white p-3 rounded" style={{width : '40%'}}>
-        <h2 className='mb-3'>Login</h2>
+    <div id="login-page" className="page-container">
+      <div className="page-section">
+        <h2>Login</h2>
         <div>
           <FormProvider {...form}>
             <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
@@ -31,7 +31,7 @@ export default function Login() {
             <SubmitButton className="btn-primary" onClick={handleSubmit}>Login</SubmitButton>
           </FormProvider>
         </div>
-        <p className='container my-2'>Don&apos;t have an account?</p>
+        <p>Don&apos;t have an account?</p>
         <Button to='/register' className="btn-secondary">Register</Button>
       </div>
     </div>
