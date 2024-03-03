@@ -1,18 +1,22 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
+import { useAuthContext } from "../../contexts/AuthContext";
 import Button from "../elements/Button";
 import { TextField, SubmitButton } from "../elements/FormField";
 
 export default function Login() {
 
+  const [, dispatch] = useAuthContext();
   const form = useForm();
 
   const handleSubmit = data => {
     apiClient.post( '/login', data)
-      .then(result => {
-        if(result.data === "Success"){
-          toast.success('Login successful!')
+      .then(resp => {
+        if(resp.data.message === "Success"){
+          toast.success('Login successful!');
+          const authData = {user: resp.data.user, accessToken: resp.data.access_token};
+          dispatch({type: 'login', data: authData});
         } else {
           toast.error('Incorrect password! Please try again.');
         }
