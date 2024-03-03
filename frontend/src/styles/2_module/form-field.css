@@ -1,0 +1,12 @@
+.form-field {
+  margin-bottom: 8px;
+}
+
+.form-field-error {
+  margin-top: 4px;
+  color: var(--bs-danger)
+}
+
+.submit-btn {
+  margin-top: 8px;
+}
