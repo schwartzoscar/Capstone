@@ -1,4 +1,5 @@
 import { useForm, FormProvider } from "react-hook-form";
+import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
 import Button from "../elements/Button";
 import { TextField, SubmitButton } from "../elements/FormField";
@@ -11,9 +12,9 @@ export default function Login() {
     apiClient.post( '/login', data)
       .then(result => {
         if(result.data === "Success"){
-          alert('Login successful!')
+          toast.success('Login successful!')
         } else {
-          alert('Incorrect password! Please try again.');
+          toast.error('Incorrect password! Please try again.');
         }
       })
       .catch(err => console.log(err));
