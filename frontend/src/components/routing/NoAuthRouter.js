@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Login from "../registration/Login";
+import Register from "../registration/Register"
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login/> },
-  { path: "/register", element: <div><h1>Register Screen</h1></div> },
+  { path: "/register", element: <Register/> },
   { path: "*", element: <Navigate to="/login" replace /> }
 ]);
 
