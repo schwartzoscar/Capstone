@@ -1,10 +1,13 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import pymongo
-import flask
+from flask import Flask
 import os
+#from flask_cors import CORS
 
-#app = Flask(__name__, static_url_path='', static_folder='.')
 app = Flask(__name__)
+#CORS(app)
+#CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 client = pymongo.MongoClient(
     host=os.environ['MONGODB_HOST'],
@@ -13,38 +16,79 @@ client = pymongo.MongoClient(
     port=27017,
     authSource="admin"
 )
-db = client["thridderdb"]
 
-#Index app route
+db = client['thritterdb']
+users_collection = db['users']
+
+# Index App Route
 @app.route('/')
 def index():
-    pymongo_version = pymongo.__version__
-    flask_version = flask.__version__
-    return render_template('index.html', pymongo_version=pymongo_version, flask_version=flask_version)
+    accounts = list(users_collection.find({}, {'_id': 0}))
+    return render_template('index.html',accounts=accounts)
 
-#Home app route
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-#Profile app route
+# Profile App Route
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
-#Test write to DB
-@app.route('/store_animals')
-def store_animals():
-    db["animal_tb"].drop()
-    id = db["animal_tb"].insert_one({"name": "Turtle", "type": "wild"})
-    return jsonify({"success": "true"})
+# Register App Route
+@app.route('/register', methods=['POST','GET'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-# Test read from DB
-@app.route('/get_animals')
-def get_stored_animals():
-    _animals = db.animal_tb.find()
-    animals = [{"name": animal["name"], "type": animal["type"]} for animal in _animals]
-    return jsonify({"animals": animals})
+        last_user = users_collection.find_one({}, sort=[('_id', pymongo.DESCENDING)])
+        if last_user:
+            user_id = last_user.get('user_id', 0) + 1
+        else:
+            user_id = 1
+            
+        users_collection.insert_one({'user_id': user_id, 'username': username, 'email': email, 'password': password})
+        accounts = list(users_collection.find({}, {'_id': 0})) 
+        return render_template('register.html', accounts=accounts)
+    elif request.method == 'GET':
+        return render_template('register.html')
 
+# Insert User App Route
+@app.route('/insert_user', methods=['GET'])
+def insert_user():
+    user_data = {
+        "username": "test",
+        "email": "test",
+        "password": "test"
+    }
+    users_collection.insert_one(user_data)
+    return "User inserted successfully."
+
+# Login App Route
+@app.route('/login', methods=['POST', 'OPTIONS'])
+def login():
+    if request.method == 'POST':
+        data = request.get_json() 
+        email = data.get('email')
+        password = data.get('password')
+
+        user = users_collection.find_one({'email': email, 'password': password})
+        if user:
+            return jsonify({"message": "Success", "user": user}), 200
+        else:
+            return jsonify({"message": "Failure"}), 401
+    elif request.method == 'OPTIONS':
+        response = jsonify({})
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5000')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST')
+        return response
+
+# ClearDB App Route
+@app.route('/cleardb')
+def cleardb():
+    users_collection.delete_many({})
+    return render_template('cleardb.html')
+
+# APP    
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
