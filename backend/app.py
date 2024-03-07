@@ -23,7 +23,7 @@ users_collection = db['users']
 @app.route('/')
 def index():
     accounts = list(users_collection.find({}, {'_id': 0}))
-    return render_template('index.html',accounts=accounts)
+    return render_template('index.html', accounts=accounts)
 
 #Home app route
 @app.route('/home')
@@ -41,20 +41,23 @@ def register():
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
 
+        if password != confirm_password:
+            return render_template('register.html', message='Passwords do not match')
+        
         last_user = users_collection.find_one({}, sort=[('_id', pymongo.DESCENDING)])
         if last_user:
             user_id = last_user.get('user_id', 0) + 1
         else:
             user_id = 1
-            
+
         users_collection.insert_one({'user_id': user_id, 'username': username, 'email': email, 'password': password})
-        accounts = list(users_collection.find({}, {'_id': 0})) 
-        return render_template('register.html', accounts=accounts)
+        accounts = list(users_collection.find({}, {'_id': 0}))
+        return render_template('index.html', accounts=accounts)
     elif request.method == 'GET':
-        return render_template('register.html')
-
-
+        return render_template('register.html', message='')
+    
 @app.route('/login', methods=['POST','GET'])
 def login():
     if request.method == 'POST':
