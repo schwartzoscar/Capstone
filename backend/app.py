@@ -2,12 +2,10 @@ from flask import Flask, render_template, jsonify, request
 import pymongo
 from flask import Flask
 import os
-#from flask_cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
-#CORS(app)
-#CORS(app, resources={r"/api/*": {"origins": "*"}})
-
+CORS(app, origins="http://localhost:3000", supports_credentials=True)
 
 client = pymongo.MongoClient(
     host=os.environ['MONGODB_HOST'],
@@ -63,7 +61,7 @@ def insert_user():
     return "User inserted successfully."
 
 # Login App Route
-@app.route('/login', methods=['POST', 'OPTIONS'])
+@app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         data = request.get_json() 
@@ -75,13 +73,6 @@ def login():
             return jsonify({"message": "Success", "user": user}), 200
         else:
             return jsonify({"message": "Failure"}), 401
-    elif request.method == 'OPTIONS':
-        response = jsonify({})
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5000')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        response.headers.add('Access-Control-Allow-Methods', 'POST')
-        return response
 
 # ClearDB App Route
 @app.route('/cleardb')
