@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -7,22 +6,15 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { TextField, SubmitButton } from '../elements/FormField';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
   const [, dispatch] = useAuthContext();
   const form = useForm();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async (data) => {
     try {
-      const response = await apiClient.post('/register', {
-        name,
-        email,
-        password,
-      });
+      console.log(data);
+      const response = await apiClient.post('/register', data);
 
       if (response.data === 'Already registered') {
         toast.error('E-mail already registered! Please Login to proceed.');
@@ -46,18 +38,16 @@ const Register = () => {
         <div className="bg-white p-3 rounded" style={{ width: '40%' }}>
           <h2 className='mb-3'>Register</h2>
           <FormProvider {...form}>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3 text-start">
-                <TextField name="name" label="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-              </div>
-              <div className="mb-3 text-start">
-                <TextField name="email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </div>
-              <div className="mb-3 text-start">
-                <TextField name="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-              </div>
-              <SubmitButton className="btn btn-primary">Register</SubmitButton>
-            </form>
+            <div className="mb-3 text-start">
+              <TextField name="name" label="Name" required />
+            </div>
+            <div className="mb-3 text-start">
+              <TextField name="email" label="Email" required />
+            </div>
+            <div className="mb-3 text-start">
+              <TextField name="password" label="Password" type="password" required />
+            </div>
+            <SubmitButton className="btn btn-primary" onClick={handleSubmit}>Register</SubmitButton>
           </FormProvider>
 
           <p className='container my-2'>Already have an account?</p>
