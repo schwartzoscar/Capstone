@@ -17,7 +17,7 @@ function FormFieldLabel(props) {
 function FormFieldError(props) {
 
   const { formState: { errors } } = useFormContext();
-  return errors[props.name] ? <p className="text-danger">{errors[props.name]?.message}</p> : null;
+  return errors[props.name] ? <p className="form-field-error">{errors[props.name]?.message}</p> : null;
 }
 
 export function TextField(props) {
@@ -25,7 +25,7 @@ export function TextField(props) {
   const { register, formState: { errors } } = useFormContext();
 
   return(
-    <Form.Group>
+    <Form.Group className="form-field">
       <FormFieldLabel label={props.label} icon={props.icon}/>
       <Form.Control {...register(props.name, props.validation)}
                     isInvalid={errors[props.name]} aria-invalid={errors[props.name] ? "true" : "false"}/>
@@ -36,11 +36,11 @@ export function TextField(props) {
 
 export function SubmitButton(props) {
 
-  const { onClick, children, ...btnProps } = props;
+  const { onClick, children, className, ...btnProps } = props;
   const { handleSubmit } = useFormContext();
 
   return(
-    <Button onClick={handleSubmit(onClick)} {...btnProps}>
+    <Button onClick={handleSubmit(onClick)} className={`submit-btn ${className ?? ''}`} {...btnProps}>
       {props.children ?? "Submit"}
     </Button>
   );

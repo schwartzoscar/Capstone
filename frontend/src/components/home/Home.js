@@ -8,6 +8,7 @@ export default function Home() {
       <PostList/>
       <Button to="/profile" className="btn-primary">My Profile</Button>
       <Button to="/test" className="btn-secondary">Test Form</Button>
+      <Button to="/login" className="btn-success">Login</Button>
     </div>
   );
 }
