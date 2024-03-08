@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify, request
 import pymongo
-from flask import Flask
 import os
 from flask_cors import CORS
 
@@ -42,9 +41,9 @@ def register():
             user_id = last_user.get('user_id', 0) + 1
         else:
             user_id = 1
-            
+
         users_collection.insert_one({'user_id': user_id, 'username': username, 'email': email, 'password': password})
-        accounts = list(users_collection.find({}, {'_id': 0})) 
+        accounts = list(users_collection.find({}, {'_id': 0}))
         return render_template('register.html', accounts=accounts)
     elif request.method == 'GET':
         return render_template('register.html')
@@ -64,7 +63,7 @@ def insert_user():
 @app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        data = request.get_json() 
+        data = request.get_json()
         email = data.get('email')
         password = data.get('password')
 
@@ -80,6 +79,38 @@ def cleardb():
     users_collection.delete_many({})
     return render_template('cleardb.html')
 
-# APP    
+# APP
+# Insert User App Route
+@app.route('/insert_user', methods=['GET'])
+def insert_user():
+    user_data = {
+        "username": "test",
+        "email": "test",
+        "password": "test"
+    }
+    users_collection.insert_one(user_data)
+    return "User inserted successfully."
+
+# Login App Route
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+
+        user = users_collection.find_one({'email': email, 'password': password})
+        if user:
+            return jsonify({"message": "Success", "user": user}), 200
+        else:
+            return jsonify({"message": "Failure"}), 401
+
+# ClearDB App Route
+@app.route('/cleardb')
+def cleardb():
+    users_collection.delete_many({})
+    return render_template('cleardb.html')
+
+# APP
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
