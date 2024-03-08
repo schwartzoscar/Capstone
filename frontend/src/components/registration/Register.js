@@ -13,7 +13,6 @@ const Register = () => {
 
   const handleSubmit = async (data) => {
     try {
-      console.log(data);
       const response = await apiClient.post('/register', data);
 
       if (response.data === 'Already registered') {
@@ -39,13 +38,13 @@ const Register = () => {
           <h2 className='mb-3'>Register</h2>
           <FormProvider {...form}>
             <div className="mb-3 text-start">
-              <TextField name="name" label="Name" required />
+              <TextField name="name" label="Name" validation={{ required: "Name is required." }} />
             </div>
             <div className="mb-3 text-start">
-              <TextField name="email" label="Email" required />
+              <TextField name="email" label="Email" validation={{ required: "Email is required." }} />
             </div>
             <div className="mb-3 text-start">
-              <TextField name="password" label="Password" type="password" required />
+              <TextField name="password" label="Password" type="password" validation={{ required: "Password is required." }} />
             </div>
             <SubmitButton className="btn btn-primary" onClick={handleSubmit}>Register</SubmitButton>
           </FormProvider>
