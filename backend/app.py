@@ -80,37 +80,5 @@ def cleardb():
     return render_template('cleardb.html')
 
 # APP
-# Insert User App Route
-@app.route('/insert_user', methods=['GET'])
-def insert_user():
-    user_data = {
-        "username": "test",
-        "email": "test",
-        "password": "test"
-    }
-    users_collection.insert_one(user_data)
-    return "User inserted successfully."
-
-# Login App Route
-@app.route('/login', methods=['POST'])
-def login():
-    if request.method == 'POST':
-        data = request.get_json()
-        email = data.get('email')
-        password = data.get('password')
-
-        user = users_collection.find_one({'email': email, 'password': password})
-        if user:
-            return jsonify({"message": "Success", "user": user}), 200
-        else:
-            return jsonify({"message": "Failure"}), 401
-
-# ClearDB App Route
-@app.route('/cleardb')
-def cleardb():
-    users_collection.delete_many({})
-    return render_template('cleardb.html')
-
-# APP
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
