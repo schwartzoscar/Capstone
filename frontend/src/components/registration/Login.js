@@ -4,16 +4,19 @@ import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { TextField, SubmitButton } from "../elements/FormField";
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
   const [, dispatch] = useAuthContext();
   const form = useForm();
+  const navigate = useNavigate();
 
   const handleSubmit = data => {
     apiClient.post( '/login', data)
       .then(resp => {
         if(resp.data?.message === "Success"){
+          navigate('/home');
           toast.success('Login successful!');
           const authData = {user: resp.data.user, accessToken: resp.data.access_token};
           dispatch({type: 'login', data: authData});
