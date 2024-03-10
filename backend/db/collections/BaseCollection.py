@@ -39,8 +39,9 @@ class BaseCollection(ABC):
 
     @classmethod
     def update_many(cls, query={}, updates={}):
+        full_query = {"$and": [{"deleted": 0}, query]}
         update_obj = {"$set": {**updates, "updated_at": datetime.now()}}
-        return DB.instance[cls.collection_name].update_many(query, update_obj)
+        return DB.instance[cls.collection_name].update_many(full_query, update_obj)
 
     def update(self, updates):
         self.to_update = {**self.to_update, **updates}
@@ -53,7 +54,7 @@ class BaseCollection(ABC):
         now = datetime.now()
         if self._id:
             self.to_update["updated_at"] = now
-            return coll.update_one({"_id": ObjectId(self._id)}, {"$set": self.to_update})
+            return coll.update_one({"_id": self._id}, {"$set": self.to_update})
         else:
             self.created_at = now
             self.updated_at = now

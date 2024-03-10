@@ -1,36 +1,33 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useForm, FormProvider } from 'react-hook-form';
+import { apiClient } from '../../helpers/requestHelpers';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { TextField, SubmitButton } from '../elements/FormField';
 
 const Register = () => {
-  const [username, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+
   const navigate = useNavigate();
+  const [, dispatch] = useAuthContext();
+  const form = useForm();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:5000/register', {
-        username: username,
-        email: email,
-        password: password,
-        confirm_password: confirmPassword
-      });
-      console.log('Response:', response);
+      const response = await apiClient.post('/register', data);
+
       if (response.data === 'Already registered') {
-        alert('E-mail already registered! Please Login to proceed.');
+        toast.error('E-mail already registered! Please Login to proceed.');
         navigate('/login');
       } else {
-        alert('Registered successfully! Please Login to proceed.');
+        toast.success('Registered successfully! Please Login to proceed.');
         navigate('/login');
+        // Alternatively, you can automatically log in the user after registration
+        // by dispatching an action to update the authentication state
+        // Example: dispatch({ type: 'login', data: { user: response.data.user, accessToken: response.data.access_token } });
       }
     } catch (error) {
       console.error('Failed to register user:', error);
-      alert('Failed to register user');
+      toast.error('Failed to register user');
     }
   };
 
@@ -39,53 +36,23 @@ const Register = () => {
       <div className="d-flex justify-content-center align-items-center text-center vh-100">
         <div className="bg-white p-3 rounded" style={{ width: '40%' }}>
           <h2 className='mb-3'>Register</h2>
-          <form onSubmit={handleSubmit}>
+          <FormProvider {...form}>
             <div className="mb-3 text-start">
-              <label htmlFor="username" className="form-label">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                value={username}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
+              <TextField name="username" label="Username" validation={{required: "Name is required."}}/>
             </div>
             <div className="mb-3 text-start">
-              <label htmlFor="email" className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <TextField name="email" label="Email" validation={{required: "Email is required."}}/>
             </div>
             <div className="mb-3 text-start">
-              <label htmlFor="password" className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <TextField name="password" label="Password" type="password"
+                         validation={{required: "Password is required."}}/>
             </div>
             <div className="mb-3 text-start">
-              <label htmlFor="confirm_password" className="form-label">Confirm Password</label>
-              <input
-                type="password]"
-                className="form-control"
-                id="confirm_password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <TextField name="confirm_password" label="Confirm Password" type="password"
+                         validation={{required: "Password is required."}}/>
             </div>
-            <button type="submit" className="btn btn-primary">Register</button>
-          </form>
+            <SubmitButton className="btn btn-primary" onClick={handleSubmit}>Register</SubmitButton>
+          </FormProvider>
 
           <p className='container my-2'>Already have an account?</p>
           <Link to='/login' className="btn btn-secondary">Login</Link>
