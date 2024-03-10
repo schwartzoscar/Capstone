@@ -39,8 +39,9 @@ class BaseCollection(ABC):
 
     @classmethod
     def update_many(cls, query={}, updates={}):
+        full_query = {"$and": [{"deleted": 0}, query]}
         update_obj = {"$set": {**updates, "updated_at": datetime.now()}}
-        return DB.instance[cls.collection_name].update_many(query, update_obj)
+        return DB.instance[cls.collection_name].update_many(full_query, update_obj)
 
     def update(self, updates):
         self.to_update = {**self.to_update, **updates}
