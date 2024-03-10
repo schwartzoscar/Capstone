@@ -1,7 +1,9 @@
 export default function PostListItem({ post }) {
   return(
     <div className="post-list-item">
-      <p>post list item</p>
+      <h5>{post.title}</h5>
+      <p>{post.content}</p>
+      <h6>{post.poster_id}</h6>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function PostList() {
   const limit = 25;
 
   const getPosts = async(nextPage = 1) => {
-    const post = {userId: currentUser.id, page: nextPage, limit};
+    const post = {userId: currentUser?.id, page: nextPage, limit};
     const resp = await apiClient.post('/posts/list', post);
     handleResp(resp, data => {
       setPosts(data.posts);
@@ -23,12 +23,16 @@ export default function PostList() {
     setPage(nextPage);
   }
 
-  useEffect(getPosts, [currentUser]);
+  useEffect(() => {
+    getPosts();
+  }, [currentUser]);
 
-  const items = useMemo(() => posts.map(post => <PostListItem post={post}/>), [posts]);
+  const items = useMemo(() => posts.map(post => (
+    <PostListItem key={post._id} post={post}/>
+  )), [posts]);
 
   return(
-    <div>
+    <div className="flex-grow-1">
       <InfiniteScroll
         dataLength={posts.length}
         next={() => getPosts(page + 1)}
@@ -36,11 +40,9 @@ export default function PostList() {
         loader={<h4>Loading...</h4>}
         endMessage={<p className="text-center fw-bold">Yay! You have seen it all</p>}
         // below props only if you need pull down functionality
-        refreshFunction={getPosts}
+        refreshFunction={() => getPosts()}
         pullDownToRefresh
         pullDownToRefreshThreshold={50}
-        pullDownToRefreshContent={<h3 className="text-center">&#8595; Pull down to refresh</h3>}
-        releaseToRefreshContent={<h3 className="text-center">&#8593; Release to refresh</h3>}
       >
         {items}
       </InfiniteScroll>
