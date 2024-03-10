@@ -15,7 +15,7 @@
         <h4>Accounts:</h4>
         <ul>
             {% for user in accounts %}
-                <li>UserID: {{ user.user_id }}, Username: {{ user.username }}, Email: {{ user.email }}, Password: {{ user.password }}</li>
+                <li>UserID: {{ user._id }}, Username: {{ user.username }}, Email: {{ user.email }}, Password: {{ user.password }}</li>
             {% endfor %}
         </ul>
         
