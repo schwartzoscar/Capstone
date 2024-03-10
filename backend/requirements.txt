@@ -3,5 +3,6 @@
 Flask==2.2.3
 pymongo==4.6.1
 Werkzeug==2.2.2
+flask-cors
 
 #To run the application, type python app.py in the console

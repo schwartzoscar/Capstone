@@ -5,19 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="/backend/templatesemplates/styles.css">
 </head>
 <body>
     {% extends 'base.html' %}
     {% block title %}Profile{% endblock %}
     {% block content %}
-
-        <h4>Index Information</h4>
-        <h3>Flask Pymongo Version</h3>
-        <p>The version of pymongo installed is: {{ pymongo_version }}</p>
-        <br>
-        <h3>Flask Version</h3>
-        <p>The version of flask installed is: {{ flask_version }}</p>
+        <br></br>
+        <h4>Accounts:</h4>
+        <ul>
+            {% for user in accounts %}
+                <li>UserID: {{ user._id }}, Username: {{ user.username }}, Email: {{ user.email }}, Password: {{ user.password }}</li>
+            {% endfor %}
+        </ul>
         
     {% endblock %}
     

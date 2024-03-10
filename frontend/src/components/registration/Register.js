@@ -38,13 +38,18 @@ const Register = () => {
           <h2 className='mb-3'>Register</h2>
           <FormProvider {...form}>
             <div className="mb-3 text-start">
-              <TextField name="name" label="Name" validation={{ required: "Name is required." }} />
+              <TextField name="username" label="Username" validation={{required: "Name is required."}}/>
             </div>
             <div className="mb-3 text-start">
-              <TextField name="email" label="Email" validation={{ required: "Email is required." }} />
+              <TextField name="email" label="Email" validation={{required: "Email is required."}}/>
             </div>
             <div className="mb-3 text-start">
-              <TextField name="password" label="Password" type="password" validation={{ required: "Password is required." }} />
+              <TextField name="password" label="Password" type="password"
+                         validation={{required: "Password is required."}}/>
+            </div>
+            <div className="mb-3 text-start">
+              <TextField name="confirm_password" label="Confirm Password" type="password"
+                         validation={{required: "Password is required."}}/>
             </div>
             <SubmitButton className="btn btn-primary" onClick={handleSubmit}>Register</SubmitButton>
           </FormProvider>
