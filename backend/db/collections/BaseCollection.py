@@ -54,7 +54,7 @@ class BaseCollection(ABC):
         now = datetime.now()
         if self._id:
             self.to_update["updated_at"] = now
-            return coll.update_one({"_id": ObjectId(self._id)}, {"$set": self.to_update})
+            return coll.update_one({"_id": self._id}, {"$set": self.to_update})
         else:
             self.created_at = now
             self.updated_at = now
