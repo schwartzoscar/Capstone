@@ -20,6 +20,9 @@ export default function Login() {
           toast.success('Login successful!');
           const authData = {user: resp.data.user, accessToken: resp.data.access_token};
           dispatch({type: 'login', data: authData});
+        if(resp.data?.message === "Failure"){
+          toast.error("Incorrect email/password! Please Try again.");
+        }
         } else {
           toast.error('Incorrect password! Please try again.');
         }
