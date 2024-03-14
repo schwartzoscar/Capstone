@@ -9,7 +9,7 @@ test_users_bp = Blueprint("test_users_bp", __name__)
 def insert_user():
     user_data = {
         "username": "test",
-        "email": "test",
+        "email": "test@gmail.com",
         "password": "test"
     }
     user = Users(user_data)

@@ -1,11 +1,11 @@
-from flask import Blueprint, request, render_template, jsonify
+from flask import Blueprint, request, jsonify
 from db.collections.Users import Users
+import secrets
 
 auth_bp = Blueprint("auth_bp", __name__)
 
-
 # Register App Route
-@auth_bp.route('/register', methods=['POST', 'GET'])
+@auth_bp.route('/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         data = request.json
@@ -20,9 +20,6 @@ def register():
         Users.register(username, email, password)
         accounts = Users.find()
         return render_template('register.html', accounts=list(map(lambda a: a.to_json(), accounts)))
-    elif request.method == 'GET':
-        return render_template('register.html')
-
 
 # Login App Route
 @auth_bp.route('/login', methods=['POST'])
@@ -33,6 +30,7 @@ def login():
         password = data.get('password')
         user = Users.find_one({'email': email, 'password': password})
         if user:
-            return jsonify({"message": "Success", "user": user}), 200
+            access_token = secrets.token_hex(16)
+            return jsonify({"message": "Success", "user": user, "access_token": access_token}), 200
         else:
             return jsonify({"message": "Failure"}), 401

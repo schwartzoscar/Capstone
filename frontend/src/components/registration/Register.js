@@ -21,9 +21,6 @@ const Register = () => {
       } else {
         toast.success('Registered successfully! Please Login to proceed.');
         navigate('/login');
-        // Alternatively, you can automatically log in the user after registration
-        // by dispatching an action to update the authentication state
-        // Example: dispatch({ type: 'login', data: { user: response.data.user, accessToken: response.data.access_token } });
       }
     } catch (error) {
       console.error('Failed to register user:', error);

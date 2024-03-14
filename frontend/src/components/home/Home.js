@@ -1,12 +1,14 @@
-import Button from "../elements/Button";
+import React from 'react';
+import Base from '../../components/base/Base';
 
 export default function Home() {
-  return(
+  return (
     <div>
       <h1>Home Page</h1>
-      <Button to="/profile" className="btn-primary">My Profile</Button>
-      <Button to="/test" className="btn-secondary">Test Form</Button>
-      <Button to="/login" className="btn-success">Login</Button>
+       <Base>
+        <div>
+        </div>
+      </Base>   
     </div>
   );
 }
