@@ -4,7 +4,7 @@ import NoAuthRouter from "./NoAuthRouter";
 
 export default function AppRouter() {
 
-  const [{ accessToken }] = useAuthContext();
+  const { currentUser } = useAuthContext();
 
-  return accessToken ? <AuthRouter/> : <NoAuthRouter/>;
+  return currentUser ? <AuthRouter/> : <NoAuthRouter/>;
 }

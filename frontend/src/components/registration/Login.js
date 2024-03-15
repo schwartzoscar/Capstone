@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
-  const [, dispatch] = useAuthContext();
+  const { setCurrentUser } = useAuthContext();
   const form = useForm();
   const navigate = useNavigate();
 
@@ -18,8 +18,7 @@ export default function Login() {
         if(resp.data?.message === "Success"){
           navigate('/home');
           toast.success('Login successful!');
-          const authData = {user: resp.data.user, accessToken: resp.data.access_token};
-          dispatch({type: 'login', data: authData});
+          setCurrentUser(resp.data.user)
         if(resp.data?.message === "Failure"){
           toast.error("Incorrect email/password! Please Try again.");
         }

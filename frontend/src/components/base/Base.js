@@ -1,17 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuthContext } from "../../contexts/AuthContext";
+import { apiClient } from "../../helpers/requestHelpers";
 
 export default function Base({ children }) {
-  const [, dispatch] = useAuthContext();
+
+  const navigate = useNavigate();
+  const { setCurrentUser } = useAuthContext();
 
   const handleLogout = async () => {
-    try {
-      dispatch({ type: 'logout' });
-      toast.success('Logout successful!');
-    } catch (error) {
-      console.error('Could not Logout');
+    const resp = await apiClient.post('/logout');
+    if(resp.data?.message === "OK") {
+      setCurrentUser(null);
+    } else {
+      toast.error('Something went wrong.')
+      navigate('/');
     }
   };
 

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useForm, FormProvider } from 'react-hook-form';
 import { apiClient } from '../../helpers/requestHelpers';
@@ -7,20 +7,14 @@ import { TextField, SubmitButton } from '../elements/FormField';
 
 const Register = () => {
 
-  const navigate = useNavigate();
-  const [, dispatch] = useAuthContext();
+  const { setCurrentUser } = useAuthContext();
   const form = useForm();
 
   const handleSubmit = async (data) => {
     try {
       const response = await apiClient.post('/register', data);
-
-      if (response.data === 'Already registered') {
-        toast.error('E-mail already registered! Please Login to proceed.');
-        navigate('/login');
-      } else {
-        toast.success('Registered successfully! Please Login to proceed.');
-        navigate('/login');
+      if (response.data?.message === 'Success') {
+        setCurrentUser(response.data.user);
       }
     } catch (error) {
       console.error('Failed to register user:', error);
