@@ -9,7 +9,10 @@ class Users(BaseCollection):
     @staticmethod
     def register(username, email, password):
         user = Users({'username': username, 'email': email, 'password': password})
-        user.save()
+        resp = user.save()
+        if resp.inserted_id:
+            return Users.find_by_id(resp.inserted_id)
+        return False
 
     # TODO remove this later
     @staticmethod
