@@ -42,7 +42,7 @@ const Register = () => {
               <TextField name="confirm_password" label="Confirm Password" type="password"
                          validation={{required: "Password is required."}}/>
             </div>
-            <SubmitButton className="btn btn-primary" onClick={handleSubmit}>Register</SubmitButton>
+            <SubmitButton className="btn-primary" onClick={handleSubmit}>Register</SubmitButton>
           </FormProvider>
 
           <p className='container my-2'>Already have an account?</p>

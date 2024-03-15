@@ -36,7 +36,7 @@ export default function Login() {
         <div className="mb-24">
           <FormProvider {...form}>
             <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
-            <TextField name="password" label="Password" validation={{ required: "Password is required." }}/>
+            <TextField name="password" label="Password" type="password" validation={{ required: "Password is required." }}/>
             <SubmitButton className="btn-primary" onClick={handleSubmit}>Login</SubmitButton>
           </FormProvider>
         </div>
