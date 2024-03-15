@@ -41,4 +41,4 @@ def delete_user(user_id):
 @test_users_bp.route('/cleardb')
 def cleardb():
     Users.clear_users()
-    return render_template('cleardb.html')
+    return "success"
