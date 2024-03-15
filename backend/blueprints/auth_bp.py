@@ -6,7 +6,7 @@ auth_bp = Blueprint("auth_bp", __name__)
 
 
 # Register App Route
-@auth_bp.post('/register')
+@auth_bp.post('/auth/register')
 def register():
     data = request.json
     username = data.get('username')
@@ -28,7 +28,7 @@ def register():
 
 
 # Login App Route
-@auth_bp.post('/login')
+@auth_bp.post('/auth/login')
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -56,7 +56,7 @@ def cookieLogin():
     return resp
 
 
-@auth_bp.post('/logout')
+@auth_bp.post('/auth/logout')
 @jwt_required()
 def logout():
     resp = jsonify({"message": "OK"})

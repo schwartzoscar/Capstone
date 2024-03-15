@@ -13,7 +13,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = data => {
-    apiClient.post( '/login', data)
+    apiClient.post( '/auth/login', data)
       .then(resp => {
         if(resp.data?.message === "Success"){
           navigate('/home');

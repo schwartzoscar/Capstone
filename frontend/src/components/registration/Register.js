@@ -12,7 +12,7 @@ const Register = () => {
 
   const handleSubmit = async (data) => {
     try {
-      const response = await apiClient.post('/register', data);
+      const response = await apiClient.post('/auth/register', data);
       if (response.data?.message === 'Success') {
         setCurrentUser(response.data.user);
       }

@@ -10,7 +10,7 @@ export default function Base({ children }) {
   const { setCurrentUser } = useAuthContext();
 
   const handleLogout = async () => {
-    const resp = await apiClient.post('/logout');
+    const resp = await apiClient.post('/auth/logout');
     if(resp.data?.message === "OK") {
       setCurrentUser(null);
     } else {
