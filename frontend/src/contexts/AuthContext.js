@@ -39,6 +39,9 @@ export function AuthProvider(props) {
     }
   }, [cookieLoginAttempted, currentUser]);
 
+  // TODO Create loading screen for when attempting to login with cookie.
+  if(!cookieLoginAttempted && !currentUser) return null;
+
   return(
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {props.children}
