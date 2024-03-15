@@ -41,7 +41,7 @@ export default function Login() {
           </FormProvider>
         </div>
         <div className="text-center">
-          <h6 className="m-0">Don&apos;t have an account? <Link to='/register'>Register Now!</Link></h6>
+          <h6 className="m-0">Don&apos;t have an account? <Link to='/register'>Register</Link></h6>
         </div>
       </div>
     </div>

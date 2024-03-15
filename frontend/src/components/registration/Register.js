@@ -23,30 +23,20 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div className="d-flex justify-content-center align-items-center text-center vh-100">
-        <div className="bg-white p-3 rounded" style={{ width: '40%' }}>
-          <h2 className='mb-3'>Register</h2>
+    <div id="login-page" className="page-container">
+      <div className="page-section">
+        <h2 className="mb-24">Register</h2>
+        <div className="mb-24">
           <FormProvider {...form}>
-            <div className="mb-3 text-start">
-              <TextField name="username" label="Username" validation={{required: "Name is required."}}/>
-            </div>
-            <div className="mb-3 text-start">
-              <TextField name="email" label="Email" validation={{required: "Email is required."}}/>
-            </div>
-            <div className="mb-3 text-start">
-              <TextField name="password" label="Password" type="password"
-                         validation={{required: "Password is required."}}/>
-            </div>
-            <div className="mb-3 text-start">
-              <TextField name="confirm_password" label="Confirm Password" type="password"
-                         validation={{required: "Password is required."}}/>
-            </div>
+            <TextField name="username" label="Username" validation={{required: "Name is required."}}/>
+            <TextField name="email" label="Email" validation={{required: "Email is required."}}/>
+            <TextField name="password" label="Password" type="password" validation={{required: "Password is required."}}/>
+            <TextField name="confirm_password" label="Confirm Password" type="password" validation={{required: "Password is required."}}/>
             <SubmitButton className="btn-primary" onClick={handleSubmit}>Register</SubmitButton>
           </FormProvider>
-
-          <p className='container my-2'>Already have an account?</p>
-          <Link to='/login' className="btn btn-secondary">Login</Link>
+        </div>
+        <div className="text-center">
+          <h6 className="m-0">Already have an account? <Link to='/login'>Login</Link></h6>
         </div>
       </div>
     </div>
