@@ -4,8 +4,7 @@ import Profile from "../profile/Profile";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home/> },
-  { path: "/home", element:  <Home/> },
-  {path: "/profile", element: <Profile/> },
+  { path: "/profile", element: <Profile/> },
   { path: "*", element: <Navigate to="/" replace /> }
 ]);
 

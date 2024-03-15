@@ -16,7 +16,7 @@ export default function Login() {
     apiClient.post( '/auth/login', data)
       .then(resp => {
         if(resp.data?.message === "Success"){
-          navigate('/home');
+          navigate('/');
           toast.success('Login successful!');
           setCurrentUser(resp.data.user)
         if(resp.data?.message === "Failure"){
