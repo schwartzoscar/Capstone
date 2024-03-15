@@ -57,7 +57,6 @@ def cookieLogin():
 
 
 @auth_bp.post('/auth/logout')
-@jwt_required()
 def logout():
     resp = jsonify({"message": "OK"})
     unset_jwt_cookies(resp)
