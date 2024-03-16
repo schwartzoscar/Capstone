@@ -4,6 +4,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { apiClient } from '../../helpers/requestHelpers';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { TextField, SubmitButton } from '../elements/FormField';
+import {handleResp} from "../../helpers/responseHelpers";
 
 const Register = () => {
 
@@ -11,15 +12,12 @@ const Register = () => {
   const form = useForm();
 
   const handleSubmit = async (data) => {
-    try {
-      const response = await apiClient.post('/auth/register', data);
-      if (response.data?.message === 'Success') {
-        setCurrentUser(response.data.user);
-      }
-    } catch (error) {
-      console.error('Failed to register user:', error);
-      toast.error('Failed to register user');
-    }
+    const resp = await apiClient.post('/auth/register', data);
+    handleResp(resp, data => {
+      setCurrentUser(data.user);
+    }, () => {
+      toast.error('Failed to register user.');
+    });
   };
 
   return (

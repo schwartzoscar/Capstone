@@ -2,31 +2,22 @@ import { useForm, FormProvider } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { TextField, SubmitButton } from "../elements/FormField";
-import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
   const { setCurrentUser } = useAuthContext();
   const form = useForm();
-  const navigate = useNavigate();
 
-  const handleSubmit = data => {
-    apiClient.post( '/auth/login', data)
-      .then(resp => {
-        if(resp.data?.message === "Success"){
-          navigate('/');
-          toast.success('Login successful!');
-          setCurrentUser(resp.data.user)
-        if(resp.data?.message === "Failure"){
-          toast.error("Incorrect email/password! Please Try again.");
-        }
-        } else {
-          toast.error('Incorrect password! Please try again.');
-        }
-      })
-      .catch(err => console.log(err));
+  const handleSubmit = async(data) => {
+    const resp = await apiClient.post( '/auth/login', data);
+    handleResp(resp, data => {
+      setCurrentUser(data.user);
+    }, () => {
+      toast.error("Invalid credentials. Please try again.");
+    });
   }
 
   return(
