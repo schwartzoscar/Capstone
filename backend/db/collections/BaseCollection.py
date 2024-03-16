@@ -38,6 +38,29 @@ class BaseCollection(ABC):
         return cls.find_one(sort=[('_id', pymongo.DESCENDING)])
 
     @classmethod
+    def find_paginated(cls, last_id="0", query={}, projection=None, sort={"_id": -1}, limit=25):
+        pipeline = [
+            {"$match": {"$and": [{"deleted": 0}, query]}},
+            {"$facet": {
+                "metadata": [{"$count": "total"}],
+                "data": [
+                    {"$sort": sort},
+                    {"$limit": limit},
+                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                ]
+            }}
+        ]
+        if last_id != "0":
+            pipeline[1]["$facet"]["data"].insert(0, {"$match": {"_id": {"$gt": ObjectId(last_id)}}})
+        if projection:
+            pipeline[1]["$facet"]["data"].append({"$project": projection})
+        results = list(DB.instance[cls.collection_name].aggregate(pipeline))[0]
+        resp = {"data": results['data'], "total": 0}
+        if len(results['metadata']) > 0:
+            resp['total'] = results['metadata'][0]['total']
+        return resp
+
+    @classmethod
     def update_many(cls, query={}, updates={}):
         full_query = {"$and": [{"deleted": 0}, query]}
         update_obj = {"$set": {**updates, "updated_at": datetime.now()}}

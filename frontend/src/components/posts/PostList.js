@@ -13,7 +13,7 @@ export default function PostList() {
   const limit = 25;
 
   const getPosts = async(nextPage = 1) => {
-    const post = {userId: currentUser?.id, page: nextPage, limit};
+    const post = {lastId: "0", limit};
     const resp = await apiClient.post('/posts/list', post);
     handleResp(resp, data => {
       pDispatch({posts: data.posts, total: data.total, page: nextPage});
