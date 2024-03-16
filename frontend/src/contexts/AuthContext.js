@@ -23,7 +23,7 @@ export function AuthProvider(props) {
   const attemptCookieLogin = async() => {
     noInterceptClient.post('/auth/cookieLogin')
       .then(resp => {
-        if(resp.data?.message === "Success") {
+        if(resp.data?.message === "OK") {
           setCurrentUser(resp.data.user);
         }
       })

@@ -19,7 +19,7 @@ def register():
 
     user = Users.register(username, email, password)
     if user:
-        resp = jsonify({"message": "Success", "user": user})
+        resp = jsonify({"message": "OK", "user": user})
         access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
         return resp
@@ -35,7 +35,7 @@ def login():
     password = data.get('password')
     user = Users.find_one({'email': email, 'password': password})
     if user:
-        resp = jsonify({"message": "Success", "user": user})
+        resp = jsonify({"message": "OK", "user": user})
         access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
         return resp
@@ -50,7 +50,7 @@ def cookieLogin():
     if not user_id:
         return {"message": "Failure"}
     user = Users.find_by_id(user_id)
-    resp = jsonify({"message": "Success", "user": user})
+    resp = jsonify({"message": "OK", "user": user})
     access_token = create_access_token(identity=user_id)
     set_access_cookies(resp, access_token)
     return resp
