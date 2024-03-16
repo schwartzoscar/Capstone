@@ -1,26 +1,23 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import { useAuthContext } from "../../contexts/AuthContext";
+import usePaginationReducer from "../../reducers/paginationReducer";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PostListItem from "./PostListItem";
 
 export default function PostList() {
 
-  const [{ currentUser }] = useAuthContext();
-  const [posts, setPosts] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
+  const { currentUser } = useAuthContext();
+  const [{ page, total, posts }, pDispatch] = usePaginationReducer('posts');
   const limit = 25;
 
   const getPosts = async(nextPage = 1) => {
     const post = {userId: currentUser?.id, page: nextPage, limit};
     const resp = await apiClient.post('/posts/list', post);
     handleResp(resp, data => {
-      setPosts(data.posts);
-      setTotal(data.total);
+      pDispatch({posts: data.posts, total: data.total, page: nextPage});
     });
-    setPage(nextPage);
   }
 
   useEffect(() => {

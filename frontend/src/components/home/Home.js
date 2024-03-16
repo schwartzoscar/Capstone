@@ -1,4 +1,5 @@
 import Base from '../../components/base/Base';
+import PostList from "../posts/PostList";
 
 export default function Home() {
   return (
