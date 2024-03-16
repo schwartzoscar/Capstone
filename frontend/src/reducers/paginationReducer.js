@@ -5,7 +5,7 @@ export default function usePaginationReducer(itemType = 'items') {
   let initState = {lastId: '0'};
   initState[itemType] = [];
 
-  const reducer = (action, state) => {
+  const reducer = (state, action) => {
     let s = {...state};
     s[itemType] = action[itemType];
     if(action[itemType].length) {
