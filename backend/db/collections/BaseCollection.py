@@ -1,5 +1,5 @@
 from abc import ABC
-import pymongo
+from pymongo import DESCENDING, ASCENDING
 from bson.objectid import ObjectId
 from datetime import datetime
 from db.DB import DB
@@ -35,23 +35,26 @@ class BaseCollection(ABC):
 
     @classmethod
     def find_last(cls):
-        return cls.find_one(sort=[('_id', pymongo.DESCENDING)])
+        return cls.find_one(sort=[('_id', DESCENDING)])
 
     @classmethod
-    def find_paginated(cls, last_id="0", query={}, projection=None, sort={"_id": -1}, limit=25):
+    def find_paginated(cls, last_id="0", query={}, projection=None, oldest_first=False, limit=25):
+        # TODO May not actually need to get total.
         pipeline = [
             {"$match": {"$and": [{"deleted": 0}, query]}},
             {"$facet": {
                 "metadata": [{"$count": "total"}],
                 "data": [
-                    {"$sort": sort},
+                    {"$sort": {"_id": DESCENDING if not oldest_first else ASCENDING}},
                     {"$limit": limit},
                     {"$addFields": {"_id": {"$toString": "$_id"}}}
                 ]
             }}
         ]
         if last_id != "0":
-            pipeline[1]["$facet"]["data"].insert(0, {"$match": {"_id": {"$gt": ObjectId(last_id)}}})
+            oid = ObjectId(last_id)
+            check = {"$lt": oid} if not oldest_first else {"$gt": oid}
+            pipeline[1]["$facet"]["data"].insert(0, {"$match": {"_id": check}})
         if projection:
             pipeline[1]["$facet"]["data"].append({"$project": projection})
         results = list(DB.instance[cls.collection_name].aggregate(pipeline))[0]

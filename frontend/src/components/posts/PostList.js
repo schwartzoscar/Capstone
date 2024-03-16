@@ -1,28 +1,26 @@
 import { useEffect, useMemo } from 'react';
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { useAuthContext } from "../../contexts/AuthContext";
 import usePaginationReducer from "../../reducers/paginationReducer";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PostListItem from "./PostListItem";
 
 export default function PostList() {
 
-  const { currentUser } = useAuthContext();
-  const [{ page, total, posts }, pDispatch] = usePaginationReducer('posts');
+  const [{ posts, lastId }, pDispatch] = usePaginationReducer('posts');
   const limit = 25;
 
-  const getPosts = async(nextPage = 1) => {
-    const post = {lastId: "0", limit};
+  const getPosts = async(refresh = false) => {
+    const post = {lastId: refresh ? '0' : lastId, limit};
     const resp = await apiClient.post('/posts/list', post);
     handleResp(resp, data => {
-      pDispatch({posts: data.posts, total: data.total, page: nextPage});
+      pDispatch({posts: data.posts});
     });
   }
 
   useEffect(() => {
-    getPosts();
-  }, [currentUser]);
+    getPosts(true);
+  }, []);
 
   const items = useMemo(() => posts.map(post => (
     <PostListItem key={post._id} post={post}/>
@@ -32,12 +30,12 @@ export default function PostList() {
     <div className="flex-grow-1">
       <InfiniteScroll
         dataLength={posts.length}
-        next={() => getPosts(page + 1)}
-        hasMore={total > page * limit}
+        next={() => getPosts()}
+        hasMore={posts.length > 0}
         loader={<h4>Loading...</h4>}
         endMessage={<p className="text-center fw-bold">Yay! You have seen it all</p>}
         // below props only if you need pull down functionality
-        refreshFunction={() => getPosts()}
+        refreshFunction={() => getPosts(true)}
         pullDownToRefresh
         pullDownToRefreshThreshold={50}
       >
