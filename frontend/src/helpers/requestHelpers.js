@@ -6,14 +6,19 @@ import { getCookie } from "./cookieHelpers";
 const options = {
   baseURL: 'http://localhost:5000',
   withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    'X-CSRF-TOKEN': getCookie('csrf_access_token')
-  }
+  headers: {'Content-Type': 'application/json', Accept: 'application/json'}
 }
 
 const client = axios.create(options);
+const nrClient = axios.create(options);
+
+const setCSRFHeader = config => {
+  config.headers['X-CSRF-TOKEN'] = getCookie('csrf_access_token');
+  return config;
+}
+
+client.interceptors.request.use(setCSRFHeader, error => Promise.reject(error));
+nrClient.interceptors.request.use(setCSRFHeader, error => Promise.reject(error));
 
 client.interceptors.response.use(resp => resp, error => {
   if(error.response?.status === 401) {
@@ -24,4 +29,4 @@ client.interceptors.response.use(resp => resp, error => {
 });
 
 export const apiClient = client;
-export const noInterceptClient = axios.create(options);
+export const noRedirectClient = nrClient;

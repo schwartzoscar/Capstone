@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { noInterceptClient } from "../helpers/requestHelpers";
+import { noRedirectClient } from "../helpers/requestHelpers";
 
 export const USER_KEY = 'thridder_current_user';
 
@@ -7,7 +7,7 @@ const AuthContext = createContext({});
 
 export function AuthProvider(props) {
 
-  const [cookieLoginAttempted, setCookieLoginAttempted] = useState(false);
+  const [cookieLoginAttempted, setCookieLoginAttempted] = useState(!!sessionStorage.getItem(USER_KEY));
   const [currentUser, setCurrentUser] = useState(
     sessionStorage.getItem(USER_KEY) ? JSON.parse(sessionStorage.getItem(USER_KEY)) : null
   );
@@ -20,27 +20,25 @@ export function AuthProvider(props) {
     }
   }, [currentUser]);
 
-  const attemptCookieLogin = async() => {
-    noInterceptClient.post('/auth/cookieLogin')
+  const attemptCookieLogin = () => {
+    noRedirectClient.post('/auth/cookieLogin')
       .then(resp => {
         if(resp.data?.message === "OK") {
           setCurrentUser(resp.data.user);
         }
       })
       .catch(error => {})
-      .finally(() => {
-        setCookieLoginAttempted(true);
-      });
+      .finally(() => setCookieLoginAttempted(true));
   }
 
   useEffect(() => {
-    if(!cookieLoginAttempted && !currentUser) {
+    if(!cookieLoginAttempted) {
       attemptCookieLogin();
     }
-  }, [cookieLoginAttempted, currentUser]);
+  }, [cookieLoginAttempted]);
 
   // TODO Create loading screen for when attempting to login with cookie.
-  if(!cookieLoginAttempted && !currentUser) return null;
+  if(!cookieLoginAttempted) return null;
 
   return(
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
