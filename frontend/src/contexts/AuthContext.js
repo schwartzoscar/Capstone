@@ -1,44 +1,49 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { noInterceptClient } from "../helpers/requestHelpers";
 
-export const TOKEN_KEY = 'thridder_access_token';
 export const USER_KEY = 'thridder_current_user';
 
 const AuthContext = createContext({});
 
-const AuthReducer = (state, action) => {
-  switch(action.type) {
-    case 'login':
-      return {...state, accessToken: action.data.accessToken, currentUser: action.data.user};
-    case 'logout':
-      return {...state, accessToken: null, currentUser: null};
-    default:
-      return state;
-  }
-}
-
 export function AuthProvider(props) {
 
-  // Set initial state from sessionStorage.
-  const currentUser = sessionStorage.getItem(USER_KEY) ? JSON.parse(sessionStorage.getItem(USER_KEY)) : null;
-  const accessToken = sessionStorage.getItem(TOKEN_KEY);
-  const [state, dispatch] = useReducer(AuthReducer, {currentUser, accessToken});
+  const [cookieLoginAttempted, setCookieLoginAttempted] = useState(false);
+  const [currentUser, setCurrentUser] = useState(
+    sessionStorage.getItem(USER_KEY) ? JSON.parse(sessionStorage.getItem(USER_KEY)) : null
+  );
 
-  // Update sessionStorage as state changes.
   useEffect(() => {
-    if(state.accessToken) {
-      sessionStorage.setItem(TOKEN_KEY, state.accessToken);
-    } else {
-      sessionStorage.removeItem(TOKEN_KEY);
-    }
-    if(state.currentUser) {
-      sessionStorage.setItem(USER_KEY, JSON.stringify(state.currentUser));
+    if(currentUser) {
+      sessionStorage.setItem(USER_KEY, JSON.stringify(currentUser));
     } else {
       sessionStorage.removeItem(USER_KEY);
     }
-  }, [state.accessToken, state.currentUser]);
+  }, [currentUser]);
+
+  const attemptCookieLogin = async() => {
+    noInterceptClient.post('/auth/cookieLogin')
+      .then(resp => {
+        if(resp.data?.message === "Success") {
+          setCurrentUser(resp.data.user);
+        }
+      })
+      .catch(error => {})
+      .finally(() => {
+        setCookieLoginAttempted(true);
+      });
+  }
+
+  useEffect(() => {
+    if(!cookieLoginAttempted && !currentUser) {
+      attemptCookieLogin();
+    }
+  }, [cookieLoginAttempted, currentUser]);
+
+  // TODO Create loading screen for when attempting to login with cookie.
+  if(!cookieLoginAttempted && !currentUser) return null;
 
   return(
-    <AuthContext.Provider value={[state, dispatch]}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {props.children}
     </AuthContext.Provider>
   );

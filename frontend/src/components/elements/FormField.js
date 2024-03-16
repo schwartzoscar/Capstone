@@ -27,7 +27,7 @@ export function TextField(props) {
   return(
     <Form.Group className="form-field">
       <FormFieldLabel label={props.label} icon={props.icon}/>
-      <Form.Control {...register(props.name, props.validation)}
+      <Form.Control {...register(props.name, props.validation)} type={props.type ?? 'text'}
                     isInvalid={errors[props.name]} aria-invalid={errors[props.name] ? "true" : "false"}/>
       <FormFieldError name={props.name}/>
     </Form.Group>

@@ -1,9 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 
 profile_bp = Blueprint("profile_bp", __name__)
 
 
-# Profile App Route
-@profile_bp.route('/profile')
-def profile():
-    return render_template('profile.html')
+# TODO
