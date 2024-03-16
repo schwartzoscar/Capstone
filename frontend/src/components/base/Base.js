@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
 import Button from "../elements/Button";
 
 export default function Base({ children }) {
@@ -11,19 +11,11 @@ export default function Base({ children }) {
   const { setCurrentUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
     setLoading(true);
-    apiClient.post('/auth/logout').then(resp => {
-      setTimeout(() => {
-        setLoading(false);
-        if(resp.data?.message === "OK") {
-          setCurrentUser(null);
-        } else {
-          toast.error('Something went wrong.')
-          navigate('/');
-        }
-      }, 1000);
-    });
+    const resp = await apiClient.post('/auth/logout');
+    handleResp(resp, () => setCurrentUser(null));
+    setLoading(false);
   };
 
   return (
