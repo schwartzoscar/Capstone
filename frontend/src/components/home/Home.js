@@ -3,7 +3,7 @@ import PostList from "../posts/PostList";
 
 export default function Home() {
   return (
-    <div>
+    <div className="page-container">
       <h1>Home Page</h1>
        <Base>
          <div className="d-flex" style={{gap: 20}}>

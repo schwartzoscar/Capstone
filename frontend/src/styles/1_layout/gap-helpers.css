@@ -1,0 +1,29 @@
+.g-0 { gap: 0 !important; }
+.g-4 { gap: 4px !important; }
+.g-8 { gap: 8px !important; }
+.g-12 { gap: 12px !important; }
+.g-16 { gap: 16px !important; }
+.g-20 { gap: 20px !important; }
+.g-24 { gap: 24px !important; }
+.g-32 { gap: 32px !important; }
+.g-48 { gap: 48px !important; }
+
+.gr-0 { row-gap: 0 !important; }
+.gr-4 { row-gap: 4px !important; }
+.gr-8 { row-gap: 8px !important; }
+.gr-12 { row-gap: 12px !important; }
+.gr-16 { row-gap: 16px !important; }
+.gr-20 { row-gap: 20px !important; }
+.gr-24 { row-gap: 24px !important; }
+.gr-32 { row-gap: 32px !important; }
+.gr-48 { row-gap: 48px !important; }
+
+.gc-0 { column-gap: 0 !important; }
+.gc-4 { column-gap: 4px !important; }
+.gc-8 { column-gap: 8px !important; }
+.gc-12 { column-gap: 12px !important; }
+.gc-16 { column-gap: 16px !important; }
+.gc-20 { column-gap: 20px !important; }
+.gc-24 { column-gap: 24px !important; }
+.gc-32 { column-gap: 32px !important; }
+.gc-48 { column-gap: 48px !important; }
