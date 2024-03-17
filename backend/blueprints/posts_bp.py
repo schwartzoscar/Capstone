@@ -10,4 +10,4 @@ posts_bp = Blueprint("posts_bp", __name__)
 def get_posts():
     data = request.get_json()
     res = Posts.find_paginated(data.get('lastId'), limit=data.get('limit'))
-    return {"message": "OK", "posts": res['data'], "total": res['total']}
+    return {"message": "OK", "items": res['data'], "total": res['total']}

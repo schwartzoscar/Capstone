@@ -39,7 +39,6 @@ class BaseCollection(ABC):
 
     @classmethod
     def find_paginated(cls, last_id="0", query={}, projection=None, oldest_first=False, limit=25):
-        # TODO May not actually need to get total.
         pipeline = [
             {"$match": {"$and": [{"deleted": 0}, query]}},
             {"$facet": {
