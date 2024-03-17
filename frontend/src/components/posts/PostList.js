@@ -21,7 +21,7 @@ function PostListBody() {
 
   return(
     <div className="flex-grow-1">
-      <InfiniteScroll url="/posts/list">
+      <InfiniteScroll url="/posts/list" limit={2} wrapperProps={{style: {height: 300}}}>
         {items}
       </InfiniteScroll>
     </div>

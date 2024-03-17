@@ -7,7 +7,7 @@ import ReactInfiniteScroll from "react-infinite-scroll-component";
 export default function InfiniteScroll(props) {
 
   const defaultLimit = 25;
-  const { url, limit, postData, children } = props;
+  const { url, limit, postData, wrapperProps, children } = props;
   const mountTracker = useRef(true);
   const [{ items, total, lastId }, dispatch] = usePaginationContext();
 
@@ -19,30 +19,33 @@ export default function InfiniteScroll(props) {
     if(postData) post = {...post, ...postData};
     const resp = await apiClient.post(url, post);
     handleResp(resp, data => {
-      dispatch({items: data.items, total: data.total});
+      dispatch({type: refresh ? 'refresh' : 'next', items: data.items, total: data.total});
     });
   }
 
   useEffect(() => {
     if(mountTracker.current) {
-      getItems();
+      getItems(true);
       mountTracker.current = false;
     }
   }, []);
 
   return(
-    <ReactInfiniteScroll
-      dataLength={items.length}
-      next={() => getItems()}
-      hasMore={items.length < total}
-      loader={<h3>Loading...</h3>}
-      endMessage={<p className="text-center fw-bold">Yay! You have seen it all</p>}
-      // below props only if you need pull down functionality
-      refreshFunction={() => getItems(true)}
-      pullDownToRefresh
-      pullDownToRefreshThreshold={50}
-    >
-      {children}
-    </ReactInfiniteScroll>
+    <div id="infinite-scroll-target" className="overflow-y-scroll" {...wrapperProps}>
+      <ReactInfiniteScroll
+        dataLength={items.length}
+        next={() => getItems()}
+        hasMore={items.length < total}
+        loader={<h3>Loading...</h3>}
+        scrollableTarget="infinite-scroll-target"
+        endMessage={<p className="text-center fw-bold">Yay! You have seen it all</p>}
+        // below props only if you need pull down functionality
+        refreshFunction={() => getItems(true)}
+        pullDownToRefresh
+        pullDownToRefreshThreshold={50}
+      >
+        {children}
+      </ReactInfiniteScroll>
+    </div>
   );
 }
