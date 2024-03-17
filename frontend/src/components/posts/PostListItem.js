@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
 
 export default function PostListItem({ post }) {
 
@@ -16,7 +17,10 @@ export default function PostListItem({ post }) {
   return(
     <div className="post-list-item">
       <div className="d-flex justify-content-between">
-        <h4>{mockData.title}</h4>
+        <div>
+          <h4>{mockData.title}</h4>
+          <ReactTimeAgo date={new Date(mockData.created_at)}/>
+        </div>
         <span className="fas fa-ellipsis-h"/>
       </div>
       <Link to={`/profile/${mockData.user._id}`} className="d-flex g-4 align-items-center">
