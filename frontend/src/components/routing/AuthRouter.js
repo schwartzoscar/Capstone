@@ -7,7 +7,7 @@ const router = createBrowserRouter([
   { path: "/", element: <Home/> },
   { path: "/temp", element: <HomeTemp/> },
   { path: "/profile", element: <Profile/>, children: [
-    { path: "/:userId", element: <Profile/> }
+    { path: ":userId", element: <Profile/> }
   ]},
   { path: "/profile/:userId", element: <Profile/> },
   { path: "*", element: <Navigate to="/" replace /> }

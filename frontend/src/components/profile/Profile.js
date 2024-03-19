@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Base from '../../components/base/Base';
+import ProfileOverview from "./ProfileOverview";
+import ProfileContent from "./ProfileContent";
+
+const ProfileContext = createContext({isMe: true});
+export const useProfileContext = () => useContext(ProfileContext);
 
 export default function Profile() {
 
@@ -13,12 +18,14 @@ export default function Profile() {
   }, [params]);
 
   return(
-    <div>
+    <Base>
       <h1>Profile Page</h1>
-       <Base>
-        <div>
+      <ProfileContext.Provider value={{ isMe }}>
+        <div className="d-flex g-20 mt-20 h-100">
+          <ProfileContent/>
+          <ProfileOverview/>
         </div>
-      </Base>   
-    </div>
+      </ProfileContext.Provider>
+    </Base>
   );
 }

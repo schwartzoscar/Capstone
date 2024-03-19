@@ -19,7 +19,7 @@ export default function Base({ children }) {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <nav>
         <Link to="/" className="btn btn-primary">Home</Link>
         <Link to="/profile" className="btn btn-primary">Profile</Link>
