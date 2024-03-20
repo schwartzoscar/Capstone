@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from "../../contexts/AuthContext";
 import Base from '../../components/base/Base';
 import ProfileOverview from "./ProfileOverview";
 import ProfileContent from "./ProfileContent";
@@ -9,13 +10,20 @@ export const useProfileContext = () => useContext(ProfileContext);
 
 export default function Profile() {
 
+  const navigate = useNavigate();
   const params = useParams();
+  const { currentUser } = useAuthContext();
   const [isMe, setIsMe] = useState(true);
 
   useEffect(() => {
-    const visitor = (params.hasOwnProperty('userId') && params.userId !== "me")
-    setIsMe(!visitor)
-  }, [params]);
+    if(!params.hasOwnProperty('userId')) {
+      setIsMe(true);
+    } else if(params.userId === "me" || params.userId === currentUser._id) {
+      navigate('/profile');
+    } else {
+      setIsMe(false);
+    }
+  }, [params, currentUser]);
 
   return(
     <Base>

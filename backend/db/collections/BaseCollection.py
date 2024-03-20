@@ -46,7 +46,7 @@ class BaseCollection(ABC):
                 "data": [
                     {"$sort": {"_id": DESCENDING if not oldest_first else ASCENDING}},
                     {"$limit": limit},
-                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                    {"$addFields": {"_id": {"$toString": "$_id"}, "user_id": {"$toString": "$user_id"}}}
                 ]
             }}
         ]

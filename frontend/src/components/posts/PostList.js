@@ -1,18 +1,20 @@
 import { useMemo } from 'react';
+import clsx from 'clsx';
 import { usePaginationContext, PaginationProvider } from "../../contexts/PaginationContext";
 import PostListItem from "./PostListItem";
 import InfiniteScroll from "../elements/InfiniteScroll";
 
-export default function PostList() {
+export default function PostList(props) {
   return(
     <PaginationProvider>
-      <PostListBody/>
+      <PostListBody {...props}/>
     </PaginationProvider>
   );
 }
 
-function PostListBody() {
+function PostListBody(props) {
 
+  const { iSProps, className } = props;
   const [{ items: posts }] = usePaginationContext();
 
   const items = useMemo(() => posts.map(post => (
@@ -20,8 +22,8 @@ function PostListBody() {
   )), [posts]);
 
   return(
-    <div className="flex-grow-1">
-      <InfiniteScroll url="/posts/list" limit={2} wrapperProps={{style: {height: 300}}}>
+    <div className={clsx(className, "flex-grow-1")}>
+      <InfiniteScroll url="/posts/list" limit={2} wrapperProps={{style: {height: 300}}} {...iSProps}>
         {items}
       </InfiniteScroll>
     </div>
