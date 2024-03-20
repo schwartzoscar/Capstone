@@ -1,7 +1,5 @@
 export default function PrivacySettings() {
   return(
-    <p>
-      Privacy Settings
-    </p>
+    <p className="tab-content-header">Privacy Settings</p>
   );
 }

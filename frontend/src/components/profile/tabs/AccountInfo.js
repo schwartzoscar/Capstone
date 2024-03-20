@@ -1,5 +1,5 @@
 export default function AccountInfo() {
   return(
-    <p>Account Info</p>
+    <p className="tab-content-header">Account Info</p>
   );
 }
