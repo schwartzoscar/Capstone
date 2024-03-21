@@ -17,6 +17,6 @@ class Users(BaseCollection):
     # TODO just a test method, will be re-done in profile ticket
     def update_profile_img(self):
         with open('db/collections/s3test.jpg', 'rb') as data:
-            filename = 's3test.jpg'
+            filename = f'profile-images/{self._id}/s3test.jpg'
             S3.upload(filename, data)
             self.update({"profile_img": filename})
