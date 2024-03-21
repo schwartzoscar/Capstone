@@ -1,5 +1,7 @@
 from flask import Flask
+import os
 from datetime import datetime, timedelta, timezone
+from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, get_jwt, get_jwt_identity, create_access_token, set_access_cookies
 from db.MongoJSONProvider import MongoJSONProvider
@@ -10,14 +12,14 @@ from blueprints.test_users_bp import test_users_bp
 from blueprints.posts_bp import posts_bp
 from blueprints.profile_bp import profile_bp
 
+load_dotenv()
 app = Flask(__name__)
-CORS(app, origins="http://localhost:3000", supports_credentials=True)
+CORS(app, origins=os.getenv("CORS_ORIGIN"), supports_credentials=True)
 app.json = MongoJSONProvider(app)
 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-# TODO set as True in production
-app.config["JWT_COOKIE_SECURE"] = False
-app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_COOKIE_SECURE"] = True if os.getenv("ENV") == "prod" else False
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
