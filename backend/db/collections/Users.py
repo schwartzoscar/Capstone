@@ -1,5 +1,5 @@
-from db.DB import DB
 from db.collections.BaseCollection import BaseCollection
+from services.S3 import S3
 
 
 class Users(BaseCollection):
@@ -14,7 +14,9 @@ class Users(BaseCollection):
             return Users.find_by_id(resp.inserted_id)
         return False
 
-    # TODO remove this later
-    @staticmethod
-    def clear_users():
-        DB.instance[Users.collection_name].delete_many({})
+    # TODO just a test method, will be re-done in profile ticket
+    def update_profile_img(self):
+        with open('db/collections/s3test.jpg', 'rb') as data:
+            filename = 's3test.jpg'
+            S3.upload(filename, data)
+            self.update({"profile_img": filename})

@@ -6,7 +6,7 @@ test_users_bp = Blueprint("test_users_bp", __name__)
 
 # Insert User App Route
 @test_users_bp.get('/insert_user')
-def insert_user():
+def test_insert_user():
     user_data = {
         "username": "test",
         "email": "test@gmail.com",
@@ -18,7 +18,7 @@ def insert_user():
 
 
 @test_users_bp.get('/update_user/<user_id>')
-def update_user(user_id):
+def test_update_user(user_id):
     user = Users.find_by_id(user_id)
     if not user:
         return "User not found"
@@ -28,7 +28,7 @@ def update_user(user_id):
 
 
 @test_users_bp.get('/delete_user/<user_id>')
-def delete_user(user_id):
+def test_delete_user(user_id):
     user = Users.find_by_id(user_id)
     if not user:
         return "User not found"
@@ -37,8 +37,11 @@ def delete_user(user_id):
     return "success"
 
 
-# ClearDB App Route
-@test_users_bp.get('/cleardb')
-def cleardb():
-    Users.clear_users()
+@test_users_bp.get('/set_profile_img/<user_id>')
+def test_set_profile_img(user_id):
+    user = Users.find_by_id(user_id)
+    if not user:
+        return "User not found"
+    user.update_profile_img()
+    user.save()
     return "success"
