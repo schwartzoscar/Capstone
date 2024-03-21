@@ -2,9 +2,8 @@ import axios from 'axios';
 import { USER_KEY } from "../contexts/AuthContext";
 import { getCookie } from "./cookieHelpers";
 
-// TODO: Setup .env file and get URL from there.
 const options = {
-  baseURL: 'http://localhost:5000',
+  baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
   headers: {'Content-Type': 'application/json', Accept: 'application/json'}
 }
