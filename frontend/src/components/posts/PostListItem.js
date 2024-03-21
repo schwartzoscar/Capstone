@@ -8,7 +8,7 @@ export default function PostListItem({ post }) {
     content: post.content,
     created_at: post.created_at,
     user: {
-      _id: "ABCDEFG",
+      _id: post.user_id,
       profile_img: "/images/Defaultprofile.jpg",
       username: "wario"
     }

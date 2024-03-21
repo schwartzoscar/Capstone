@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from "../../contexts/AuthContext";
+import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
 import Base from '../../components/base/Base';
 import ProfileOverview from "./ProfileOverview";
 import ProfileContent from "./ProfileContent";
@@ -27,13 +29,16 @@ export default function Profile() {
   }, [params, currentUser]);
 
   const getVisitedProfile = async() => {
-    // TODO get visited profile
-    setVisitedUser({id: "temp", username: "tempUser"});
+    const post = {visitedId: params?.userId};
+    const resp = await apiClient.post('/profile/visited', post);
+    handleResp(resp, data => {
+      setVisitedUser(data.visited);
+    });
   }
 
   useEffect(() => {
     if(!isMe) getVisitedProfile();
-  }, [isMe]);
+  }, [isMe, params]);
 
   return(
     <Base>

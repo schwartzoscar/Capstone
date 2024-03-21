@@ -34,8 +34,8 @@ class BaseCollection(ABC):
         return cls.find_one({"_id": ObjectId(id)}, projection)
 
     @classmethod
-    def find_last(cls):
-        return cls.find_one(sort=[('_id', DESCENDING)])
+    def find_last(cls, projection={}):
+        return cls.find_one(projection=projection, sort={'_id': DESCENDING})
 
     @classmethod
     def find_paginated(cls, last_id="0", query={}, projection=None, oldest_first=False, limit=25):
