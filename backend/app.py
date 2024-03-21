@@ -6,6 +6,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, get_jwt, get_jwt_identity, create_access_token, set_access_cookies
 from db.MongoJSONProvider import MongoJSONProvider
 from db.DB import DB
+from services.S3 import S3
 
 from blueprints.auth_bp import auth_bp
 from blueprints.test_users_bp import test_users_bp
@@ -24,6 +25,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 DB.initialize()
+S3.initialize()
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(test_users_bp)
