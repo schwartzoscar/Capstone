@@ -12,11 +12,11 @@ class DB:
     @staticmethod
     def initialize():
         client = pymongo.MongoClient(
-            host=os.environ['MONGODB_HOST'],
-            username=os.environ['MONGODB_USERNAME'],
-            password=os.environ['MONGODB_PASSWORD'],
+            host=os.getenv('MONGODB_HOST'),
+            username=os.getenv('MONGODB_USERNAME'),
+            password=os.getenv('MONGODB_PASSWORD'),
             port=27017,
             authSource="admin"
         )
-        DB.instance = client[os.environ['MONGODB_NAME']]
+        DB.instance = client[os.getenv('MONGODB_NAME')]
         # TODO run migrations
