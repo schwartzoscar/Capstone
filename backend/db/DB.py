@@ -16,7 +16,7 @@ class DB:
             username=os.getenv('MONGODB_USERNAME'),
             password=os.getenv('MONGODB_PASSWORD'),
             port=27017,
-            authSource="admin"
+            authSource=os.getenv('MONGODB_AUTH_SOURCE')
         )
         DB.instance = client[os.getenv('MONGODB_NAME')]
         # TODO run migrations
