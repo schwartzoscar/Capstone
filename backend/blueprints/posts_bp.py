@@ -6,7 +6,7 @@ from db.collections.Posts import Posts
 posts_bp = Blueprint("posts_bp", __name__)
 
 
-@posts_bp.post('/posts/list')
+@posts_bp.post('/list')
 @jwt_required()
 def get_posts():
     data = request.get_json()

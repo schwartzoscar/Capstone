@@ -14,12 +14,14 @@ from blueprints.posts_bp import posts_bp
 from blueprints.profile_bp import profile_bp
 
 load_dotenv()
-app = Flask(__name__)
-CORS(app, origins=os.getenv("CORS_ORIGIN"), supports_credentials=True)
+app = Flask(__name__, static_folder='../app/build', static_url_path='/')
+CORS(app, origins=os.getenv("CORS_ORIGIN").split(','), supports_credentials=True)
 app.json = MongoJSONProvider(app)
 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_COOKIE_SECURE"] = True if os.getenv("ENV") == "prod" else False
+app.config["JWT_COOKIE_SAMESITE"] = "Lax"
+app.config["JWT_COOKIE_SECURE"] = False if os.getenv("ENV") == "dev" else True
+app.config["JWT_COOKIE_DOMAIN"] = None if os.getenv("ENV") == "dev" else os.getenv("JWT_COOKIE_DOMAIN")
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
@@ -27,10 +29,10 @@ jwt = JWTManager(app)
 DB.initialize()
 S3.initialize()
 
-app.register_blueprint(auth_bp)
-app.register_blueprint(test_users_bp)
-app.register_blueprint(posts_bp)
-app.register_blueprint(profile_bp)
+app.register_blueprint(auth_bp, url_prefix='/api/auth')
+app.register_blueprint(test_users_bp, url_prefix='/api')
+app.register_blueprint(posts_bp, url_prefix='/api/posts')
+app.register_blueprint(profile_bp, url_prefix='/api/profile')
 
 
 # After every request, refresh any token that is within 30 minutes of expiring.
@@ -49,6 +51,12 @@ def refresh_expiring_jwts(response):
         return response
 
 
-# APP
+# Serves the React app on production.
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+
+# Runs the development Flask server.
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
