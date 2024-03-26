@@ -15,7 +15,7 @@ from blueprints.profile_bp import profile_bp
 
 load_dotenv()
 app = Flask(__name__, static_folder='../app/build', static_url_path='/')
-CORS(app, origins=os.getenv("CORS_ORIGIN"), supports_credentials=True)
+CORS(app, origins=os.getenv("CORS_ORIGIN").split(','), supports_credentials=True)
 app.json = MongoJSONProvider(app)
 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
