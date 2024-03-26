@@ -19,7 +19,9 @@ CORS(app, origins=os.getenv("CORS_ORIGIN").split(','), supports_credentials=True
 app.json = MongoJSONProvider(app)
 
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_COOKIE_SAMESITE"] = "Lax"
 app.config["JWT_COOKIE_SECURE"] = False if os.getenv("ENV") == "dev" else True
+app.config["JWT_COOKIE_DOMAIN"] = None if os.getenv("ENV") == "dev" else os.getenv("JWT_COOKIE_DOMAIN")
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
