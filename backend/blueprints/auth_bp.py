@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required
 from db.collections.Users import Users
 
 auth_bp = Blueprint("auth_bp", __name__)
@@ -45,15 +45,25 @@ def login():
 
 @auth_bp.post('/cookieLogin')
 @jwt_required()
-def cookieLogin():
-    user_id = get_jwt_identity()
-    if not user_id:
+def cookie_login():
+    user = Users.get_current_user()
+    if not user:
         return {"message": "Failure"}
-    user = Users.find_by_id(user_id)
     resp = jsonify({"message": "OK", "user": user})
-    access_token = create_access_token(identity=user_id)
+    access_token = create_access_token(identity=str(user._id))
     set_access_cookies(resp, access_token)
     return resp
+
+
+@auth_bp.post('/refreshUser')
+@jwt_required()
+def refresh_user():
+    user = Users.get_current_user()
+    if not user:
+        return {"message": "Failure"}
+    if not user:
+        return {"message": "Failure"}
+    return {"message": "OK", "user": user}
 
 
 @auth_bp.post('/logout')

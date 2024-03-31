@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { noRedirectClient } from "../helpers/requestHelpers";
+import { apiClient, noRedirectClient } from "../helpers/requestHelpers";
+import { handleResp } from "../helpers/responseHelpers";
 
 export const USER_KEY = 'thridder_current_user';
 
@@ -37,11 +38,18 @@ export function AuthProvider(props) {
     }
   }, [cookieLoginAttempted]);
 
+  const refreshUser = async() => {
+    const resp = await apiClient.post('/auth/refreshUser');
+    handleResp(resp, data => {
+      setCurrentUser(data.user);
+    });
+  }
+
   // TODO Create loading screen for when attempting to login with cookie.
   if(!cookieLoginAttempted) return null;
 
   return(
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, refreshUser }}>
       {props.children}
     </AuthContext.Provider>
   );

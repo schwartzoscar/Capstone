@@ -1,0 +1,9 @@
+.img-responsive {
+  overflow: hidden;
+}
+
+.img-responsive img {
+  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+}

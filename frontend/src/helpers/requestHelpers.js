@@ -8,6 +8,10 @@ const options = {
   headers: {'Content-Type': 'application/json', Accept: 'application/json'}
 }
 
+export const formDataHeaders = {
+  headers: { 'Content-Type': `multipart/form-data`, Accept: 'multipart/form-data' }
+};
+
 const client = axios.create(options);
 const nrClient = axios.create(options);
 

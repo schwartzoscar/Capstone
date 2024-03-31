@@ -9,19 +9,17 @@ export default function Modal(props) {
   }
 
   return(
-    <div className="modal show d-block">
-      <RBModal.Dialog show={props.show} onHide={closeModal}>
-        <RBModal.Header closeButton>
-          <RBModal.Title>{props.title}</RBModal.Title>
-        </RBModal.Header>
-        <RBModal.Body>
-          {props.children}
-        </RBModal.Body>
-        <RBModal.Footer>
-          <Button className="btn-secondary" onClick={closeModal}>onCancel</Button>
-          <Button className="btn-primary" onClick={props.onSave}>Save</Button>
-        </RBModal.Footer>
-      </RBModal.Dialog>
-    </div>
+    <RBModal show={props.show} onHide={closeModal} size={props.size ?? "lg"}>
+      <RBModal.Header closeButton>
+        <RBModal.Title>{props.title}</RBModal.Title>
+      </RBModal.Header>
+      <RBModal.Body>
+        {props.children}
+      </RBModal.Body>
+      <RBModal.Footer>
+        <Button className="btn-secondary" onClick={closeModal} {...props.closeBtnProps}>Close</Button>
+        <Button className="btn-primary" onClick={props.onSave} {...props.saveBtnProps}>Save</Button>
+      </RBModal.Footer>
+    </RBModal>
   );
 }

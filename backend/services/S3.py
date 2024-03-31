@@ -23,5 +23,6 @@ class S3:
         S3.bucket = os.getenv('SPACES_BUCKET')
 
     @staticmethod
-    def upload(filename, data):
-        S3.instance.upload_fileobj(data, S3.bucket, filename)
+    def upload(filename, data, public=True):
+        extra_args = {'ACL': 'public-read'} if public else {}
+        S3.instance.upload_fileobj(data, S3.bucket, filename, ExtraArgs=extra_args)
