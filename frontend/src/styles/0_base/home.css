@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+h1 {
+    text-align: center;
+}
+
+.btn-home {
+    margin-top: 8px;
+}
