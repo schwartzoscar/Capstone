@@ -1,3 +1,4 @@
+/*Styles*/
 body {
     margin: 0;
     padding: 0;
@@ -7,23 +8,43 @@ p {
     margin: 0;
 }
 h1 {
+    font-family: 'Courier New', Courier, monospace;
+    size: 50px;
+    font-weight: bold;
+    color: darkslategrey;
     text-align: center;
 }
-
+h3 {
+    size: 50px;
+    font-weight: bolder;
+    color: grey;
+    text-align: center;
+}
 .btn-home {
     font-weight: bolder;
-    color: darkslategray;
-    animation: button-in 300ms;
+    color: grey;
+    animation: button-in 600ms;
     
 }
-
+.btn-home-solid {
+    font-weight: bolder;
+    color: grey;
+}
+/*Animations*/
 @keyframes button-in {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-200%);
         opacity: 0%;
     }
     100% {
         transform: translateX(0);
         opacity: 100%;
+    }
+}
+/*Currently Not used*/
+@keyframes header-in {
+    0% {
+        transform: scale(0%);
+        opacity: 0%;
     }
 }

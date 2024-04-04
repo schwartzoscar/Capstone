@@ -38,7 +38,7 @@ export default function InfiniteScroll(props) {
         hasMore={items.length < total}
         loader={<h3>Loading...</h3>}
         scrollableTarget="infinite-scroll-target"
-        endMessage={<p className="text-center fw-bold">Yay! You have seen it all</p>}
+        endMessage={<p style={{textAlign: 'center', fontWeight: 'bold', color: 'darkslategrey'}}>Yay! You have seen it all</p>}
         // below props only if you need pull down functionality
         refreshFunction={() => getItems(true)}
         pullDownToRefresh
