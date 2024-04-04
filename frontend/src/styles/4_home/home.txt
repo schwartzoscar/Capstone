@@ -1,0 +1,1 @@
+home.css currently affects global css. This will be changed later when stylesheet is entirely done.

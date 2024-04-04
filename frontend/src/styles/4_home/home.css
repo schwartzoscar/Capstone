@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+h1 {
+    text-align: center;
+}
+
+.btn-home {
+    font-weight: bolder;
+    color: darkslategray;
+    animation: button-in 300ms;
+    
+}
+
+@keyframes button-in {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0%;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 100%;
+    }
+}
