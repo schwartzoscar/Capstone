@@ -21,9 +21,6 @@ export default function Base({ children }) {
   return (
     <div>
       <nav>
-        <Link to="/" className="btn btn-primary">Home</Link>
-        <Link to="/profile" className="btn btn-primary">Profile</Link>
-        <Button onClick={handleLogout} className="btn-primary" loading={loading}>Logout</Button>
       </nav>
       <div>{children}</div>
     </div>
