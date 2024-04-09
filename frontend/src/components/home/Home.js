@@ -2,15 +2,22 @@ import Base from "../base/Base";
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 import InfiniteScroll from "../elements/InfiniteScroll";
-import "../../styles/4_home/home.css";
 
 export default function Home() {
   return (
     <div className="page-container">
-      <h1>THRIDDER</h1>
       <Base>
+      <hr/>
+      <div class="search">
+        <Button to="/logout" className="btn-home">LOGOUT</Button>
+        <div class="search-wrapper">
+          <label for="search">Search Posts</label>
+          <input type="search" id="search"></input>
+        </div>
+      </div>
+      <hr/>
         <div className="d-flex g-20 mt-20">
-          <div className="page-section" style={{width: 200, height: '85vh', textAlign: 'center'}}>
+          <div className="page-section">
             <Button to="/profile" className="btn-home">PROFILE</Button>
             <hr/>
               <Button to="/home" className="btn-home">HOME</Button>
