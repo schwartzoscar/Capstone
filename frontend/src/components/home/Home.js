@@ -8,12 +8,11 @@ export default function Home() {
     <div className="page-container">
       <Base>
       <hr/>
-      <div class="search">
-        <Button to="/logout" className="btn-home">LOGOUT</Button>
-        <div class="search-wrapper">
-          <label for="search">Search Posts</label>
-          <input type="search" id="search"></input>
+      <div className="search">
+        <div className="search-wrapper">
+          <input type="search" id="search" placeholder="SEARCH POSTS" />
         </div>
+        <Button to="/logout" className="btn-bar">LOGOUT</Button>
       </div>
       <hr/>
         <div className="d-flex g-20 mt-20">

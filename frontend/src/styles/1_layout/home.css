@@ -1,4 +1,5 @@
 /*Styles*/
+/*Will be better organized later*/
 body {
     margin: 0;
     padding: 0;
@@ -11,7 +12,7 @@ h1 {
     font-family: 'Courier New', Courier, monospace;
     size: 50px;
     font-weight: bold;
-    color: darkslategrey;
+    color: lightgray;
     text-align: center;
 }
 h3 {
@@ -23,12 +24,16 @@ h3 {
 .btn-home {
     font-weight: bolder;
     color: grey;
-    animation: button-in 600ms;
-    
+    animation: button-in 600ms;  
 }
 .btn-home-solid {
     font-weight: bolder;
     color: grey;
+}
+.btn-bar {
+    font-weight: bolder;
+    color: grey;
+    animation: fade-in 3000ms;   
 }
 .page-section {
     width: 200px;
@@ -37,7 +42,26 @@ h3 {
   }
   .search {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 0 10px;
+  }
+  .search-wrapper input[type="search"] {
+    color: gray;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 5px 1px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    border: gray 2px solid;
+    animation: fade-in 3000ms;
+  }
+  .search-wrapper input[type="search"]::placeholder {
+    font-weight: bold;
+    color: lightgray;
   }
 /*Animations*/
 @keyframes button-in {
@@ -51,9 +75,11 @@ h3 {
     }
 }
 /*Currently Not used*/
-@keyframes header-in {
+@keyframes fade-in {
     0% {
-        transform: scale(0%);
         opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
     }
 }
