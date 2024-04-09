@@ -8,7 +8,9 @@ export default function Home() {
     <div className="page-container">
       <Base>
       <hr/>
-      <div className="search">
+      <div className="nav-home">
+        <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>
+
         <div className="search-wrapper">
           <input type="search" id="search" placeholder="SEARCH POSTS" />
         </div>

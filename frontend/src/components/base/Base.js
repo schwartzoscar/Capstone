@@ -20,7 +20,6 @@ export default function Base({ children }) {
 
   return (
     <div>
-      <h1>THRIDDER</h1>
       <nav>
       </nav>
       <div>{children}</div>

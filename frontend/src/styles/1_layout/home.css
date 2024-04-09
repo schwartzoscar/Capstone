@@ -16,7 +16,7 @@ h1 {
     text-align: center;
 }
 h3 {
-    size: 50px;
+    size: 20px;
     font-weight: bolder;
     color: grey;
     text-align: center;
@@ -33,6 +33,7 @@ h3 {
 .btn-bar {
     font-weight: bolder;
     color: grey;
+    margin-left: auto;
     animation: fade-in 3000ms;   
 }
 .page-section {
@@ -40,9 +41,9 @@ h3 {
     height: 85vh;
     text-align: center;
   }
-  .search {
+  .nav-home {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center; 
     padding: 0 10px;
   }
@@ -58,10 +59,18 @@ h3 {
     border-radius: 15px;
     border: gray 2px solid;
     animation: fade-in 3000ms;
+    flex-grow: 1; 
   }
+  .search-wrapper {
+    flex-grow: 1;
+    margin: 0 10px;
+}
   .search-wrapper input[type="search"]::placeholder {
     font-weight: bold;
     color: lightgray;
+  }
+  .img-fade {
+    animation: fade-in 3000ms;
   }
 /*Animations*/
 @keyframes button-in {
