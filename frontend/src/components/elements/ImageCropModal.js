@@ -7,11 +7,11 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient, formDataHeaders } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import { useDebounce } from "../../helpers/asyncHelpers";
-import { updateCanvas } from "../../helpers/cropHelpers";
+import { updateCanvas } from "../../helpers/imageHelpers";
 import Modal from "./Modal";
 import Button from "./Button";
 
-export default function ImageSelectModal(props) {
+export default function ImageCropModal(props) {
 
   const { show, setShow } = props;
   const { refreshUser } = useAuthContext();

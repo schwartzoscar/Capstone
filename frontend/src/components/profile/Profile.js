@@ -17,6 +17,7 @@ export default function Profile() {
   const { currentUser } = useAuthContext();
   const [isMe, setIsMe] = useState(true);
   const [visitedUser, setVisitedUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(!params.hasOwnProperty('userId')) {
@@ -29,16 +30,21 @@ export default function Profile() {
   }, [params, currentUser]);
 
   const getVisitedProfile = async() => {
+    setLoading(true);
     const post = {visitedId: params?.userId};
     const resp = await apiClient.post('/profile/visited', post);
     handleResp(resp, data => {
       setVisitedUser(data.visited);
+      setLoading(false);
     });
   }
 
   useEffect(() => {
     if(!isMe) getVisitedProfile();
   }, [isMe, params]);
+
+  // TODO loading wrapper component
+  if(loading) return null;
 
   return(
     <Base>

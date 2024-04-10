@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { getSpacesImage } from "../../helpers/imageHelpers";
-import ImageSelectModal from "../elements/ImageSelectModal";
+import ImageCropModal from "../elements/ImageCropModal";
 
 export function Static() {
 
@@ -19,12 +19,12 @@ export function Editable() {
   const { currentUser } = useAuthContext();
   const [show, setShow] = useState(false);
 
-  return (
+  return(
     <>
       <div className="img-responsive profile-img-full is-clickable" onClick={() => setShow(true)}>
-        <img src={getSpacesImage(currentUser.profile_img)} alt="My Avatar"/>
+        <img src={getSpacesImage(currentUser.profile_img)} alt="Update Profile Image"/>
       </div>
-      <ImageSelectModal show={show} setShow={setShow}/>
+      <ImageCropModal show={show} setShow={setShow}/>
     </>
   );
 }

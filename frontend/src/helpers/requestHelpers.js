@@ -9,7 +9,7 @@ const options = {
 }
 
 export const formDataHeaders = {
-  headers: { 'Content-Type': `multipart/form-data`, Accept: 'multipart/form-data' }
+  headers: { 'Content-Type': 'multipart/form-data', Accept: 'multipart/form-data' }
 };
 
 const client = axios.create(options);
