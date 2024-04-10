@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useProfileContext } from "./Profile";
 import { getSpacesImage } from "../../helpers/imageHelpers";
 import ImageCropModal from "../elements/ImageCropModal";
 
 export function Static() {
 
-  const { currentUser } = useAuthContext();
+  const { visitedUser } = useProfileContext();
 
   return(
     <div className="img-responsive profile-img-full">
-      <img src={getSpacesImage(currentUser.profile_img)} alt={`${currentUser.username}'s Avatar`}/>
+      <img src={getSpacesImage(visitedUser.profile_img)} alt={`${visitedUser.username}'s Avatar`}/>
     </div>
   );
 }

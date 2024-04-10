@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
@@ -17,7 +17,6 @@ export default function Profile() {
   const { currentUser } = useAuthContext();
   const [isMe, setIsMe] = useState(true);
   const [visitedUser, setVisitedUser] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(!params.hasOwnProperty('userId')) {
@@ -30,14 +29,16 @@ export default function Profile() {
   }, [params, currentUser]);
 
   const getVisitedProfile = async() => {
-    setLoading(true);
     const post = {visitedId: params?.userId};
     const resp = await apiClient.post('/profile/visited', post);
     handleResp(resp, data => {
       setVisitedUser(data.visited);
-      setLoading(false);
     });
   }
+
+  const loading = useMemo(() => {
+    return isMe ? false : !visitedUser;
+  }, [isMe, visitedUser]);
 
   useEffect(() => {
     if(!isMe) getVisitedProfile();
