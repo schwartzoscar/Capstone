@@ -6,6 +6,7 @@ import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
 import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
+import PasswordStrength from "../../elements/PasswordStrength";
 
 export default function AccountInfo() {
 
@@ -31,8 +32,10 @@ function Editable({ setEditing }) {
 
   const { currentUser, refreshUser } = useAuthContext();
   const form = useForm({
+    mode: "onChange",
     defaultValues: {
-      username: currentUser.username
+      username: currentUser.username,
+      email: currentUser.email
     }
   });
 
@@ -46,10 +49,20 @@ function Editable({ setEditing }) {
 
   return(
     <FormProvider {...form}>
-      <TextField name="username" label="Username"/>
-      <div>
-        <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>
-        <SubmitButton onClick={updateProfile} className="btn-primary">Save</SubmitButton>
+      <div id="account-info-form">
+        <TextField name="username" label="Username" validation={{ required: "Username is required." }}/>
+        <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
+        <div className="d-flex gc-8 flex-wrap">
+          <div className="flex-grow-1">
+            <TextField name="password" label="Password" type="password"/>
+            <PasswordStrength/>
+          </div>
+          <TextField name="confirmPassword" label="Confirm Password" type="password" className="flex-grow-1"/>
+        </div>
+        <div className="d-flex g-8">
+          <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>
+          <SubmitButton onClick={updateProfile} className="btn-primary mt-0">Save</SubmitButton>
+        </div>
       </div>
     </FormProvider>
   );
