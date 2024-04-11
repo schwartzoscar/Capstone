@@ -22,7 +22,9 @@ export function Editable() {
 
   return(
     <>
-      <div className="img-responsive profile-img-full is-clickable" onClick={() => setShow(true)}>
+      <div className="img-responsive profile-img-full is-editable" onClick={() => setShow(true)}>
+        <div className="profile-img-edit-icon"/>
+        <div className="profile-img-edit-overlay"/>
         <img src={getSpacesImage(currentUser.profile_img)} alt="Update Profile Image"/>
       </div>
       <ImageCropModal show={show} setShow={setShow}/>
