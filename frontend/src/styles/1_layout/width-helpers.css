@@ -1,0 +1,5 @@
+.max-w-sm { max-width: var(--bs-breakpoint-sm) }
+.max-w-md { max-width: var(--bs-breakpoint-md) }
+.max-w-lg { max-width: var(--bs-breakpoint-lg) }
+.max-w-xl { max-width: var(--bs-breakpoint-xl) }
+.max-w-2x { max-width: var(--bs-breakpoint-xxl) }

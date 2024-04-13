@@ -1,0 +1,12 @@
+.info-block {
+  margin: 8px 0;
+}
+
+.info-block-title {
+  margin-bottom: 8px;
+}
+
+.info-block-content {
+  padding: 6px 0 6px 12px;
+  border-left: var(--bs-border-width) solid var(--bs-border-color);
+}

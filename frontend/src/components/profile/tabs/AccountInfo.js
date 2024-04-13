@@ -7,6 +7,7 @@ import { handleResp } from "../../../helpers/responseHelpers";
 import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
 import PasswordStrength from "../../elements/PasswordStrength";
+import InfoBlock from "../../elements/InfoBlock";
 
 export default function AccountInfo() {
 
@@ -16,7 +17,7 @@ export default function AccountInfo() {
 
   const actions = useMemo(() => {
     if(!isMe || editing) return null;
-    return <Button onClick={() => setEditing(true)} className="btn-primary">Edit</Button>;
+    return <Button onClick={() => setEditing(true)} className="btn-primary mt-12">Edit</Button>;
   }, [isMe, editing]);
 
   return(
@@ -71,8 +72,8 @@ function Editable({ setEditing }) {
 function Static({ profile }) {
   return(
     <div>
-      <p>Username</p>
-      <p>{profile.username}</p>
+      <InfoBlock title="Username">{profile.username}</InfoBlock>
+      <InfoBlock title="Email">{profile.email}</InfoBlock>
     </div>
   );
 }
