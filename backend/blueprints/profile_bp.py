@@ -28,3 +28,40 @@ def update_profile_img():
             user.save()
             return {"message": "OK"}
     return {"message": "Failure"}
+
+
+@profile_bp.post('/updateAccountInfo')
+@jwt_required()
+def update_account_info():
+    user = Users.get_current_user()
+    if not user:
+        return {"message": "Failure"}
+    data = request.get_json()
+    errors = {}
+
+    username = data.get('username')
+    if username and username != user.fields['username']:
+        if Users.find_one({"username": username}):
+            errors['username'] = "This username has already been taken."
+        else:
+            user.update({"username": username})
+
+    email = data.get('email')
+    if not errors and email and email != user.fields['email']:
+        if Users.find_one({"email": email}):
+            errors['email'] = "This email has already been taken."
+        else:
+            user.update({"email": email})
+
+    password = data.get('password')
+    confirm = data.get('confirm')
+    if not errors and (password or confirm):
+        pass_errors = user.update_password(password, confirm)
+        if pass_errors:
+            errors = {**errors, **pass_errors}
+
+    if errors:
+        return {"message": "Failure", "errors": errors}
+    if user.has_updates():
+        user.save()
+    return {"message": "OK"}

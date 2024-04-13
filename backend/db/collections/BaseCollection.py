@@ -71,6 +71,9 @@ class BaseCollection(ABC):
     def update(self, updates):
         self.to_update = {**self.to_update, **updates}
 
+    def has_updates(self):
+        return len(self.to_update) > 0
+
     def delete(self):
         self.update({"deleted": 1})
 

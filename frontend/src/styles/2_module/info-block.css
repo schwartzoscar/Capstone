@@ -7,6 +7,6 @@
 }
 
 .info-block-content {
-  padding: 6px 0 6px 12px;
+  padding: calc(6px + var(--bs-border-width)) 0 calc(6px + var(--bs-border-width)) 12px;
   border-left: var(--bs-border-width) solid var(--bs-border-color);
 }

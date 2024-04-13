@@ -4,6 +4,7 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import { useProfileContext } from "../Profile";
 import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
+import { handleFormErrors } from "../../../helpers/formHelpers";
 import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
 import PasswordStrength from "../../elements/PasswordStrength";
@@ -41,11 +42,11 @@ function Editable({ setEditing }) {
   });
 
   const updateProfile = async(data) => {
-    const resp = await apiClient.post('/profile/update', data);
+    const resp = await apiClient.post('/profile/updateAccountInfo', data);
     handleResp(resp, () => {
       setEditing(false);
       refreshUser();
-    });
+    }, errors => handleFormErrors(errors, form));
   }
 
   return(
@@ -58,7 +59,7 @@ function Editable({ setEditing }) {
             <TextField name="password" label="Password" type="password"/>
             <PasswordStrength/>
           </div>
-          <TextField name="confirmPassword" label="Confirm Password" type="password" className="flex-grow-1"/>
+          <TextField name="confirm" label="Confirm Password" type="password" className="flex-grow-1"/>
         </div>
         <div className="d-flex g-8">
           <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>

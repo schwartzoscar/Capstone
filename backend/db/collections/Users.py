@@ -26,3 +26,11 @@ class Users(BaseCollection):
         filename = f'profile-images/{self._id}/{timestamp}.jpg'
         S3.upload(filename, image_blob)
         self.update({"profile_img": filename})
+
+    def update_password(self, password, confirm):
+        if not password:
+            return {"password": "Password cannot be empty."}
+        if password != confirm:
+            return {"confirm": "Passwords do not match."}
+        self.update({"password": password})
+        return False
