@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
 import Nav from 'react-bootstrap/Nav';
+import { useProfileContext } from "./Profile";
 import AccountInfo from "./tabs/AccountInfo";
 import PrivacySettings from "./tabs/PrivacySettings";
 import UserPosts from "./tabs/UserPosts";
 
 export default function ProfileContent() {
 
+  const { isMe } = useProfileContext();
   const [activeTab, setActiveTab] = useState("accountInfo");
 
   const navContent = useMemo(() => {
@@ -15,7 +17,7 @@ export default function ProfileContent() {
       case 'userPosts':
         return <UserPosts/>;
       case 'privacySettings':
-        return <PrivacySettings/>;
+        return isMe ? <PrivacySettings/> : null;
       default: return null;
     }
   }, [activeTab]);
@@ -33,11 +35,13 @@ export default function ProfileContent() {
             Posts
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="privacySettings">
-            Privacy Settings
-          </Nav.Link>
-        </Nav.Item>
+        { isMe &&
+          <Nav.Item>
+            <Nav.Link eventKey="privacySettings">
+              Privacy Settings
+            </Nav.Link>
+          </Nav.Item>
+        }
       </Nav>
       {navContent}
     </div>

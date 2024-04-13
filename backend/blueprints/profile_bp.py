@@ -11,7 +11,7 @@ def get_visited_profile():
     data = request.get_json()
     visited_id = data.get('visitedId')
     if visited_id:
-        visited = Users.find_by_id(visited_id, projection={"username": 1, "created_at": 1})
+        visited = Users.find_by_id(visited_id, projection=Users.visitor_fields)
         if visited:
             return {"message": "OK", "visited": visited}
     return {"message": "Failure"}

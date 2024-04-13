@@ -7,6 +7,7 @@ from services.S3 import S3
 class Users(BaseCollection):
 
     collection_name = "users"
+    visitor_fields = {"username": 1, "email": 1, "profile_img": 1, "created_at": 1}
 
     @staticmethod
     def get_current_user():
