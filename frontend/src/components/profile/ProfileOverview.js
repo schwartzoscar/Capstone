@@ -3,7 +3,7 @@ import { useProfileContext } from "./Profile";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import { formatDate } from "../../helpers/dateTimeHelpers";
-import * as ProfileImage from "./ProfileImage";
+import ProfileImage from "./ProfileImage";
 
 export default function ProfileOverview() {
 
@@ -33,7 +33,7 @@ export default function ProfileOverview() {
 
   return(
     <div className="page-section" style={{minWidth: 300}}>
-      {isMe ? <ProfileImage.Editable/> : <ProfileImage.Static/>}
+      <ProfileImage/>
       <div className="mt-20">
         <p>Joined {formatDate(visitedUser.created_at)}</p>
         { !loading && <>
