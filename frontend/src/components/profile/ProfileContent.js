@@ -20,7 +20,7 @@ export default function ProfileContent() {
         return isMe ? <PrivacySettings/> : null;
       default: return null;
     }
-  }, [activeTab]);
+  }, [activeTab, isMe]);
 
   return(
     <div className="page-section flex-grow-1">

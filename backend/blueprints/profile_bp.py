@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 from db.collections.Users import Users
+from db.collections.Follows import Follows
 
 profile_bp = Blueprint("profile_bp", __name__)
 
@@ -14,6 +15,19 @@ def get_visited_profile():
         visited = Users.find_by_id(visited_id, projection=Users.visitor_fields)
         if visited:
             return {"message": "OK", "visited": visited}
+    return {"message": "Failure"}
+
+
+@profile_bp.post('/getStats')
+@jwt_required()
+def get_visited_stats():
+    data = request.get_json()
+    user_id = data.get('userId')
+    if user_id:
+        user = Users.find_by_id(user_id)
+        if user:
+            stats = Follows.get_stats(user_id)
+            return {"message": "OK", "stats": stats}
     return {"message": "Failure"}
 
 

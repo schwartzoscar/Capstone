@@ -1,17 +1,46 @@
-import { useAuthContext } from "../../contexts/AuthContext";
+import { useEffect, useState, useCallback } from 'react';
 import { useProfileContext } from "./Profile";
+import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
+import { formatDate } from "../../helpers/dateTimeHelpers";
 import * as ProfileImage from "./ProfileImage";
 
 export default function ProfileOverview() {
 
-  const { currentUser } = useAuthContext();
   const { isMe, visitedUser } = useProfileContext();
+  const [userStats, setUserStats] = useState({following: 0, followers: 0});
+  const [loading, setLoading] = useState(false);
+
+  const getUserStats = useCallback(async() => {
+    setLoading(true);
+    const resp = await apiClient.post('/profile/getStats', {userId: visitedUser?._id});
+    handleResp(resp, data => {
+      setUserStats(data.stats);
+      setLoading(false);
+    });
+  }, [visitedUser]);
+
+  useEffect(() => {
+    getUserStats();
+  }, [visitedUser, getUserStats]);
+
+  const followUser = useCallback(async() => {
+    const resp = await apiClient.post('/profile/follow', {userId: visitedUser?._id});
+    handleResp(resp, () => {
+      getUserStats();
+    });
+  }, [visitedUser, getUserStats]);
 
   return(
     <div className="page-section" style={{minWidth: 300}}>
       {isMe ? <ProfileImage.Editable/> : <ProfileImage.Static/>}
-      <div>
-        <p>User Overview</p>
+      <div className="mt-20">
+        <p>Joined {formatDate(visitedUser.created_at)}</p>
+        { !loading && <>
+          <p>Following: {userStats.following}</p>
+          <p>Followers: {userStats.followers}</p>
+          {!isMe && <p onClick={followUser}>Follow</p>}
+        </> }
       </div>
     </div>
   );
