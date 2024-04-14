@@ -1,6 +1,8 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
+from bson.objectid import ObjectId
 from db.collections.Users import Users
+from db.collections.Posts import Posts
 from db.collections.Follows import Follows
 
 profile_bp = Blueprint("profile_bp", __name__)
@@ -27,6 +29,7 @@ def get_visited_stats():
         user = Users.find_by_id(user_id)
         if user:
             stats = Follows.get_stats(user_id)
+            stats['posts'] = Posts.count({"user_id": ObjectId(user_id)})
             return {"message": "OK", "stats": stats}
     return {"message": "Failure"}
 

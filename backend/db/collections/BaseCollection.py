@@ -24,7 +24,7 @@ class BaseCollection(ABC):
     @classmethod
     def count(cls, query={}):
         full_query = {"$and": [{"deleted": 0}, query]}
-        res = DB.instance[cls.collection_name].count(full_query)
+        res = DB.instance[cls.collection_name].count_documents(full_query)
         return res
 
     @classmethod

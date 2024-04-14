@@ -8,7 +8,7 @@ import * as ProfileImage from "./ProfileImage";
 export default function ProfileOverview() {
 
   const { isMe, visitedUser } = useProfileContext();
-  const [userStats, setUserStats] = useState({following: 0, followers: 0});
+  const [userStats, setUserStats] = useState({posts: 0, following: 0, followers: 0});
   const [loading, setLoading] = useState(false);
 
   const getUserStats = useCallback(async() => {
@@ -37,6 +37,7 @@ export default function ProfileOverview() {
       <div className="mt-20">
         <p>Joined {formatDate(visitedUser.created_at)}</p>
         { !loading && <>
+          <p>Total Posts: {userStats.posts}</p>
           <p>Following: {userStats.following}</p>
           <p>Followers: {userStats.followers}</p>
           {!isMe && <p onClick={followUser}>Follow</p>}
