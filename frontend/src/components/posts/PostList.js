@@ -23,7 +23,7 @@ function PostListBody(props) {
 
   return(
     <div className={clsx(className, "flex-grow-1")}>
-      <InfiniteScroll url="/posts/list" limit={2} wrapperProps={{style: {height: 300}}} {...iSProps}>
+      <InfiniteScroll url="/posts/list" limit={2} wrapperProps={{style: {height: '100%'}}} {...iSProps}>
         {items}
       </InfiniteScroll>
     </div>
