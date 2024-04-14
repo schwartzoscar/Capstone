@@ -13,7 +13,7 @@ export default function ProfileImage() {
     if(isMe) setShow(true);
   }
 
-  let src = 'public/images/Defaultprofile.jpg';
+  let src = '/images/Defaultprofile.jpg';
   if(visitedUser.profile_img) src = getSpacesImage(visitedUser.profile_img);
 
   return(
