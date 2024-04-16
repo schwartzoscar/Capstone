@@ -7,7 +7,7 @@ auth_bp = Blueprint("auth_bp", __name__)
 import bcrypt
 
 # Register App Route
-@auth_bp.post('/auth/register')
+@auth_bp.post('/register')
 def register():
     data = request.json
     username = data.get('username')
@@ -19,10 +19,10 @@ def register():
         return "Passwords must match", 400
 
 # Hash the password
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
     user = Users.register(username, email, hashed_password) # Stores the hashed password
     if user:
-        resp = jsonify({"message": "Success", "user": user})
+        resp = jsonify({"message": "OK", "user": user})
         access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
         return resp
@@ -31,7 +31,7 @@ def register():
 
 
 # Login App Route
-@auth_bp.post('/auth/login')
+@auth_bp.post('/login')
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -41,17 +41,18 @@ def login():
     user = Users.find_one({'email': email})
 
 
-    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.fields['password']):
+        del user.fields['password']
         # Password matches
-        resp = jsonify({"message": "Success", "user": user})
-        access_token = create_access_token(identity=str(user['_id']))
+        resp = jsonify({"message": "OK", "user": user})
+        access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
         return resp
     else:
         return {"message": "Failure"}
 
 
-@auth_bp.post('/auth/cookieLogin')
+@auth_bp.post('/cookieLogin')
 @jwt_required()
 def cookieLogin():
     user_id = get_jwt_identity()
@@ -64,7 +65,7 @@ def cookieLogin():
     return resp
 
 
-@auth_bp.post('/auth/logout')
+@auth_bp.post('/logout')
 def logout():
     resp = jsonify({"message": "OK"})
     unset_jwt_cookies(resp)

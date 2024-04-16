@@ -5,13 +5,14 @@ from services.S3 import S3
 class Users(BaseCollection):
 
     collection_name = "users"
+    def_fields = {"username" : 1, 'email' : 1}
 
     @staticmethod
     def register(username, email, password):
         user = Users({'username': username, 'email': email, 'password': password})
         resp = user.save()
         if resp.inserted_id:
-            return Users.find_by_id(resp.inserted_id)
+            return Users.find_by_id(resp.inserted_id, projection=Users.def_fields)
         return False
 
     # TODO just a test method, will be re-done in profile ticket

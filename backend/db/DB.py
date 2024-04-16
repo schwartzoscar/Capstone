@@ -3,7 +3,6 @@ import os
 import bcrypt
 from bson.binary import Binary
 
-from collections.Users import users
 
 class DB:
 
@@ -28,8 +27,3 @@ class DB:
         # TODO run migrations
 
         # Update exisiting records to store hased passwords
-        collection = DB.instance[users.collection_name]
-        for users in collection.find():
-            if 'password' in users and isinstance(users['password'], str):
-                hashed_password = bcrypt.hashpw(users['password'].encode('utf-8'), bcrypt.gensalt())
-                users.update_one({'_id': users['_id']}, {'$set': {'password': hashed_password}})
