@@ -2,6 +2,10 @@ export function getSpacesImage(filename) {
   return process.env.REACT_APP_SPACES_URL + filename;
 }
 
+export function getProfileImage(filename) {
+  return filename ? getSpacesImage(filename) : '/images/Defaultprofile.jpg';
+}
+
 export async function updateCanvas(image, canvas, crop, callback)  {
   // Getting Canvas Context
   const ctx = canvas.getContext('2d');

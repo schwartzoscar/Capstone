@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
+import { getProfileImage } from "../../helpers/imageHelpers";
 
 export default function PostListItem({ post }) {
   return(
@@ -13,7 +14,7 @@ export default function PostListItem({ post }) {
       </div>
       <Link to={`/profile/${post.user._id}`} className="d-flex g-4 align-items-center">
         <div className="img-responsive profile-img">
-          <img src={post.user.profile_img} alt={`${post.user.username}'s Profile Image`}/>
+          <img src={getProfileImage(post.user.profile_img)} alt={`${post.user.username}'s Profile Image`}/>
         </div>
         <p>{post.user.username}</p>
       </Link>
