@@ -4,9 +4,10 @@ from db.collections.Users import Users
 
 auth_bp = Blueprint("auth_bp", __name__)
 
+import bcrypt
 
 # Register App Route
-@auth_bp.post('/register')
+@auth_bp.post('/auth/register')
 def register():
     data = request.json
     username = data.get('username')
@@ -17,9 +18,11 @@ def register():
     if password != confirm_password:
         return "Passwords must match", 400
 
-    user = Users.register(username, email, password)
+# Hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    user = Users.register(username, email, hashed_password) # Stores the hashed password
     if user:
-        resp = jsonify({"message": "OK", "user": user})
+        resp = jsonify({"message": "Success", "user": user})
         access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
         return resp
@@ -28,22 +31,27 @@ def register():
 
 
 # Login App Route
-@auth_bp.post('/login')
+@auth_bp.post('/auth/login')
 def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    user = Users.find_one({'email': email, 'password': password})
-    if user:
-        resp = jsonify({"message": "OK", "user": user})
-        access_token = create_access_token(identity=str(user._id))
+
+    # Find the user by email
+    user = Users.find_one({'email': email})
+
+
+    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):
+        # Password matches
+        resp = jsonify({"message": "Success", "user": user})
+        access_token = create_access_token(identity=str(user['_id']))
         set_access_cookies(resp, access_token)
         return resp
     else:
         return {"message": "Failure"}
 
 
-@auth_bp.post('/cookieLogin')
+@auth_bp.post('/auth/cookieLogin')
 @jwt_required()
 def cookieLogin():
     user_id = get_jwt_identity()
@@ -56,7 +64,7 @@ def cookieLogin():
     return resp
 
 
-@auth_bp.post('/logout')
+@auth_bp.post('/auth/logout')
 def logout():
     resp = jsonify({"message": "OK"})
     unset_jwt_cookies(resp)
