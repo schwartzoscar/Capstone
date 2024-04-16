@@ -44,18 +44,20 @@ class BaseCollection(ABC):
         return cls.find_one(projection=projection, sort={'_id': DESCENDING}, raw=raw)
 
     @classmethod
-    def aggregate(cls, pipeline=[], raw=False):
+    def aggregate(cls, pipeline=[], joins=[], raw=False):
         full_pipeline = [
             {"$match": {"deleted": 0}},
+            *joins,
             *pipeline
         ]
         res = DB.instance[cls.collection_name].aggregate(full_pipeline)
         return list(res)[0] if raw else list(map(lambda d: cls(d), res))
 
     @classmethod
-    def find_paginated(cls, last_id="0", query={}, projection=None, oldest_first=False, limit=25):
+    def find_paginated(cls, last_id="0", query={}, joins=[], projection=None, oldest_first=False, limit=25):
         pipeline = [
             {"$match": {"$and": [{"deleted": 0}, query]}},
+            *joins,
             {"$facet": {
                 "metadata": [{"$count": "total"}],
                 "data": [

@@ -14,5 +14,5 @@ def get_posts():
     user_id = data.get('userId')
     if user_id:
         query = {"user_id": ObjectId(user_id)}
-    res = Posts.find_paginated(data.get('lastId'), query, limit=data.get('limit'))
+    res = Posts.find_paginated(data.get('lastId'), query, joins=[*Posts.joins['users']], limit=data.get('limit'))
     return {"message": "OK", "items": res['data'], "total": res['total']}
