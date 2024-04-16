@@ -1,94 +1,11 @@
-/*Styles*/
-/*Will be better organized later*/
-body {
-    margin: 0;
-    padding: 0;
-}
-
-p {
-    margin: 0;
-}
-h1 {
-    font-family: 'Courier New', Courier, monospace;
-    size: 50px;
-    font-weight: bold;
-    color: lightgray;
-    text-align: center;
-}
-h3 {
-    font-size: 20px;
-    font-weight: bolder;
-    color: grey;
-    text-align: center;
-}
-.btn-home {
-    font-weight: bolder;
-    color: grey;
-    animation: button-in 600ms;  
-}
-.btn-home-solid {
-    font-weight: bolder;
-    color: grey;
-}
-.btn-bar {
-    font-weight: bolder;
-    color: grey;
-    margin-left: auto;
-    animation: fade-in 3000ms;   
-}
-.page-section {
+#home-page .page-section {
     width: 200px;
     height: 85vh;
-    text-align: center;
-  }
-  .nav-home {
+}
+
+.nav-home {
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     padding: 0 10px;
-  }
-  .search-wrapper input[type="search"] {
-    color: gray;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    padding: 5px 1px;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    border-radius: 15px;
-    border: gray 2px solid;
-    animation: fade-in 3000ms;
-    flex-grow: 1; 
-  }
-  .search-wrapper {
-    flex-grow: 1;
-    margin: 0 10px;
-}
-  .search-wrapper input[type="search"]::placeholder {
-    font-weight: bold;
-    color: lightgray;
-  }
-  .img-fade {
-    animation: fade-in 3000ms;
-  }
-/*Animations*/
-@keyframes button-in {
-    0% {
-        transform: translateX(-200%);
-        opacity: 0%;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 100%;
-    }
-}
-/*Currently Not used*/
-@keyframes fade-in {
-    0% {
-        opacity: 0%;
-    }
-    100% {
-        opacity: 100%;
-    }
 }

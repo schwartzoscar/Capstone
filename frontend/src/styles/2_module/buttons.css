@@ -1,0 +1,17 @@
+.btn-home {
+  font-weight: bolder;
+  color: grey;
+  animation: button-in 600ms;
+}
+
+.btn-home-solid {
+  font-weight: bolder;
+  color: grey;
+}
+
+.btn-bar {
+  font-weight: bolder;
+  color: grey;
+  margin-left: auto;
+  animation: fade-in 3000ms;
+}

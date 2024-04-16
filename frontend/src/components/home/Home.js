@@ -1,11 +1,10 @@
 import Base from "../base/Base";
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
-import InfiniteScroll from "../elements/InfiniteScroll";
 
 export default function Home() {
   return (
-    <div className="page-container">
+    <div className="page-container" id="home-page">
       <Base>
       <hr/>
       <div className="nav-home">
