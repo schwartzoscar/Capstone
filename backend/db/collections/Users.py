@@ -7,6 +7,7 @@ from services.S3 import S3
 class Users(BaseCollection):
 
     collection_name = "users"
+    def_fields = {"username": 1, 'email': 1, "profile_img": 1, "created_at": 1}
     visitor_fields = {"username": 1, "email": 1, "profile_img": 1, "created_at": 1}
 
     @staticmethod
@@ -19,7 +20,7 @@ class Users(BaseCollection):
         user = Users({'username': username, 'email': email, 'password': password})
         resp = user.save()
         if resp.inserted_id:
-            return Users.find_by_id(resp.inserted_id)
+            return Users.find_by_id(resp.inserted_id, projection=Users.def_fields)
         return False
 
     def update_profile_img(self, image_blob):
