@@ -24,8 +24,9 @@ export default function ProfileOverview() {
     getUserStats();
   }, [visitedUser, getUserStats]);
 
-  const followUser = useCallback(async() => {
-    const resp = await apiClient.post('/profile/follow', {userId: visitedUser?._id});
+  const followUpdate = useCallback(async(follow = true) => {
+    const route = `/profile/${follow ? 'follow' : 'unfollow'}`;
+    const resp = await apiClient.post(route, {userId: visitedUser?._id});
     handleResp(resp, () => {
       getUserStats();
     });
@@ -40,7 +41,12 @@ export default function ProfileOverview() {
           <p>Total Posts: {userStats.posts}</p>
           <p>Following: {userStats.following}</p>
           <p>Followers: {userStats.followers}</p>
-          {!isMe && <p onClick={followUser}>Follow</p>}
+          {!isMe && (
+            <div className="link-primary is-clickable" onClick={() => followUpdate(true)}>
+              <span className="fas fa-plus mr-4"/>
+              <span>Follow</span>
+            </div>
+          )}
         </> }
       </div>
     </div>
