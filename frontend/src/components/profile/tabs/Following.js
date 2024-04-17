@@ -1,9 +1,9 @@
 import Alert from 'react-bootstrap/Alert';
 
-export default function PrivacySettings() {
+export default function Following() {
   return(
     <div>
-      <p className="tab-content-header">Privacy Settings</p>
+      <p className="tab-content-header">Followed Profiles</p>
       <Alert variant="warning">Under Construction</Alert>
     </div>
   );
