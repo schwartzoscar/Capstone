@@ -1,4 +1,5 @@
 from time import time
+import bcrypt
 from flask_jwt_extended import get_jwt_identity
 from db.collections.BaseCollection import BaseCollection
 from services.S3 import S3
@@ -34,5 +35,6 @@ class Users(BaseCollection):
             return {"password": "Password cannot be empty."}
         if password != confirm:
             return {"confirm": "Passwords do not match."}
-        self.update({"password": password})
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        self.update({"password": hashed})
         return False
