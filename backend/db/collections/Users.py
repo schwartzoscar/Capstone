@@ -13,7 +13,7 @@ class Users(BaseCollection):
     @staticmethod
     def get_current_user():
         user_id = get_jwt_identity()
-        return Users.find_by_id(user_id) if user_id else False
+        return Users.find_by_id(user_id, projection=Users.def_fields) if user_id else False
 
     @staticmethod
     def register(username, email, password):

@@ -1,8 +1,23 @@
+import { useState } from 'react';
+import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
+import { useAuthContext } from "../../contexts/AuthContext";
 import Base from "../base/Base";
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 
 export default function Home() {
+
+  const { setCurrentUser } = useAuthContext();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async() => {
+    setLoading(true);
+    const resp = await apiClient.post('/auth/logout');
+    handleResp(resp, () => setCurrentUser(null));
+    setLoading(false);
+  };
+
   return (
     <div className="page-container" id="home-page">
       <Base>
@@ -13,7 +28,7 @@ export default function Home() {
         <div className="search-wrapper">
           <input type="search" id="search" placeholder="SEARCH POSTS" />
         </div>
-        <Button to="/logout" className="btn-bar">LOGOUT</Button>
+        <Button onClick={handleLogout} loading={loading} className="btn-bar">LOGOUT</Button>
       </div>
       <hr/>
         <div className="d-flex g-20 mt-20">

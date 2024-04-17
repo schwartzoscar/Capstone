@@ -14,6 +14,7 @@ class Posts(BaseCollection):
                 "foreignField": "_id",
                 "pipeline": [
                     {"$match": {"deleted": 0}},
+                    {"$project": Users.def_fields},
                     {"$addFields": {"_id": {"$toString": "$_id"}}}
                 ],
                 "as": "user"
