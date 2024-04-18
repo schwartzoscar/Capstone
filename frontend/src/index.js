@@ -4,6 +4,7 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-image-crop/dist/ReactCrop.css';
 import './styles/index.css';
 import App from './components/App';
 

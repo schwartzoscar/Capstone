@@ -1,0 +1,23 @@
+.search-wrapper input[type="search"] {
+  color: gray;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  padding: 5px 1px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  border: gray 2px solid;
+  animation: fade-in 3000ms;
+}
+
+.search-wrapper {
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.search-wrapper input[type="search"]::placeholder {
+  font-weight: bold;
+  color: lightgray;
+}

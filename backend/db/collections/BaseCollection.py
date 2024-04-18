@@ -16,37 +16,54 @@ class BaseCollection(ABC):
         self.to_update = {}
 
     @classmethod
-    def find(cls, query={}, projection={}, sort={}):
+    def find(cls, query={}, projection={}, sort={}, raw=False):
         full_query = {"$and": [{"deleted": 0}, query]}
         res = DB.instance[cls.collection_name].find(full_query, projection, sort=sort)
-        return list(map(lambda d: cls(d), res))
+        return list(res) if raw else list(map(lambda d: cls(d), res))
 
     @classmethod
-    def find_one(cls, query={}, projection={}, sort={}):
+    def count(cls, query={}):
+        full_query = {"$and": [{"deleted": 0}, query]}
+        res = DB.instance[cls.collection_name].count_documents(full_query)
+        return res
+
+    @classmethod
+    def find_one(cls, query={}, projection={}, sort={}, raw=False):
         full_query = {"$and": [{"deleted": 0}, query]}
         res = DB.instance[cls.collection_name].find_one(full_query, projection, sort=sort)
         if not res:
             return False
-        return cls(res)
+        return res if raw else cls(res)
 
     @classmethod
-    def find_by_id(cls, id, projection={}):
-        return cls.find_one({"_id": ObjectId(id)}, projection)
+    def find_by_id(cls, id, projection={}, raw=False):
+        return cls.find_one({"_id": ObjectId(id)}, projection=projection, raw=raw)
 
     @classmethod
-    def find_last(cls):
-        return cls.find_one(sort=[('_id', DESCENDING)])
+    def find_last(cls, projection={}, raw=False):
+        return cls.find_one(projection=projection, sort={'_id': DESCENDING}, raw=raw)
 
     @classmethod
-    def find_paginated(cls, last_id="0", query={}, projection=None, oldest_first=False, limit=25):
+    def aggregate(cls, pipeline=[], joins=[], raw=False):
+        full_pipeline = [
+            {"$match": {"deleted": 0}},
+            *joins,
+            *pipeline
+        ]
+        res = DB.instance[cls.collection_name].aggregate(full_pipeline)
+        return list(res)[0] if raw else list(map(lambda d: cls(d), res))
+
+    @classmethod
+    def find_paginated(cls, last_id="0", query={}, joins=[], projection=None, oldest_first=False, limit=25):
         pipeline = [
             {"$match": {"$and": [{"deleted": 0}, query]}},
+            *joins,
             {"$facet": {
                 "metadata": [{"$count": "total"}],
                 "data": [
                     {"$sort": {"_id": DESCENDING if not oldest_first else ASCENDING}},
                     {"$limit": limit},
-                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                    {"$addFields": {"_id": {"$toString": "$_id"}, "user_id": {"$toString": "$user_id"}}}
                 ]
             }}
         ]
@@ -70,6 +87,9 @@ class BaseCollection(ABC):
 
     def update(self, updates):
         self.to_update = {**self.to_update, **updates}
+
+    def has_updates(self):
+        return len(self.to_update) > 0
 
     def delete(self):
         self.update({"deleted": 1})

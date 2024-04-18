@@ -1,5 +1,6 @@
 import { useFormContext } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap'
+import clsx from "clsx";
 import Button from "./Button";
 
 function FormFieldLabel(props) {
@@ -23,13 +24,13 @@ function FormFieldError(props) {
 export function TextField(props) {
 
   const { register, formState: { errors } } = useFormContext();
-  const { name, label, icon, validation, type, ...rest } = props;
+  const { className, name, label, icon, validation, type, ...rest } = props;
 
   let inputProps = {...rest};
   if(type === 'textarea') inputProps.as = 'textarea';
 
   return(
-    <Form.Group className="form-field">
+    <Form.Group className={clsx(className, "form-field")}>
       <FormFieldLabel label={label} icon={icon}/>
       <Form.Control {...register(name, validation)} type={type ?? 'text'} {...inputProps}
                     isInvalid={errors[name]} aria-invalid={errors[name] ? "true" : "false"}/>
@@ -41,7 +42,13 @@ export function TextField(props) {
 export function SubmitButton(props) {
 
   const { onClick, children, className, ...btnProps } = props;
-  const { handleSubmit } = useFormContext();
+  const { handleSubmit, formState: { isValid } } = useFormContext();
+
+  if(btnProps.hasOwnProperty('disabled')) {
+    btnProps.disabled ||= !isValid;
+  } else {
+    btnProps['disabled'] = !isValid;
+  }
 
   return(
     <Button onClick={handleSubmit(onClick)} className={`submit-btn ${className ?? ''}`} {...btnProps}>

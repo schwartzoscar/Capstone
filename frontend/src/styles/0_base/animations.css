@@ -1,0 +1,20 @@
+@keyframes button-in {
+  0% {
+    transform: translateX(-200%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 100%;
+  }
+}
+
+/*Currently Not used*/
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}

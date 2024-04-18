@@ -1,12 +1,67 @@
 .profile-img {
   width: 100px;
   height: 100px;
-  overflow: hidden;
   border-radius: 50%;
 }
 
-.profile-img > img {
-  object-fit: cover;
-  max-width: 100%;
-  height: auto;
- }
+.profile-img-full {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-sizing: content-box;
+  border: 2px solid #777777;
+}
+
+.profile-img-full.is-editable {
+  position: relative;
+}
+
+.profile-img-full.is-editable:hover {
+  cursor: pointer;
+}
+
+.profile-img-edit-overlay, .profile-img-edit-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.profile-img-edit-overlay {
+  background-color: black;
+  z-index: 1;
+}
+
+.profile-img-edit-icon {
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-img-edit-icon:before {
+  content: "\f303";
+  font-family: FontAwesome, serif;
+  color: white;
+  font-size: 60px;
+}
+
+.profile-img-full.is-editable:hover .profile-img-edit-overlay {
+  opacity: 0.4;
+}
+
+.profile-img-full.is-editable:hover .profile-img-edit-icon {
+  opacity: 1;
+}
+
+.profile-img-crop {
+  width: 350px;
+  height: 350px;
+}

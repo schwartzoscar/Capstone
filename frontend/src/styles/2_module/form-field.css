@@ -10,3 +10,7 @@
 .submit-btn {
   margin-top: 8px;
 }
+
+.password-strength-bar {
+  max-width: 300px;
+}
