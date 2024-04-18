@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import Base from "../base/Base";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from "../../contexts/AuthContext";
+import { apiClient } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
+
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
@@ -19,16 +23,27 @@ export default function Home() {
       setPrivacyShowModal(true);
   };
 
+  const navigate = useNavigate();
+  const { setCurrentUser } = useAuthContext();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async() => {
+    setLoading(true);
+    const resp = await apiClient.post('/auth/logout');
+    handleResp(resp, () => setCurrentUser(null));
+    setLoading(false);
+  };
+
   return (
     <div className="page-container" id="home-page">
-      <Base>
         <hr />
         <div className="nav-home">
           <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>
+          <img src="/images/logo.png" alt="THRIDDER LOGO" class="img-transparent" width="200" height="auto" />
           <div className="search-wrapper">
             <input type="search" id="search" placeholder="SEARCH POSTS" />
           </div>
-          <Button to="/logout" className="btn-bar">LOGOUT</Button>
+          <Button onClick={handleLogout} className="btn-bar" loading={loading}>LOGOUT</Button>
         </div>
         <hr />
         <div className="d-flex g-20 mt-20">
@@ -51,7 +66,6 @@ export default function Home() {
             <PostList/>
           </div>
         </div>
-      </Base>
     </div>
   );
 }
