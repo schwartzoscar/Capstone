@@ -23,13 +23,17 @@ function FormFieldError(props) {
 export function TextField(props) {
 
   const { register, formState: { errors } } = useFormContext();
+  const { name, label, icon, validation, type, ...rest } = props;
+
+  let inputProps = {...rest};
+  if(type === 'textarea') inputProps.as = 'textarea';
 
   return(
     <Form.Group className="form-field">
-      <FormFieldLabel label={props.label} icon={props.icon}/>
-      <Form.Control {...register(props.name, props.validation)} type={props.type ?? 'text'}
-                    isInvalid={errors[props.name]} aria-invalid={errors[props.name] ? "true" : "false"}/>
-      <FormFieldError name={props.name}/>
+      <FormFieldLabel label={label} icon={icon}/>
+      <Form.Control {...register(name, validation)} type={type ?? 'text'} {...inputProps}
+                    isInvalid={errors[name]} aria-invalid={errors[name] ? "true" : "false"}/>
+      <FormFieldError name={name}/>
     </Form.Group>
   );
 }
