@@ -39,7 +39,7 @@ export default function Home() {
         <hr />
         <div className="nav-home">
           <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>
-          <img src="/images/logo.png" alt="THRIDDER LOGO" class="img-transparent" width="200" height="auto" />
+          <div style={{ width: '200px', height: '50px', backgroundColor: 'transparent' }}></div>
           <div className="search-wrapper">
             <input type="search" id="search" placeholder="SEARCH POSTS" />
           </div>

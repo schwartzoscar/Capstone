@@ -22,15 +22,16 @@ export default function Base({ children }) {
   return (
 <div className="page-container" id="uni-nav">
     <hr />
-    <div className="nav-home">
+    <div className="nav-base">
         <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto" />
-
-        <div className="nav-header">
-            <Button to="/home" className="btn-base">HOME</Button>
-        </div>
-
-        <Button onClick={handleLogout} className="btn-bar" loading={loading}>LOGOUT</Button>
-    </div>
+        <div style={{ width: '50px', height: '50px', backgroundColor: 'transparent' }}></div>
+        <div className="button-container">
+  <Button to="/home" className="btn-base">HOME</Button>
+  <Button to="/profile" className="btn-base">PROFILE</Button>
+  <Button to="/news" className="btn-base">NEWS</Button>
+  <Button onClick={handleLogout} className="btn-bar-base" loading={loading}>LOGOUT</Button>
+</div>
+</div>
     <hr />
     {children}
 </div>
