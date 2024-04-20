@@ -54,12 +54,12 @@ function Editable({ setEditing }) {
       <div id="account-info-form">
         <TextField name="username" label="Username" validation={{ required: "Username is required." }}/>
         <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
-        <div className="d-flex gc-8 flex-wrap">
-          <div className="flex-grow-1">
+        <div className="password-fields">
+          <div>
             <TextField name="password" label="Password" type="password"/>
             <PasswordStrength/>
           </div>
-          <TextField name="confirm" label="Confirm Password" type="password" className="flex-grow-1"/>
+          <TextField name="confirm" label="Confirm Password" type="password"/>
         </div>
         <div className="d-flex g-8">
           <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>

@@ -2,6 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import { Form } from 'react-bootstrap'
 import clsx from "clsx";
 import Button from "./Button";
+import Tooltip from "./Tooltip";
 
 function FormFieldLabel(props) {
 
@@ -9,7 +10,10 @@ function FormFieldLabel(props) {
 
   if(props.icon || props.label) {
     const icon = props.icon ? <i className={`fas fa-${props.icon}`}/> : null;
-    label = <Form.Label>{icon}{props.label}</Form.Label>;
+    const tooltip = props.tooltip ? (
+      <Tooltip id={`tooltip_${props.name}`} className="ml-4">{props.tooltip}</Tooltip>
+    ) : null;
+    label = <Form.Label>{icon}{props.label}{tooltip}</Form.Label>;
   }
 
   return label;
@@ -27,7 +31,7 @@ export function TextField(props) {
 
   return(
     <Form.Group className={clsx(props.className, "form-field")}>
-      <FormFieldLabel label={props.label} icon={props.icon}/>
+      <FormFieldLabel name={props.name} label={props.label} icon={props.icon} tooltip={props.tooltip}/>
       <Form.Control {...register(props.name, props.validation)} type={props.type ?? 'text'}
                     isInvalid={errors[props.name]} aria-invalid={errors[props.name] ? "true" : "false"}/>
       <FormFieldError name={props.name}/>
