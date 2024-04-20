@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useForm, FormProvider } from "react-hook-form";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { SubmitButton, TextField } from "../elements/FormField";
+import { SubmitButton, TextField, RichTextField } from "../elements/FormField";
 
 export default function BlogCreation() {
 
@@ -28,7 +28,7 @@ export default function BlogCreation() {
           <h3>Create a New Blog Post</h3>
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
-            <TextField name="content" type="textarea" label="Content" rows={5}/>
+            <RichTextField name="content" label="Content"/>
             <SubmitButton onClick={handleFormSubmit} className="btn-primary"/>
           </FormProvider>
         </div>

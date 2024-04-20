@@ -1,7 +1,8 @@
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, Controller } from 'react-hook-form';
 import { Form } from 'react-bootstrap'
 import clsx from "clsx";
 import Button from "./Button";
+import RichText from "./RichText";
 
 function FormFieldLabel(props) {
 
@@ -34,6 +35,25 @@ export function TextField(props) {
       <FormFieldLabel label={label} icon={icon}/>
       <Form.Control {...register(name, validation)} type={type ?? 'text'} {...inputProps}
                     isInvalid={errors[name]} aria-invalid={errors[name] ? "true" : "false"}/>
+      <FormFieldError name={name}/>
+    </Form.Group>
+  );
+}
+
+export function RichTextField(props) {
+
+  const { control } = useFormContext();
+  const { className, name, label, icon, validation, ...rest } = props;
+
+  return(
+    <Form.Group className={clsx(className, "form-field")}>
+      <FormFieldLabel label={label} icon={icon}/>
+      <Controller
+        control={control} name={name}
+        render={({ field: { onChange } }) => (
+          <RichText onChange={onChange}/>
+        )}
+      />
       <FormFieldError name={name}/>
     </Form.Group>
   );
