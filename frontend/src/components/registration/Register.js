@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useForm, FormProvider } from 'react-hook-form';
 import { apiClient } from '../../helpers/requestHelpers';
 import { handleResp } from "../../helpers/responseHelpers";
-import { setFormError } from "../../helpers/formHelpers";
+import { handleFormErrors, setFormError } from "../../helpers/formHelpers";
 import { useAuthContext } from '../../contexts/AuthContext';
 import { TextField, SubmitButton } from '../elements/FormField';
 import PasswordStrength from '../elements/PasswordStrength';
@@ -25,8 +25,8 @@ const Register = () => {
     const resp = await apiClient.post('/auth/register', data);
     handleResp(resp, data => {
       setCurrentUser(data.user);
-    }, () => {
-      toast.error('Failed to register user.');
+    }, errors => {
+      errors ? handleFormErrors(errors, form) : toast.error('Failed to register user.');
     });
   };
 

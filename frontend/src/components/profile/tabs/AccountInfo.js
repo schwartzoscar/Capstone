@@ -9,6 +9,7 @@ import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
 import PasswordStrength from "../../elements/PasswordStrength";
 import InfoBlock from "../../elements/InfoBlock";
+import { PASSWORD_TOOLTIP } from "../../elements/Tooltip";
 
 export default function AccountInfo() {
 
@@ -61,7 +62,7 @@ function Editable({ setEditing }) {
         <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
         <div className="password-fields">
           <div>
-            <TextField name="password" label="Password" type="password"/>
+            <TextField name="password" label="Password" type="password" tooltip={PASSWORD_TOOLTIP}/>
             <PasswordStrength name="password" setPassValid={setPassValid}/>
           </div>
           <TextField name="confirm" label="Confirm Password" type="password"/>

@@ -16,7 +16,7 @@ def register():
     confirm_password = data.get('confirm_password')
 
     if password != confirm_password:
-        return "Passwords must match", 400
+        return {"message": "Failure", "errors": {"confirm_password": "Passwords do not match."}}
 
     # Hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
