@@ -4,7 +4,7 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import { useProfileContext } from "../Profile";
 import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
-import { handleFormErrors } from "../../../helpers/formHelpers";
+import { handleFormErrors, setFormError } from "../../../helpers/formHelpers";
 import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
 import PasswordStrength from "../../elements/PasswordStrength";
@@ -33,6 +33,7 @@ export default function AccountInfo() {
 function Editable({ setEditing }) {
 
   const { currentUser, refreshUser } = useAuthContext();
+  const [passValid, setPassValid] = useState(false);
   const form = useForm({
     mode: "onChange",
     defaultValues: {
@@ -42,6 +43,10 @@ function Editable({ setEditing }) {
   });
 
   const updateProfile = async(data) => {
+    if(!passValid) {
+      setFormError('password', 'Password does not meet complexity requirements.', form);
+      return;
+    }
     const resp = await apiClient.post('/profile/updateAccountInfo', data);
     handleResp(resp, () => {
       setEditing(false);
@@ -57,7 +62,7 @@ function Editable({ setEditing }) {
         <div className="password-fields">
           <div>
             <TextField name="password" label="Password" type="password"/>
-            <PasswordStrength/>
+            <PasswordStrength name="password" setPassValid={setPassValid}/>
           </div>
           <TextField name="confirm" label="Confirm Password" type="password"/>
         </div>
