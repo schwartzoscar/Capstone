@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
+import Base from '../../components/base/Base';
 import ProfileOverview from "./ProfileOverview";
 import ProfileContent from "./ProfileContent";
 
@@ -45,7 +46,7 @@ export default function Profile() {
   if(!visitedUser) return null;
 
   return(
-    <div className="page-container">
+    <Base>
       <div className="max-w-xl mx-auto">
         <h1>{isMe ? 'My Profile' : `${visitedUser?.username ?? 'Anonymous'}'s Profile`}</h1>
         <ProfileContext.Provider value={{ isMe, visitedUser }}>
@@ -55,6 +56,6 @@ export default function Profile() {
           </div>
         </ProfileContext.Provider>
       </div>
-    </div>
+    </Base>
   );
 }
