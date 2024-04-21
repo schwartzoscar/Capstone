@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { apiClient } from "../../helpers/requestHelpers";
-import { handleResp } from "../../helpers/responseHelpers";
-import { useAuthContext } from "../../contexts/AuthContext";
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
@@ -15,10 +12,10 @@ export default function Home() {
     setContentShowModal(true);
   };
 
-    const [showPrivacyModal, setPrivacyShowModal] = useState(false);
+  const [showPrivacyModal, setPrivacyShowModal] = useState(false);
 
-    const handlePrivacyModalButtonClick = () => {
-      setPrivacyShowModal(true);
+  const handlePrivacyModalButtonClick = () => {
+    setPrivacyShowModal(true);
   };
 
   return (
