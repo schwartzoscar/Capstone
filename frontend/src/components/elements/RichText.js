@@ -34,6 +34,8 @@ const BLOCKS = [
   { format: 'justify', type: 'align', icon: 'fa-align-justify' }
 ];
 
+// This component is specific to post creation.
+// If we need the wysiwyg somewhere else, we'll have to pull the post creation functionality out.
 export default function RichText(props) {
 
   const editor = useMemo(() => withImages(withHistory(withReact(createEditor()))), []);
