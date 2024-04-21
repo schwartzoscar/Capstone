@@ -1,5 +1,7 @@
 import pymongo
 import os
+import bcrypt
+from bson.binary import Binary
 
 
 class DB:
@@ -11,12 +13,17 @@ class DB:
 
     @staticmethod
     def initialize():
+        print("Initializing database...")
         client = pymongo.MongoClient(
-            host=os.getenv('MONGODB_HOST'),
-            username=os.getenv('MONGODB_USERNAME'),
-            password=os.getenv('MONGODB_PASSWORD'),
+            host=os.environ['MONGODB_HOST'],
+            username=os.environ['MONGODB_USERNAME'],
+            password=os.environ['MONGODB_PASSWORD'],
             port=27017,
-            authSource=os.getenv('MONGODB_AUTH_SOURCE')
+            authSource="admin"
         )
-        DB.instance = client[os.getenv('MONGODB_NAME')]
+        print("Connected to MongoDB.")
+        DB.instance = client[os.environ['MONGODB_NAME']]
+        print("Using database:", os.environ['MONGODB_NAME'])
         # TODO run migrations
+
+        # Update exisiting records to store hased passwords

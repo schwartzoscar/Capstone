@@ -4,7 +4,8 @@ import LoadingBars from "./LoadingBars";
 
 export default function Button(props) {
 
-  const btnClass = `btn ${props.className ?? ''}`;
+  let btnClass = `btn ${props.className ?? ''}`;
+  if(props.active) btnClass += ' btn-active';
 
   const icon = useMemo(() => {
     if(props.loading) return <LoadingBars/>;

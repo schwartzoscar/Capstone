@@ -82,3 +82,17 @@ def update_account_info():
     if user.has_updates():
         user.save()
     return {"message": "OK"}
+
+
+@profile_bp.post('/follow')
+@jwt_required()
+def follow_user():
+    # TODO
+    return {"message": "OK"}
+
+
+@profile_bp.post('/unfollow')
+@jwt_required()
+def unfollow_user():
+    # TODO
+    return {"message": "OK"}

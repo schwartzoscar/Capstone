@@ -9,7 +9,6 @@ from db.DB import DB
 from services.S3 import S3
 
 from blueprints.auth_bp import auth_bp
-from blueprints.test_users_bp import test_users_bp
 from blueprints.posts_bp import posts_bp
 from blueprints.profile_bp import profile_bp
 
@@ -30,7 +29,6 @@ DB.initialize()
 S3.initialize()
 
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
-app.register_blueprint(test_users_bp, url_prefix='/api')
 app.register_blueprint(posts_bp, url_prefix='/api/posts')
 app.register_blueprint(profile_bp, url_prefix='/api/profile')
 

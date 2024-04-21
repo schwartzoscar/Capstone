@@ -46,16 +46,16 @@ export default function Profile() {
   if(!visitedUser) return null;
 
   return(
-      <Base>
+    <Base>
       <div className="max-w-xl mx-auto">
-        <h1>{isMe ? '' : `${visitedUser?.username ?? 'Anonymous'}'s Profile`}</h1>
+        <h1>{isMe ? 'My Profile' : `${visitedUser?.username ?? 'Anonymous'}'s Profile`}</h1>
         <ProfileContext.Provider value={{ isMe, visitedUser }}>
-          <div className="d-flex flex-wrap-reverse g-20 mt-20 h-100">
+          <div className="d-flex flex-wrap-reverse g-20 mt-20">
             <ProfileContent/>
             <ProfileOverview/>
           </div>
         </ProfileContext.Provider>
       </div>
-      </Base>
+    </Base>
   );
 }
