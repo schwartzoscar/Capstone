@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { createEditor, Editor, Transforms, Element as SlateElement } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -33,17 +33,19 @@ export default function RichText(props) {
 
   const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
 
-  const markButtons = useMemo(() => MARKS.map(mark => (
-    <Button key={mark.format} onClick={() => toggleMark(editor, mark.format)}>
+  const markButtons = MARKS.map(mark => (
+    <Button key={mark.format} active={isMarkActive(editor, mark.format)}
+            onClick={() => toggleMark(editor, mark.format)}>
       <span className={`fas ${mark.icon}`}/>
     </Button>
-  )), [MARKS]);
+  ));
 
-  const blockButtons = useMemo(() => BLOCKS.map(block => (
-    <Button key={block.format} onClick={() => toggleBlock(editor, block.format, block.type)}>
+  const blockButtons = BLOCKS.map(block => (
+    <Button key={block.format} active={isBlockActive(editor, block.format, block.type)}
+            onClick={() => toggleBlock(editor, block.format, block.type)}>
       <span className={`fas ${block.icon}`}/>
     </Button>
-  )), [BLOCKS]);
+  ));
 
   const checkHotKey = evt => {
     for(const hotkey in HOTKEYS) {
@@ -56,18 +58,20 @@ export default function RichText(props) {
 
   return(
     <Slate editor={editor} initialValue={initialValue} onChange={props.onChange}>
-      <div>
+      <div className="rich-text-controls">
         {markButtons}
         {blockButtons}
       </div>
-      <Editable
-        renderElement={props => <Element {...props}/>}
-        renderLeaf={props => <Leaf {...props}/>}
-        placeholder="Start your post…"
-        spellCheck
-        autoFocus
-        onKeyDown={checkHotKey}
-      />
+      <div className="rich-text-input">
+        <Editable
+          renderElement={props => <Element {...props}/>}
+          renderLeaf={props => <Leaf {...props}/>}
+          placeholder="Start your post…"
+          spellCheck
+          autoFocus
+          onKeyDown={checkHotKey}
+        />
+      </div>
     </Slate>
   );
 }

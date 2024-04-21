@@ -23,7 +23,7 @@ export default function BlogCreation() {
 
   return (
     <div className="page-container" id="blog-creation-page">
-      <div className="d-flex g-20 mt-20 flex-grow-1">
+      <div className="d-flex g-20 mt-20 justify-content-center">
         <div className="page-section">
           <h3>Create a New Blog Post</h3>
           <FormProvider {...form}>
