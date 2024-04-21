@@ -11,6 +11,8 @@ import { updateCanvas } from "../../helpers/imageHelpers";
 import Modal from "./Modal";
 import Button from "./Button";
 
+// This component is specific to profile images.
+// If we need cropping somewhere else, we'll have to pull the profile image functionality out.
 export default function ImageCropModal(props) {
 
   const { show, setShow } = props;

@@ -4,6 +4,7 @@ import { useProfileContext } from "./Profile";
 import AccountInfo from "./tabs/AccountInfo";
 import PrivacySettings from "./tabs/PrivacySettings";
 import UserPosts from "./tabs/UserPosts";
+import Following from "./tabs/Following";
 
 export default function ProfileContent() {
 
@@ -16,6 +17,8 @@ export default function ProfileContent() {
         return <AccountInfo/>;
       case 'userPosts':
         return <UserPosts/>;
+      case 'following':
+        return <Following/>;
       case 'privacySettings':
         return isMe ? <PrivacySettings/> : null;
       default: return null;
@@ -36,11 +39,18 @@ export default function ProfileContent() {
           </Nav.Link>
         </Nav.Item>
         { isMe &&
-          <Nav.Item>
-            <Nav.Link eventKey="privacySettings">
-              Privacy Settings
-            </Nav.Link>
-          </Nav.Item>
+          <>
+            <Nav.Item>
+              <Nav.Link eventKey="following">
+                Following
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="privacySettings">
+                Privacy Settings
+              </Nav.Link>
+            </Nav.Item>
+          </>
         }
       </Nav>
       {navContent}

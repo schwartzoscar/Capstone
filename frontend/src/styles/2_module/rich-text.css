@@ -1,0 +1,57 @@
+.rich-text-input {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  appearance: none;
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  border-left: var(--bs-border-width) solid var(--bs-border-color);
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+  border-right: var(--bs-border-width) solid var(--bs-border-color);
+  border-bottom-left-radius: var(--bs-border-radius);
+  border-bottom-right-radius: var(--bs-border-radius);
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.rich-text-input > div:focus-visible, .rich-text-input > div > p:focus-visible {
+  outline: none;
+}
+
+.rich-text-controls {
+  background: linear-gradient(90deg, slateblue, orangered);
+  border-top-left-radius: var(--bs-border-radius);
+  border-top-right-radius: var(--bs-border-radius);
+}
+
+.rich-text-controls .btn:hover {
+  color: white;
+}
+
+.rich-text-controls .btn-active {
+  color: #eee;
+}
+
+.rich-text-h1 {
+  font-size: 30px;
+}
+
+.rich-text-h2 {
+  font-size: 22px;
+}
+
+.rich-text-image {
+  display: block;
+  max-width: 100%;
+  max-height: 20em;
+}
+
+.rich-text-image-remove {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  background-color: white;
+}

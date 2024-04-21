@@ -1,6 +1,6 @@
-#home-page .page-section {
-    width: 200px;
-    height: 85vh;
+#home-page {
+    display: flex;
+    flex-direction: column;
 }
 
 .nav-home {

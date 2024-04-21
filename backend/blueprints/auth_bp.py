@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required
 from db.collections.Users import Users
+import bcrypt
 
 auth_bp = Blueprint("auth_bp", __name__)
 
@@ -17,7 +18,10 @@ def register():
     if password != confirm_password:
         return "Passwords must match", 400
 
-    user = Users.register(username, email, password)
+    # Hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    # Stores the hashed password
+    user = Users.register(username, email, hashed_password)
     if user:
         resp = jsonify({"message": "OK", "user": user})
         access_token = create_access_token(identity=str(user._id))
@@ -33,8 +37,13 @@ def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    user = Users.find_one({'email': email, 'password': password})
-    if user:
+
+    # Find the user by email
+    user = Users.find_one({'email': email})
+
+    if user and bcrypt.checkpw(password.encode('utf-8'), user.fields['password']):
+        del user.fields['password']
+        # Password matches
         resp = jsonify({"message": "OK", "user": user})
         access_token = create_access_token(identity=str(user._id))
         set_access_cookies(resp, access_token)
