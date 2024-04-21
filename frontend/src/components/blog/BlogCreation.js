@@ -28,7 +28,7 @@ export default function BlogCreation() {
           <h3>Create a New Blog Post</h3>
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
-            <RichTextField name="content" label="Content"/>
+            <RichTextField name="body" label="Body"/>
             <SubmitButton onClick={handleFormSubmit} className="btn-primary"/>
           </FormProvider>
         </div>

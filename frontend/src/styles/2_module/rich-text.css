@@ -42,3 +42,16 @@
 .rich-text-h2 {
   font-size: 22px;
 }
+
+.rich-text-image {
+  display: block;
+  max-width: 100%;
+  max-height: 20em;
+}
+
+.rich-text-image-remove {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  background-color: white;
+}
