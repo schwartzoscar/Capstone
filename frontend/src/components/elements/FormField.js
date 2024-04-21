@@ -51,7 +51,7 @@ export function RichTextField(props) {
       <Controller
         control={control} name={name}
         render={({ field: { onChange } }) => (
-          <RichText onChange={onChange}/>
+          <RichText onChange={onChange} {...rest}/>
         )}
       />
       <FormFieldError name={name}/>

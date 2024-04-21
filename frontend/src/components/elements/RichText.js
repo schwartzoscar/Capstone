@@ -1,10 +1,17 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
+import { toast } from 'react-toastify';
 import { createEditor, Transforms, } from 'slate';
 import { Slate, Editable, withReact, useSlateStatic, useSelected, useFocused, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import isHotkey from "is-hotkey";
+import dataURLtoBlob from 'dataurl-to-blob';
 import { isMarkActive, toggleMark, isBlockActive, toggleBlock, withImages, isImageUrl, insertImage } from "../../helpers/richTextHelpers";
+import { apiClient, formDataHeaders } from "../../helpers/requestHelpers";
+import { handleResp } from "../../helpers/responseHelpers";
+import { useDebounce } from "../../helpers/asyncHelpers";
+import { getSpacesImage, pathFromSpacesURL } from "../../helpers/imageHelpers";
 import Button from "./Button";
+import ImageUploadModal from "./ImageUploadModal";
 
 const HOTKEYS = {'mod+b': 'bold', 'mod+i': 'italic', 'mod+u': 'underline', 'mod+`': 'code', 'mod+a': 'all'};
 
@@ -30,8 +37,16 @@ const BLOCKS = [
 export default function RichText(props) {
 
   const editor = useMemo(() => withImages(withHistory(withReact(createEditor()))), []);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
+
+  useDebounce(() => {
+    if(props.hasOwnProperty('setImages')) {
+      const i = editor.children.filter(child => child.type === 'image');
+      props.setImages(i.map(child => pathFromSpacesURL(child.url)));
+    }
+  }, [editor.children]);
 
   const markButtons = MARKS.map(mark => (
     <Button key={mark.format} active={isMarkActive(editor, mark.format)}
@@ -60,13 +75,22 @@ export default function RichText(props) {
     }
   }
 
-  const imageUpload = () => {
-    const url = window.prompt('Enter the URL of the image:');
-    if (url && !isImageUrl(url)) {
-      alert('URL is not an image');
-      return;
-    }
-    url && insertImage(editor, url);
+  const uploadImage = async(files = []) => {
+    if(!files.length) return;
+    const blob = dataURLtoBlob(files[0].content);
+    if(!blob) return;
+    const data = new FormData();
+    data.append('file', blob, 'image.jpg');
+    const resp = await apiClient.post('/posts/uploadImage', data, formDataHeaders);
+    handleResp(resp, data => {
+      const spacesUrl = getSpacesImage(data.url);
+      if(!isImageUrl(spacesUrl)) {
+        toast.error('Something went wrong...');
+      } else {
+        insertImage(editor, spacesUrl);
+        setShowImageModal(false);
+      }
+    });
   }
 
   return(
@@ -74,7 +98,7 @@ export default function RichText(props) {
       <div className="rich-text-controls">
         {markButtons}
         {blockButtons}
-        <Button onClick={imageUpload}>
+        <Button onClick={() => setShowImageModal(true)}>
           <span className="fas fa-image"/>
         </Button>
       </div>
@@ -88,6 +112,7 @@ export default function RichText(props) {
           onKeyDown={checkHotKey}
         />
       </div>
+      <ImageUploadModal show={showImageModal} setShow={setShowImageModal} onSave={uploadImage}/>
     </Slate>
   );
 }

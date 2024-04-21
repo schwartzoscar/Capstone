@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useForm, FormProvider } from "react-hook-form";
@@ -9,9 +10,11 @@ export default function BlogCreation() {
 
   const navigate = useNavigate();
   const form = useForm();
+  const [images, setImages] = useState([]);
 
   // Function to handle form submission
   const handleFormSubmit = async(data) => {
+    data.images = images;
     // Make an API call to your server to create a new blog post
     const resp = await apiClient.post('/blogs', data);
     // Handle the response as needed (e.g., show a success message, redirect the user)
@@ -28,7 +31,7 @@ export default function BlogCreation() {
           <h3>Create a New Blog Post</h3>
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
-            <RichTextField name="body" label="Body"/>
+            <RichTextField name="body" label="Body" setImages={setImages}/>
             <SubmitButton onClick={handleFormSubmit} className="btn-primary"/>
           </FormProvider>
         </div>
