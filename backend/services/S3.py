@@ -26,3 +26,7 @@ class S3:
     def upload(filename, data, public=True):
         extra_args = {'ACL': 'public-read'} if public else {}
         S3.instance.upload_fileobj(data, S3.bucket, filename, ExtraArgs=extra_args)
+
+    @staticmethod
+    def delete(filename):
+        S3.instance.delete_object(Bucket=S3.bucket, Key=filename)
