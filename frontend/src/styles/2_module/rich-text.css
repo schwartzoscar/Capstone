@@ -34,3 +34,11 @@
 .rich-text-controls .btn-active {
   color: #eee;
 }
+
+.rich-text-h1 {
+  font-size: 30px;
+}
+
+.rich-text-h2 {
+  font-size: 22px;
+}

@@ -84,9 +84,9 @@ const Element = ({ attributes, children, element }) => {
     case 'bulleted-list':
       return <ul style={style} {...attributes}>{children}</ul>;
     case 'heading-one':
-      return <h1 style={style} {...attributes}>{children}</h1>;
+      return <p style={style} {...attributes} className="rich-text-h1">{children}</p>;
     case 'heading-two':
-      return <h2 style={style} {...attributes}>{children}</h2>;
+      return <p style={style} {...attributes} className="rich-text-h2">{children}</p>;
     case 'list-item':
       return <li style={style} {...attributes}>{children}</li>;
     case 'numbered-list':
