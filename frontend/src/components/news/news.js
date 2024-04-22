@@ -1,13 +1,20 @@
 import React from 'react';
 import Base from '../../components/base/Base';
-import '../../styles/1_layout/page.css'
+import PostList from "../posts/PostList";
 
-export default function EditProfile() {
+export default function News() {
   return (
-    <div>
-        <Base />
-       <div className="py-76 page-padding">
+    <Base>
+      <div className="max-w-xl mx-auto">
+        <h1>News</h1>
+        <div className="flex-grow-1 page-section">
+          <h3>POSTS</h3>
+          <hr />
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            <PostList />
+          </div>
+        </div>
       </div>
-    </div>
+    </Base>
   );
 }
