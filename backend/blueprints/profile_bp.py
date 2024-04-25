@@ -96,3 +96,33 @@ def follow_user():
 def unfollow_user():
     # TODO
     return {"message": "OK"}
+
+@profile_bp.post('/updatePrivacySettings')
+@jwt_required()
+def update_privacy_setting():
+    user = Users.get_current_user()
+    if not user:
+        return {"message": "Failure"}
+    
+    data = request.get_json()
+
+    # Extract privacy settings data from the request
+    who_can_see_posts = data.get('whoCanSeePosts')
+    who_can_send_friend_requests = data.get('whoCanSendFriendRequests')
+    profile_viewing_option = data.get('profileViewingOption')
+    delete_history = data.get('deleteHistory')
+
+    # Update the user's privacy settings
+    user.update({
+        "privacySettings": {
+            "whoCanSeePosts": who_can_see_posts,
+            "whoCanSendFriendRequests": who_can_send_friend_requests,
+            "profileViewingOption": profile_viewing_option,
+            "deleteHistory": delete_history,
+        }
+    })
+
+    # Save the changes to the user document
+    user.save()
+
+    return {"message": "OK"}
