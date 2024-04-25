@@ -33,7 +33,7 @@ export default function BlogCreation({ onClose }) {
 
   return (
     <div className="blog-creation-modal">
-      <div className="modal-content">
+      <div className="modal-content" style={{ width: '80%', height: '50%',  margin: 'auto' }}>
         <div className="modal-header">
           <h3>Create a New Blog Post</h3>
         </div>

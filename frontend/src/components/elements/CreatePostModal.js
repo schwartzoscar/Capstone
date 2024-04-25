@@ -27,7 +27,7 @@ export default function CreatePostModal(props) {
   };
 
   return (
-    <RBModal show={props.show} onHide={props.onClose} size="xl">
+    <RBModal show={props.show} onHide={props.onClose} className={props.fullscreen ? "fullscreen-modal" : ""}>
       <RBModal.Header closeButton>
         <RBModal.Title>Create a New Blog Post</RBModal.Title>
       </RBModal.Header>

@@ -80,6 +80,3 @@ def logout():
     resp = jsonify({"message": "OK"})
     unset_jwt_cookies(resp)
     return resp
-
-
-@auth_bp.post('/news')
