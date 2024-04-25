@@ -2,6 +2,10 @@ export function getSpacesImage(filename) {
   return process.env.REACT_APP_SPACES_URL + filename;
 }
 
+export function pathFromSpacesURL(url) {
+  return url.replace(process.env.REACT_APP_SPACES_URL, '');
+}
+
 export function getProfileImage(filename) {
   return filename ? getSpacesImage(filename) : '/images/Defaultprofile.jpg';
 }

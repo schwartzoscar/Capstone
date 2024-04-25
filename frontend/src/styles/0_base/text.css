@@ -12,3 +12,10 @@ h3 {
   color: grey;
   text-align: center;
 }
+
+h5 {
+  font-size: 15px;
+  font-weight: bold;
+  color: lightgray;
+  text-align: center;
+}

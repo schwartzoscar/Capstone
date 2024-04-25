@@ -1,11 +1,25 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { useAuthContext } from "../../contexts/AuthContext";
 import PostList from "../posts/PostList";
 import Button from "../elements/Button";
+import ContentModal from "../elements/ContentModal";
+import PrivacyModal from "../elements/PrivacyModal";
 
 export default function Home() {
+
+  const [showContentModal, setContentShowModal] = useState(false);
+
+  const handleContentModalButtonClick = () => {
+    setContentShowModal(true);
+  };
+
+  const [showPrivacyModal, setPrivacyShowModal] = useState(false);
+
+  const handlePrivacyModalButtonClick = () => {
+    setPrivacyShowModal(true);
+  };
 
   const { setCurrentUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
@@ -19,29 +33,30 @@ export default function Home() {
 
   return (
     <div className="page-container" id="home-page">
-      <hr/>
+      <hr />
       <div className="nav-home">
         <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>
-
         <div className="search-wrapper">
           <input type="search" id="search" placeholder="SEARCH POSTS" />
         </div>
         <Button onClick={handleLogout} loading={loading} className="btn-bar">LOGOUT</Button>
       </div>
-      <hr/>
+      <hr />
       <div className="d-flex g-20 mt-20 flex-grow-1">
         <div className="page-section d-flex flex-column justify-content-between">
           <div>
             <Button to="/profile" className="btn-home">PROFILE</Button>
-            <hr/>
+            <hr />
             <Button to="/home" className="btn-home">HOME</Button>
-            <hr/>
+            <hr />
             <Button to="/news" className="btn-home">NEWS</Button>
           </div>
           <div>
-            <Button to="/contentpolicy" className="btn-home-solid">CONTENT POLICY</Button>
-            <hr/>
-            <Button to="/privacypolicy" className="btn-home-solid">PRIVACY POLICY</Button>
+            <Button onClick={handleContentModalButtonClick} className="btn-home-solid">CONTENT POLICY</Button>
+            <ContentModal show={showContentModal} setShow={setContentShowModal} />
+            <hr />
+            <Button onClick={handlePrivacyModalButtonClick} className="btn-home-solid">PRIVACY POLICY</Button>
+            <PrivacyModal show={showPrivacyModal} setShow={setPrivacyShowModal} />
           </div>
         </div>
         <div className="flex-grow-1 page-section">

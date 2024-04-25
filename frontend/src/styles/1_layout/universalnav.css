@@ -1,0 +1,18 @@
+#uni-nav .page-section {
+    width: 200px;
+    height: 85vh;
+}
+
+.nav-uni {  /*not implemented yet- needs changed*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; 
+    gap: 20px; 
+}

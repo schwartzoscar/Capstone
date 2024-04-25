@@ -4,11 +4,12 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import { useProfileContext } from "../Profile";
 import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
-import { handleFormErrors } from "../../../helpers/formHelpers";
+import { handleFormErrors, setFormError } from "../../../helpers/formHelpers";
 import { SubmitButton, TextField } from "../../elements/FormField";
 import Button from "../../elements/Button";
 import PasswordStrength from "../../elements/PasswordStrength";
 import InfoBlock from "../../elements/InfoBlock";
+import { PASSWORD_TOOLTIP } from "../../elements/Tooltip";
 
 export default function AccountInfo() {
 
@@ -33,6 +34,7 @@ export default function AccountInfo() {
 function Editable({ setEditing }) {
 
   const { currentUser, refreshUser } = useAuthContext();
+  const [passValid, setPassValid] = useState(false);
   const form = useForm({
     mode: "onChange",
     defaultValues: {
@@ -42,6 +44,10 @@ function Editable({ setEditing }) {
   });
 
   const updateProfile = async(data) => {
+    if(!passValid) {
+      setFormError('password', 'Password does not meet complexity requirements.', form);
+      return;
+    }
     const resp = await apiClient.post('/profile/updateAccountInfo', data);
     handleResp(resp, () => {
       setEditing(false);
@@ -54,12 +60,12 @@ function Editable({ setEditing }) {
       <div id="account-info-form">
         <TextField name="username" label="Username" validation={{ required: "Username is required." }}/>
         <TextField name="email" label="Email" validation={{ required: "Email is required." }}/>
-        <div className="d-flex gc-8 flex-wrap">
-          <div className="flex-grow-1">
-            <TextField name="password" label="Password" type="password"/>
-            <PasswordStrength/>
+        <div className="password-fields">
+          <div>
+            <TextField name="password" label="Password" type="password" tooltip={PASSWORD_TOOLTIP}/>
+            <PasswordStrength name="password" setPassValid={setPassValid}/>
           </div>
-          <TextField name="confirm" label="Confirm Password" type="password" className="flex-grow-1"/>
+          <TextField name="confirm" label="Confirm Password" type="password"/>
         </div>
         <div className="d-flex g-8">
           <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>

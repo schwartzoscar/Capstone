@@ -12,9 +12,9 @@ class Users(BaseCollection):
     visitor_fields = {"username": 1, "email": 1, "profile_img": 1, "created_at": 1}
 
     @staticmethod
-    def get_current_user():
+    def get_current_user(raw=False):
         user_id = get_jwt_identity()
-        return Users.find_by_id(user_id, projection=Users.def_fields) if user_id else False
+        return Users.find_by_id(user_id, projection=Users.def_fields, raw=raw) if user_id else False
 
     @staticmethod
     def register(username, email, password):
