@@ -1,27 +1,40 @@
 from time import time
 from db.collections.BaseCollection import BaseCollection
-from db.collections.Users import Users
+from db.collections.SharedConfig import Config, Collection
 from services.S3 import S3
 
 
 class Posts(BaseCollection):
 
-    collection_name = "posts"
+    collection_name = Config.get_name(Collection.POSTS)
 
     joins = {
         "users": [
             {"$lookup": {
-                "from": Users.collection_name,
+                "from": Config.get_name(Collection.USERS),
                 "localField": "user_id",
                 "foreignField": "_id",
                 "pipeline": [
                     {"$match": {"deleted": 0}},
-                    {"$project": Users.def_fields},
+                    {"$project": Config.get_def_fields(Collection.USERS)},
                     {"$addFields": {"_id": {"$toString": "$_id"}}}
                 ],
                 "as": "user"
             }},
             {"$set": {"user": {"$first": "$user"}}}
+        ],
+        "forums": [
+            {"$lookup": {
+                "from": Config.get_name(Collection.FORUMS),
+                "localField": "forum_id",
+                "foreignField": "_id",
+                "pipeline": [
+                    {"$match": {"deleted": 0}},
+                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                ],
+                "as": "forum"
+            }},
+            {"$set": {"forum": {"$first": "$forum"}}}
         ]
     }
 

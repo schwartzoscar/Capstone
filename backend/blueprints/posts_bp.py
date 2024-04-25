@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from services.S3 import S3
 from db.collections.Posts import Posts
 from db.collections.Users import Users
+from db.collections.Forums import Forums
 
 posts_bp = Blueprint("posts_bp", __name__)
 

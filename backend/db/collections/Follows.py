@@ -1,10 +1,11 @@
 from bson.objectid import ObjectId
 from db.collections.BaseCollection import BaseCollection
+from db.collections.SharedConfig import Collection, Config
 
 
 class Follows(BaseCollection):
 
-    collection_name = "follows"
+    collection_name = Config.get_name(Collection.FOLLOWS)
 
     @staticmethod
     def get_stats(user_id):

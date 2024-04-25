@@ -2,13 +2,14 @@ from time import time
 import bcrypt
 from flask_jwt_extended import get_jwt_identity
 from db.collections.BaseCollection import BaseCollection
+from db.collections.SharedConfig import Config, Collection
 from services.S3 import S3
 
 
 class Users(BaseCollection):
 
-    collection_name = "users"
-    def_fields = {"username": 1, 'email': 1, "profile_img": 1, "created_at": 1}
+    collection_name = Config.get_name(Collection.USERS)
+    def_fields = Config.get_def_fields(Collection.USERS)
     visitor_fields = {"username": 1, "email": 1, "profile_img": 1, "created_at": 1}
 
     @staticmethod
