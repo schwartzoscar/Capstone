@@ -62,6 +62,7 @@ const handleDeleteAccount = async () => {
   }
 };
 
+
 return (
   <div>
     <p className="tab-content-header">Privacy Settings</p>
