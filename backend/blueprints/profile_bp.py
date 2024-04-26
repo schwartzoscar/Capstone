@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from bson.objectid import ObjectId
 from db.collections.Users import Users
 from db.collections.Posts import Posts
@@ -126,3 +126,16 @@ def update_privacy_setting():
     user.save()
 
     return {"message": "OK"}
+
+@profile_bp.delete('/deleteAccount')
+@jwt_required
+def delete_account():
+    try:
+        user_id = get_jwt_identity()
+        if user_id:
+            Users.delete_by_id(user_id)
+            return {"message": "Account deleted successfully"}
+        else:
+            return {"message": "Failed to delete account. User not authenticated."}, 401
+    except Exception as e:
+        return {"message": "An error occurred while deleting the account.", "error": str(e)}, 500 
