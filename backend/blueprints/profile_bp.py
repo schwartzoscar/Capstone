@@ -128,14 +128,18 @@ def update_privacy_setting():
     return {"message": "OK"}
 
 @profile_bp.delete('/deleteAccount')
-@jwt_required
+@jwt_required()
 def delete_account():
     try:
         current_user_id = get_jwt_identity()
         if current_user_id:
-            Users.delete_by_id(current_user_id)
-            return {"message": "Account deleted successfully"}
+            user = Users.find_by_id(current_user_id)
+            if user:
+                user.delete()
+                return {"message": "OK"}
+            else:
+                return {"message": "Failure"}, 404
         else:
-            return {"message": "Failed to delete account. User not authenticated."}, 401
+            return {"message": "Failure"}, 401
     except Exception as e:
-        return {"message": "An error occurred while deleting the account.", "error": str(e)}, 500 
+        return {"message": "Failure", "error": str(e)}, 500    
