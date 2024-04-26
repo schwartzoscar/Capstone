@@ -131,9 +131,9 @@ def update_privacy_setting():
 @jwt_required
 def delete_account():
     try:
-        user_id = get_jwt_identity()
-        if user_id:
-            Users.delete_by_id(user_id)
+        current_user_id = get_jwt_identity()
+        if current_user_id:
+            Users.delete_by_id(current_user_id)
             return {"message": "Account deleted successfully"}
         else:
             return {"message": "Failed to delete account. User not authenticated."}, 401
