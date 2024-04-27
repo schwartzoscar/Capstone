@@ -2,27 +2,26 @@ from time import time
 import bcrypt
 from flask_jwt_extended import get_jwt_identity
 from db.collections.BaseCollection import BaseCollection
-from db.collections.SharedConfig import Config, Collection
+from db.collections.SharedConfig import Collection
 from services.S3 import S3
 
 
 class Users(BaseCollection):
 
-    collection_name = Config.get_name(Collection.USERS)
-    def_fields = Config.get_def_fields(Collection.USERS)
+    collection = Collection.USERS
     visitor_fields = {"username": 1, "email": 1, "profile_img": 1, "created_at": 1}
 
     @staticmethod
     def get_current_user(raw=False):
         user_id = get_jwt_identity()
-        return Users.find_by_id(user_id, projection=Users.def_fields, raw=raw) if user_id else False
+        return Users.find_by_id(user_id, raw=raw) if user_id else False
 
     @staticmethod
     def register(username, email, password):
         user = Users({'username': username, 'email': email, 'password': password})
         resp = user.save()
         if resp.inserted_id:
-            return Users.find_by_id(resp.inserted_id, projection=Users.def_fields)
+            return Users.find_by_id(resp.inserted_id)
         return False
 
     def update_profile_img(self, image_blob):

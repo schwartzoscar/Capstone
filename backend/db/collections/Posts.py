@@ -5,7 +5,8 @@ from services.S3 import S3
 
 
 class Posts(BaseCollection):
-    collection_name = Config.get_name(Collection.POSTS)
+
+    collection = Collection.POSTS
 
     joins = {
         "users": [

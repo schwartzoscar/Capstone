@@ -4,7 +4,7 @@ from db.collections.SharedConfig import Config, Collection
 
 class Forums(BaseCollection):
 
-    collection_name = Config.get_name(Collection.FORUMS)
+    collection = Collection.FORUMS
 
     joins = {
         "posts": [
