@@ -5,7 +5,6 @@ from services.S3 import S3
 
 
 class Posts(BaseCollection):
-
     collection_name = Config.get_name(Collection.POSTS)
 
     joins = {
@@ -30,7 +29,29 @@ class Posts(BaseCollection):
                 "foreignField": "_id",
                 "pipeline": [
                     {"$match": {"deleted": 0}},
-                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                    {"$addFields": {"_id": {"$toString": "$_id"}}},
+                    {"$lookup": {
+                        "from": Config.get_name(Collection.USERS),
+                        "localField": "users._id",
+                        "foreignField": "_id",
+                        "pipeline": [
+                            {"$match": {"deleted": 0}},
+                            {"$project": Config.get_def_fields(Collection.USERS)},
+                            {"$addFields": {"_id": {"$toString": "$_id"}}}
+                        ],
+                        "as": "userData"
+                    }},
+                    {"$addFields": {"users": {"$map": {
+                        "input": "$users",
+                        "as": "user",
+                        "in": {
+                            "$mergeObjects": [
+                                "$$user",
+                                {"$arrayElemAt": ["$userData", {"$indexOfArray": ["$userData._id", "$$user._id"]}]}
+                            ]
+                        }
+                    }}}},
+                    {"$unset": "userData"}
                 ],
                 "as": "forum"
             }},

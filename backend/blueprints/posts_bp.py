@@ -15,9 +15,13 @@ def get_posts():
     data = request.get_json()
     query = {}
     user_id = data.get('userId')
+    forum_id = data.get('forumId')
     if user_id:
-        query = {"user_id": ObjectId(user_id)}
-    res = Posts.find_paginated(data.get('lastId'), query, joins=[*Posts.joins['users']], limit=data.get('limit'))
+        query["user_id"] = ObjectId(user_id)
+    if forum_id:
+        query["forum_id"] = ObjectId(forum_id)
+    joins = [*Posts.joins['users'], *Posts.joins['forums']]
+    res = Posts.find_paginated(data.get('lastId'), query, joins=joins, limit=data.get('limit'))
     return {"message": "OK", "items": res['data'], "total": res['total']}
 
 
