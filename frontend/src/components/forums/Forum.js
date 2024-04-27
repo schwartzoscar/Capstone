@@ -27,7 +27,7 @@ export default function Forum() {
   return(
     <Base>
       <div className="max-w-xl mx-auto">
-        <div className="page-section">
+        <div className="page-section mb-20">
           <p>forum overview</p>
         </div>
         <div className="page-section">

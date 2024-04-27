@@ -16,8 +16,7 @@ class Posts(BaseCollection):
                 "foreignField": "_id",
                 "pipeline": [
                     {"$match": {"deleted": 0}},
-                    {"$project": Config.get_def_fields(Collection.USERS)},
-                    {"$addFields": {"_id": {"$toString": "$_id"}}}
+                    {"$project": Config.get_def_fields(Collection.USERS)}
                 ],
                 "as": "user"
             }},
@@ -30,15 +29,13 @@ class Posts(BaseCollection):
                 "foreignField": "_id",
                 "pipeline": [
                     {"$match": {"deleted": 0}},
-                    {"$addFields": {"_id": {"$toString": "$_id"}}},
                     {"$lookup": {
                         "from": Config.get_name(Collection.USERS),
                         "localField": "users._id",
                         "foreignField": "_id",
                         "pipeline": [
                             {"$match": {"deleted": 0}},
-                            {"$project": Config.get_def_fields(Collection.USERS)},
-                            {"$addFields": {"_id": {"$toString": "$_id"}}}
+                            {"$project": Config.get_def_fields(Collection.USERS)}
                         ],
                         "as": "userData"
                     }},
