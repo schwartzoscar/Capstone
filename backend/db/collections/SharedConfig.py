@@ -14,11 +14,6 @@ def_fields = {
 }
 
 
-id_fields = {
-    Collection.POSTS: ["forum_id", "user_id"]
-}
-
-
 class Config(ABC):
 
     @staticmethod
@@ -35,11 +30,3 @@ class Config(ABC):
         if c in def_fields:
             return def_fields[c]
         return {}
-
-    @staticmethod
-    def get_id_fields(c):
-        if not isinstance(c, Collection):
-            raise KeyError(f"Collection {c} is not valid.")
-        if c in id_fields:
-            return id_fields[c]
-        return []

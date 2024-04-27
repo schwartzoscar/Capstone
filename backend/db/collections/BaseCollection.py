@@ -62,9 +62,6 @@ class BaseCollection(ABC):
 
     @classmethod
     def find_paginated(cls, last_id="0", query={}, joins=[], projection={}, oldest_first=False, limit=25):
-        id_fields = {"_id": {"$toString": "$_id"}}
-        for field in Config.get_id_fields(cls.collection):
-            id_fields[field] = {"$toString": f'${field}'}
         pipeline = [
             {"$match": {"$and": [{"deleted": 0}, query]}},
             *joins,
@@ -72,8 +69,7 @@ class BaseCollection(ABC):
                 "metadata": [{"$count": "total"}],
                 "data": [
                     {"$sort": {"_id": DESCENDING if not oldest_first else ASCENDING}},
-                    {"$limit": limit},
-                    {"$addFields": id_fields}
+                    {"$limit": limit}
                 ]
             }}
         ]
@@ -125,13 +121,6 @@ class BaseCollection(ABC):
             "deleted": self.deleted,
             **self.fields
         }
-        return doc
-
-    def to_json(self):
-        data = self.to_document()
         if self._id:
-            data["_id"] = str(self._id)
-        for field in Config.get_id_fields(self.collection):
-            if data[field]:
-                data[field] = str(data[field])
-        return data
+            doc["_id"] = self._id
+        return doc
