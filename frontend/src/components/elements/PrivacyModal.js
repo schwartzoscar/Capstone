@@ -1,8 +1,8 @@
-import Modal2 from "./Modal2";
+import Modal from "./Modal";
 
 export default function ContentModal(props) {
   return (
-    <Modal2 show={props.show} setShow={props.setShow}>
+    <Modal show={props.show} setShow={props.setShow}>
               <br></br>
         <h3>How We Use Your Information</h3>
               <br></br>
@@ -22,6 +22,6 @@ export default function ContentModal(props) {
             <h5>We implement reasonable security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction.</h5>
               <br></br>
 
-    </Modal2>
+    </Modal>
   );
 }

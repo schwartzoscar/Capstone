@@ -1,8 +1,8 @@
-import Modal2 from "./Modal2";
+import Modal from "./Modal";
 
 export default function ContentModal(props) {
   return (
-    <Modal2 show={props.show} setShow={props.setShow}>
+    <Modal show={props.show} setShow={props.setShow}>
                 <br></br>
         <h3>General Guidelines</h3>
                 <br></br>
@@ -22,6 +22,6 @@ export default function ContentModal(props) {
         <h3>Enforcement and Reporting</h3>
                 <br></br>
             <h5>We reserve the right to remove any content that violates these guidelines and to suspend or terminate accounts involved in severe or repeated offenses.</h5>
-    </Modal2>
+    </Modal>
   );
 }

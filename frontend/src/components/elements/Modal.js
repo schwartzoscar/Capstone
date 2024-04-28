@@ -18,7 +18,7 @@ export default function Modal(props) {
       </RBModal.Body>
       <RBModal.Footer>
         <Button className="btn-secondary" onClick={closeModal} {...props.closeBtnProps}>Close</Button>
-        <Button className="btn-primary" onClick={props.onSave} {...props.saveBtnProps}>Save</Button>
+        {props.onSave && <Button className="btn-primary" onClick={props.onSave} {...props.saveBtnProps}>Save</Button>}
       </RBModal.Footer>
     </RBModal>
   );
