@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import Base from "../base/Base";
@@ -8,12 +9,16 @@ import PostList from "../posts/PostList";
 export default function Forum() {
 
   const { forumName } = useParams();
+  const navigate = useNavigate();
   const [forum, setForum] = useState(null);
 
   const getForum = async() => {
     const resp = await apiClient.post('/forums/get', {forumName});
     handleResp(resp, data => {
-      setForum(data.forum)
+      setForum(data.forum);
+    }, () => {
+      toast.error("This forum does not exist.");
+      navigate('/');
     });
   }
 
