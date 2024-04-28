@@ -43,7 +43,8 @@ class BaseCollection(ABC):
 
     @classmethod
     def find_by_id(cls, id, projection={}, raw=False):
-        return cls.find_one({"_id": ObjectId(id)}, projection=projection, raw=raw)
+        clean = id if isinstance(id, ObjectId) else ObjectId(id)
+        return cls.find_one({"_id": clean}, projection=projection, raw=raw)
 
     @classmethod
     def find_last(cls, projection={}, raw=False):

@@ -15,14 +15,15 @@ export default function NewForum() {
   const form = useForm({defaultValues: {
     profileImg: '/images/Defaultforumprofile.jpg',
     bannerImg: 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg',
-    users: {}
+    users: {},
+    public: false
   }});
   const navigate = useNavigate();
 
   const createForm = async(data) => {
     const resp = await apiClient.post('/forums/create', data);
     handleResp(resp, respData => {
-      navigate('/forums/' + respData.forum.name);
+      navigate('/forum/' + respData.forum.name);
       toast.success('Forum created!');
     }, errors => handleFormErrors(errors, form));
   }
