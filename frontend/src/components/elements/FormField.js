@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Button from "./Button";
 import Tooltip from "./Tooltip";
 import RichText from "./RichText";
+import Select from "./Select";
 
 function FormFieldLabel(props) {
 
@@ -56,6 +57,25 @@ export function RichTextField(props) {
         control={control} name={name}
         render={({ field: { onChange } }) => (
           <RichText onChange={onChange} {...rest}/>
+        )}
+      />
+      <FormFieldError name={name}/>
+    </Form.Group>
+  );
+}
+
+export function SelectField(props) {
+
+  const { control } = useFormContext();
+  const { className, name, label, icon, validation, ...rest } = props;
+
+  return(
+    <Form.Group className={clsx(className, "form-field")}>
+      <FormFieldLabel label={label} icon={icon}/>
+      <Controller
+        control={control} name={name}
+        render={({ field: { onChange } }) => (
+          <Select onChange={onChange} {...rest}/>
         )}
       />
       <FormFieldError name={name}/>
