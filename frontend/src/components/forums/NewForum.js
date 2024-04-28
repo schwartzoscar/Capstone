@@ -5,7 +5,7 @@ import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import { handleFormErrors } from "../../helpers/formHelpers";
 import Base from "../base/Base";
-import { RichTextField, SubmitButton, TextField } from "../elements/FormField";
+import { RichTextField, SubmitButton, SwitchField, TextField } from "../elements/FormField";
 import Button from "../elements/Button";
 import ForumImageSection from "./ForumImageSection";
 import AddForumUsers from "./AddForumUsers";
@@ -34,6 +34,9 @@ export default function NewForum() {
           <ForumImageSection editable={true}>
             <TextField name="name" label="Forum Name" validation={{required: "Forum name is required."}}/>
             <RichTextField name="description" label="Description" allowImages={false}/>
+            <SwitchField name="public" label="Make this forum public?" className="pt-4"
+                         tooltip="Public forms allow anyone to become a member and make posts."
+            />
             <AddForumUsers/>
             <div className="d-flex justify-content-end g-8 mt-20">
               <Button onClick={() => navigate('/')} className="btn-secondary">Cancel</Button>

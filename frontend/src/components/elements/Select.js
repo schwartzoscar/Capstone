@@ -23,6 +23,6 @@ export default function Select(props) {
   }, [optionsUrl]);
 
   return(
-    <ReactSelect isDisabled={loading} options={options ?? fetchedOptions} {...rest}/>
+    <ReactSelect className="react-select" isDisabled={loading} options={options ?? fetchedOptions} {...rest}/>
   );
 }

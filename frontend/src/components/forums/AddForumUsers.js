@@ -1,12 +1,17 @@
 import { useMemo } from 'react';
 import { useFormContext } from "react-hook-form";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { SelectField } from "../elements/FormField";
 import AddForumUser from "./AddForumUser";
+import Select from "../elements/Select";
 
 export default function AddForumUsers() {
 
+  const { currentUser } = useAuthContext();
   const { watch } = useFormContext();
   const selected = watch('users');
+
+  const creatorOption = {label: 'Creator', value: 'creator'};
 
   const onSelect = (users, formOnChange) => {
     let newUsers = {};
@@ -24,6 +29,10 @@ export default function AddForumUsers() {
     <div>
       <SelectField name="users" label="Users" optionsUrl="/forums/userOptions" isMulti onChangeOverride={onSelect}/>
       <div className="forum-add-users">
+        <div className="forum-added-user">
+          <p>{currentUser.username}</p>
+          <Select defaultValue={creatorOption} options={[creatorOption]} isDisabled/>
+        </div>
         {addedUsers}
       </div>
     </div>

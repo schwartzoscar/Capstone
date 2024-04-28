@@ -14,3 +14,7 @@
 .password-strength-bar {
   max-width: 300px;
 }
+
+.form-check-inline {
+  margin-right: 8px !important;
+}

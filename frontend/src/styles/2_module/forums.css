@@ -75,7 +75,20 @@
   padding-left: 24px;
 }
 
-.forum-add-users p {
+.forum-added-user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 300px;
+  padding-bottom: 8px;
+}
+
+.forum-added-user p {
   font-weight: bold;
   color: gray;
+  flex-grow: 1;
+}
+
+.forum-added-user .react-select {
+  width: 140px;
 }

@@ -15,7 +15,11 @@ function FormFieldLabel(props) {
     const tooltip = props.tooltip ? (
       <Tooltip id={`tooltip_${props.name}`} className="ml-4">{props.tooltip}</Tooltip>
     ) : null;
-    label = <Form.Label>{icon}{props.label}{tooltip}</Form.Label>;
+    label = (
+      <Form.Label className={clsx({'d-inline': props.inline})}>
+        {icon}{props.label}{tooltip}
+      </Form.Label>
+    );
   }
 
   return label;
@@ -86,6 +90,25 @@ export function SelectField(props) {
           <Select onChange={v => onSelectChange(v, onChange)} {...rest}/>
         )}
       />
+      <FormFieldError name={name}/>
+    </Form.Group>
+  );
+}
+
+export function SwitchField(props) {
+
+  const { control } = useFormContext();
+  const { className, name, label, icon, tooltip, validation, ...rest } = props;
+
+  return(
+    <Form.Group className={clsx(className, "form-field")}>
+      <Controller
+        control={control} name={name}
+        render={({ field: { onChange } }) => (
+          <Form.Check type="switch" inline id={name} onChange={onChange}/>
+        )}
+      />
+      <FormFieldLabel label={label} icon={icon} tooltip={tooltip} inline={true}/>
       <FormFieldError name={name}/>
     </Form.Group>
   );

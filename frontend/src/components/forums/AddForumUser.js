@@ -24,7 +24,7 @@ export default function AddForumUser(props) {
   }
 
   return(
-    <div className="d-flex g-20 align-items-center">
+    <div className="forum-added-user">
       <p>{props.username}</p>
       <Select defaultValue={defaultValue} options={roleOptions} onChange={setRole}/>
     </div>
