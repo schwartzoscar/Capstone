@@ -7,7 +7,7 @@ import { handleFormErrors } from "../../helpers/formHelpers";
 import Base from "../base/Base";
 import { RichTextField, SubmitButton, SwitchField, TextField } from "../elements/FormField";
 import Button from "../elements/Button";
-import ForumImageSection from "./ForumImageSection";
+import { Editable as ForumImageSection } from "./ForumImageSection";
 import AddForumUsers from "./AddForumUsers";
 
 export default function NewForum() {

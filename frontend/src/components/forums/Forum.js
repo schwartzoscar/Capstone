@@ -5,6 +5,7 @@ import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import Base from "../base/Base";
 import PostList from "../posts/PostList";
+import { Static as ForumImageSection } from "./ForumImageSection";
 
 export default function Forum() {
 
@@ -32,11 +33,11 @@ export default function Forum() {
   return(
     <Base>
       <div className="max-w-xl mx-auto">
-        <div className="page-section mb-20">
-          <p>forum overview</p>
-        </div>
-        <div className="page-section">
-          <PostList iSProps={{ postData: {forumName} }}/>
+        <ForumImageSection>
+          <div>{forum.name}</div>
+        </ForumImageSection>
+        <div className="page-section mt-20">
+          <PostList iSProps={{postData: {forumId: forum._id}}}/>
         </div>
       </div>
     </Base>

@@ -10,6 +10,14 @@ export function getProfileImage(filename) {
   return filename ? getSpacesImage(filename) : '/images/Defaultprofile.jpg';
 }
 
+export function getForumProfileImage(filename) {
+  return filename ? getSpacesImage(filename) : '/images/Defaultforumprofile.jpg';
+}
+
+export function getForumBannerImage(filename) {
+  return filename ? getSpacesImage(filename) : 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg';
+}
+
 export async function updateCanvas(image, canvas, crop, callback)  {
   // Getting Canvas Context
   const ctx = canvas.getContext('2d');

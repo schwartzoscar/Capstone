@@ -1,15 +1,31 @@
 import { useState } from 'react';
-import clsx from 'clsx';
 import { useFormContext } from "react-hook-form";
 import { apiClient, formDataHeaders } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { getSpacesImage } from "../../helpers/imageHelpers";
+import { getForumProfileImage, getForumBannerImage, getSpacesImage } from "../../helpers/imageHelpers";
 import ImageRounded from "../elements/ImageRounded";
 import ImageCropModal from "../elements/ImageCropModal";
 
-export default function ForumImageSection(props) {
+export function Static(props) {
 
-  const { editable, children } = props;
+  const { children, profileSrc, bannerSrc } = props;
+
+  return(
+    <div className="page-section">
+      <div className="forum-banner-wrapper">
+        <ImageRounded editable={false} src={getForumProfileImage(profileSrc)} alt="Forum Profile Image"/>
+        <div className="forum-banner-image img-responsive">
+          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner Image"/>
+        </div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+export function Editable(props) {
+
+  const { children } = props;
   const { setValue, watch } = useFormContext();
   const [profileShow, setProfileShow] = useState(false);
   const [bannerShow, setBannerShow] = useState(false);
@@ -35,15 +51,15 @@ export default function ForumImageSection(props) {
     <div className="page-section">
       <div className="forum-banner-wrapper">
         <ImageRounded
-          editable={editable} src={profileSrc} alt="Forum Profile Image"
+          editable={true} src={profileSrc} alt="Forum Profile Image"
           onSubmit={blob => onSubmit(blob, 'profile')} show={profileShow} setShow={setProfileShow}
         />
-        <div className={clsx("forum-banner-image img-responsive", {"is-editable": editable})} onClick={toggleBannerModal}>
-          {editable && <div className="forum-banner-image-icon"/>}
-          {editable && <div className="forum-banner-image-overlay"/>}
+        <div className="forum-banner-image img-responsive is-editable" onClick={toggleBannerModal}>
+          <div className="forum-banner-image-icon"/>
+          <div className="forum-banner-image-overlay"/>
           <img src={bannerSrc} alt="Forum Banner Image"/>
         </div>
-        {editable && <ImageCropModal show={bannerShow} setShow={setBannerShow} onSubmit={blob => onSubmit(blob, 'banner')}/>}
+        <ImageCropModal show={bannerShow} setShow={setBannerShow} onSubmit={blob => onSubmit(blob, 'banner')}/>
       </div>
       {children}
     </div>
