@@ -14,7 +14,7 @@ export default function Forum() {
   const [forum, setForum] = useState(null);
 
   const getForum = async() => {
-    const resp = await apiClient.post('/forums/get', {forumName});
+    const resp = await apiClient.post('/forums/get', {forumName: forumName.toLowerCase()});
     handleResp(resp, data => {
       setForum(data.forum);
     }, () => {
@@ -33,7 +33,7 @@ export default function Forum() {
   return(
     <Base>
       <div className="max-w-xl mx-auto">
-        <ForumImageSection>
+        <ForumImageSection profileSrc={forum.profile_img} bannerSrc={forum.banner_img}>
           <div>{forum.name}</div>
         </ForumImageSection>
         <div className="page-section mt-20">

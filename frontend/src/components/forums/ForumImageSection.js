@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useFormContext } from "react-hook-form";
 import { apiClient, formDataHeaders } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { getForumProfileImage, getForumBannerImage, getSpacesImage } from "../../helpers/imageHelpers";
+import { getForumProfileImage, getForumBannerImage } from "../../helpers/imageHelpers";
 import ImageRounded from "../elements/ImageRounded";
 import ImageCropModal from "../elements/ImageCropModal";
 
@@ -37,7 +37,7 @@ export function Editable(props) {
     data.append(type, blob, 'forum-temp.jpg');
     const resp = await apiClient.post('/forums/uploadTemp', data, formDataHeaders);
     handleResp(resp, data => {
-      setValue(`${type}Img`, getSpacesImage(data.url));
+      setValue(`${type}Img`, data.url);
       setProfileShow(false);
       setBannerShow(false);
     });
@@ -51,13 +51,13 @@ export function Editable(props) {
     <div className="page-section">
       <div className="forum-banner-wrapper">
         <ImageRounded
-          editable={true} src={profileSrc} alt="Forum Profile Image"
+          editable={true} src={getForumProfileImage(profileSrc)} alt="Forum Profile Image"
           onSubmit={blob => onSubmit(blob, 'profile')} show={profileShow} setShow={setProfileShow}
         />
         <div className="forum-banner-image img-responsive is-editable" onClick={toggleBannerModal}>
           <div className="forum-banner-image-icon"/>
           <div className="forum-banner-image-overlay"/>
-          <img src={bannerSrc} alt="Forum Banner Image"/>
+          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner Image"/>
         </div>
         <ImageCropModal show={bannerShow} setShow={setBannerShow} onSubmit={blob => onSubmit(blob, 'banner')}/>
       </div>

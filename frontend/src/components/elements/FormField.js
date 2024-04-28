@@ -116,13 +116,15 @@ export function SwitchField(props) {
 
 export function SubmitButton(props) {
 
-  const { onClick, children, className, ...btnProps } = props;
+  const { onClick, children, className, disableOnInvalid, ...btnProps } = props;
   const { handleSubmit, formState: { isValid } } = useFormContext();
 
-  if(btnProps.hasOwnProperty('disabled')) {
-    btnProps.disabled ||= !isValid;
-  } else {
-    btnProps['disabled'] = !isValid;
+  if(disableOnInvalid) {
+    if(btnProps.hasOwnProperty('disabled')) {
+      btnProps.disabled ||= !isValid;
+    } else {
+      btnProps['disabled'] = !isValid;
+    }
   }
 
   return(

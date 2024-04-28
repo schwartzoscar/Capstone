@@ -13,8 +13,8 @@ import AddForumUsers from "./AddForumUsers";
 export default function NewForum() {
 
   const form = useForm({defaultValues: {
-    profileImg: '/images/Defaultforumprofile.jpg',
-    bannerImg: 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg',
+    profileImg: null,
+    bannerImg: null,
     users: {},
     public: false
   }});
@@ -33,7 +33,10 @@ export default function NewForum() {
       <div className="max-w-xl mx-auto">
         <FormProvider {...form}>
           <ForumImageSection editable={true}>
-            <TextField name="name" label="Forum Name" validation={{required: "Forum name is required."}}/>
+            <TextField name="name" label="Forum Name" validation={{
+              required: "Forum name is required.",
+              pattern: {value: /^\S+$/g, message: "Forum name cannot contain spaces."}
+            }}/>
             <RichTextField name="description" label="Description" allowImages={false}
                            placeholder="What is this forum about?"
             />

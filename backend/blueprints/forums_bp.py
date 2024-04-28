@@ -52,7 +52,7 @@ def create_forum():
     data = request.get_json()
     current_user = Users.get_current_user(raw=True)
     if current_user:
-        forum_name = data.get('name')
+        forum_name = data.get('name').lower()
         existing = Forums.find_one({'name': forum_name}, raw=True)
         if existing:
             return {"message": "Failure", "errors": {"name": "A forum with this name already exists."}}
