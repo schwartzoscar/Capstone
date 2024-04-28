@@ -33,7 +33,9 @@ export default function NewForum() {
         <FormProvider {...form}>
           <ForumImageSection editable={true}>
             <TextField name="name" label="Forum Name" validation={{required: "Forum name is required."}}/>
-            <RichTextField name="description" label="Description" allowImages={false}/>
+            <RichTextField name="description" label="Description" allowImages={false}
+                           placeholder="What is this forum about?"
+            />
             <SwitchField name="public" label="Make this forum public?" className="pt-4"
                          tooltip="Public forms allow anyone to become a member and make posts."
             />

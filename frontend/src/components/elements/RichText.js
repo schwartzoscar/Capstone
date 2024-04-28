@@ -109,7 +109,7 @@ export default function RichText(props) {
         <Editable
           renderElement={props => <Element {...props}/>}
           renderLeaf={props => <Leaf {...props}/>}
-          placeholder="Start your post…"
+          placeholder={props.placeholder ?? "Start your post…"}
           spellCheck
           autoFocus
           onKeyDown={checkHotKey}
