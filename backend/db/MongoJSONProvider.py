@@ -13,4 +13,6 @@ class MongoJSONProvider(DefaultJSONProvider):
             return obj.to_document()
         elif isinstance(obj, ObjectId):
             return str(obj)
+        elif isinstance(obj, bytes):
+            return obj.decode('utf-8')
         return super().default(obj)

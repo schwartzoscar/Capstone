@@ -41,6 +41,7 @@ export default function RichText(props) {
   const editor = useMemo(() => withImages(withHistory(withReact(createEditor()))), []);
   const [showImageModal, setShowImageModal] = useState(false);
 
+  const allowImages = props.hasOwnProperty('allowImages') ? props.allowImages : true;
   const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
 
   useDebounce(() => {
@@ -78,7 +79,7 @@ export default function RichText(props) {
   }
 
   const uploadImage = async(files = []) => {
-    if(!files.length) return;
+    if(!files.length || !allowImages) return;
     const blob = dataURLtoBlob(files[0].content);
     if(!blob) return;
     const data = new FormData();
@@ -100,9 +101,9 @@ export default function RichText(props) {
       <div className="rich-text-controls">
         {markButtons}
         {blockButtons}
-        <Button onClick={() => setShowImageModal(true)}>
+        {allowImages && <Button onClick={() => setShowImageModal(true)}>
           <span className="fas fa-image"/>
-        </Button>
+        </Button>}
       </div>
       <div className="rich-text-input">
         <Editable
@@ -114,7 +115,7 @@ export default function RichText(props) {
           onKeyDown={checkHotKey}
         />
       </div>
-      <ImageUploadModal show={showImageModal} setShow={setShowImageModal} onSave={uploadImage}/>
+      {allowImages && <ImageUploadModal show={showImageModal} setShow={setShowImageModal} onSave={uploadImage}/>}
     </Slate>
   );
 }

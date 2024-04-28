@@ -1,22 +1,15 @@
 import { useRef, useState, useCallback } from "react";
-import { toast } from 'react-toastify';
 import { useFilePicker } from 'use-file-picker';
 import ReactCrop from "react-image-crop";
 import { FileAmountLimitValidator, FileTypeValidator, FileSizeValidator } from 'use-file-picker/validators';
-import { useAuthContext } from "../../contexts/AuthContext";
-import { apiClient, formDataHeaders } from "../../helpers/requestHelpers";
-import { handleResp } from "../../helpers/responseHelpers";
 import { useDebounce } from "../../helpers/asyncHelpers";
 import { updateCanvas } from "../../helpers/imageHelpers";
 import Modal from "./Modal";
 import Button from "./Button";
 
-// This component is specific to profile images.
-// If we need cropping somewhere else, we'll have to pull the profile image functionality out.
 export default function ImageCropModal(props) {
 
-  const { show, setShow } = props;
-  const { refreshUser } = useAuthContext();
+  const { show, setShow, onSubmit } = props;
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
   const [crop, setCrop] = useState(null);
@@ -46,15 +39,10 @@ export default function ImageCropModal(props) {
   }, [completedCrop]);
 
   const updateProfileImg = useCallback(async() => {
-    if(!currentBlob) return;
-    const data = new FormData();
-    data.append('file', currentBlob, 'profile.jpg');
-    const resp = await apiClient.post('/profile/updateImage', data, formDataHeaders);
-    handleResp(resp, () => {
-      toast.success('Profile image updated successfully.')
-      refreshUser();
-    });
-  }, [currentBlob, refreshUser]);
+    setUpdating(true);
+    if(currentBlob && onSubmit) await onSubmit(currentBlob);
+    setUpdating(false);
+  }, [currentBlob]);
 
   if(loading) return <div>Loading...</div>;
   if(errors.length) return <div>Error...</div>;
