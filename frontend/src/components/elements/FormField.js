@@ -67,7 +67,15 @@ export function RichTextField(props) {
 export function SelectField(props) {
 
   const { control } = useFormContext();
-  const { className, name, label, icon, validation, ...rest } = props;
+  const { className, name, label, icon, validation, onChangeOverride, ...rest } = props;
+
+  const onSelectChange = (v, onChange) => {
+    if(onChangeOverride) {
+      onChangeOverride(v, onChange);
+    } else {
+      onChange(v);
+    }
+  }
 
   return(
     <Form.Group className={clsx(className, "form-field")}>
@@ -75,7 +83,7 @@ export function SelectField(props) {
       <Controller
         control={control} name={name}
         render={({ field: { onChange } }) => (
-          <Select onChange={onChange} {...rest}/>
+          <Select onChange={v => onSelectChange(v, onChange)} {...rest}/>
         )}
       />
       <FormFieldError name={name}/>

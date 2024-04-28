@@ -69,3 +69,13 @@
 .forum-banner-image.is-editable:hover .forum-banner-image-icon {
   opacity: 1;
 }
+
+.forum-add-users {
+  border-left: 2px solid slateblue;
+  padding-left: 24px;
+}
+
+.forum-add-users p {
+  font-weight: bold;
+  color: gray;
+}

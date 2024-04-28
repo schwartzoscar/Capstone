@@ -14,7 +14,8 @@ export default function NewForum() {
 
   const form = useForm({defaultValues: {
     profileImg: '/images/Defaultforumprofile.jpg',
-    bannerImg: 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg'
+    bannerImg: 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg',
+    users: {}
   }});
   const navigate = useNavigate();
 

@@ -5,24 +5,24 @@ import { handleResp } from "../../helpers/responseHelpers";
 
 export default function Select(props) {
 
-  const { optionsUrl, ...rest } = props;
+  const { options, optionsUrl, ...rest } = props;
   const [loading, setLoading] = useState(false);
-  const [options, setOptions] = useState([]);
+  const [fetchedOptions, setFetchedOptions] = useState([]);
 
   const getOptions = async() => {
     setLoading(true);
     const resp = await apiClient.post(optionsUrl);
     handleResp(resp, data => {
-      setOptions(data.options);
+      setFetchedOptions(data.options);
       setLoading(false);
     });
   }
 
   useEffect(() => {
-    getOptions();
+    if(optionsUrl) getOptions();
   }, [optionsUrl]);
 
   return(
-    <ReactSelect isDisabled={loading} options={options} {...rest}/>
+    <ReactSelect isDisabled={loading} options={options ?? fetchedOptions} {...rest}/>
   );
 }
