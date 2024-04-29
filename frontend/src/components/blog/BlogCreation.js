@@ -7,21 +7,17 @@ import { handleResp } from "../../helpers/responseHelpers";
 import { SubmitButton, TextField, RichTextField } from "../elements/FormField";
 import Button from "../elements/Button";
 
-export default function BlogCreation() {
-
+export default function BlogCreation({ onClose }) {
   const navigate = useNavigate();
   const form = useForm();
   const [images, setImages] = useState([]);
   const [cancelLoading, setCancelLoading] = useState(false);
 
-  // Function to handle form submission
   const handleFormSubmit = async(data) => {
     data.images = images;
-    // Make an API call to your server to create a new blog post
     const resp = await apiClient.post('/posts/create', data);
-    // Handle the response as needed (e.g., show a success message, redirect the user)
     handleResp(resp, () => {
-      navigate('/');
+      onClose();
       toast.success('Post created!');
     });
   };
@@ -31,15 +27,17 @@ export default function BlogCreation() {
     const resp = await apiClient.post('/posts/deleteImages', { images });
     setCancelLoading(false);
     handleResp(resp, () => {
-      navigate('/');
+      onClose();
     });
   }
 
   return (
-    <div className="page-container" id="blog-creation-page">
-      <div className="d-flex g-20 mt-20 justify-content-center">
-        <div className="page-section">
+    <div className="blog-creation-modal">
+      <div className="modal-content" style={{ width: '80%', height: '50%',  margin: 'auto' }}>
+        <div className="modal-header">
           <h3>Create a New Blog Post</h3>
+        </div>
+        <div className="modal-body">
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
             <RichTextField name="body" label="Body" setImages={setImages}/>

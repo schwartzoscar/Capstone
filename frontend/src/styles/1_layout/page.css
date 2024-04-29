@@ -1,0 +1,47 @@
+.navbar {
+    background-color: whitesmoke;
+    border-bottom: 3px solid rgb(53, 50, 50);
+    position: fixed;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+.base-btn {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(53, 50, 50);
+    border: 3px solid rgb(53, 50, 50);
+    background-color: grey;
+    padding: 8px 12px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid rgb(53, 50, 50);
+    position: fixed;
+    top: 10px;
+    right: 10px; 
+}
+
+h1 {
+    font-size: 30px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+}
+
+.page-btn {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(255, 255, 255);
+    border: 3px solid rgb(53, 50, 50);
+    background-color: grey;
+    padding: 8px 12px;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.page-padding {
+    padding: 20px;
+  }

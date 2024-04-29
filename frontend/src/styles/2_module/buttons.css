@@ -46,3 +46,13 @@
     animation: fade-in 3000ms;
   }
   
+  .btn-blog-container {
+    display: flex;
+    justify-content: center; 
+  }
+  
+  .btn-blog {
+    font-weight: bolder;
+    color: grey;
+    animation: fade-in 3000ms;
+  }
