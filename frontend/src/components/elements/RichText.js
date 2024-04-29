@@ -120,7 +120,7 @@ export default function RichText(props) {
   );
 }
 
-const Element = ({ attributes, children, element }) => {
+export const Element = ({ attributes, children, element }) => {
   const style = { textAlign: element.align };
   switch (element.type) {
     case 'image':
@@ -142,7 +142,7 @@ const Element = ({ attributes, children, element }) => {
   }
 }
 
-const Leaf = ({ attributes, children, leaf }) => {
+export const Leaf = ({ attributes, children, leaf }) => {
   if(leaf.bold) children = <strong>{children}</strong>;
   if(leaf.code) children = <code>{children}</code>;
   if(leaf.italic) children = <em>{children}</em>;

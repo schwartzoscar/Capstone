@@ -92,3 +92,14 @@
 .forum-added-user .react-select {
   width: 140px;
 }
+
+.forum-name {
+  font-size: 20px;
+  color: gray;
+  flex-grow: 1;
+}
+
+.forum-description {
+  padding-left: 20px;
+  border-left: 2px solid slateblue;
+}

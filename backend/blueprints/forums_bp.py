@@ -59,7 +59,7 @@ def create_forum():
         else:
             users = [{'_id': current_user['_id'], 'forum_role': 'creator'}]
             for user_id, role in data.get('users').items():
-                users.append({'_id': user_id, 'forum_role': role})
+                users.append({'_id': ObjectId(user_id), 'forum_role': role})
             forum = Forums({
                 'name': forum_name,
                 'description': data.get('description'),
