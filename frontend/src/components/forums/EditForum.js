@@ -52,7 +52,7 @@ export default function EditForum() {
           break;
         }
         if(user.forum_role !== 'creator') {
-          users[user._id] = user.forum_role;
+          users[user._id] = {username: user.username, role: user.forum_role};
         }
       }
       form.setValue('users', users);

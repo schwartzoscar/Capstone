@@ -13,9 +13,9 @@ def get_forum():
     data = request.get_json()
     forum_name = data.get('forumName')
     if forum_name:
-        forum = Forums.find_one({"name": forum_name})
-        if forum:
-            return {"message": "OK", "forum": forum}
+        forums = Forums.aggregate(pipeline=[{"$match": {"name": forum_name}}], joins=[*Forums.joins['users']])
+        if len(forums):
+            return {"message": "OK", "forum": forums[0]}
     return {"message": "Failure"}
 
 

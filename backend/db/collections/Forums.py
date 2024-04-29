@@ -8,6 +8,32 @@ class Forums(BaseCollection):
 
     collection = Collection.FORUMS
 
+    joins = {
+        'users': [
+            {"$lookup": {
+                "from": Config.get_name(Collection.USERS),
+                "localField": "users._id",
+                "foreignField": "_id",
+                "pipeline": [
+                    {"$match": {"deleted": 0}},
+                    {"$project": Config.get_def_fields(Collection.USERS)}
+                ],
+                "as": "userData"
+            }},
+            {"$addFields": {"users": {"$map": {
+                "input": "$users",
+                "as": "user",
+                "in": {
+                    "$mergeObjects": [
+                        "$$user",
+                        {"$arrayElemAt": ["$userData", {"$indexOfArray": ["$userData._id", "$$user._id"]}]}
+                    ]
+                }
+            }}}},
+            {"$unset": "userData"}
+        ]
+    }
+
     @staticmethod
     def upload_temp(image_blob, user_id, img_type):
         timestamp = time()
