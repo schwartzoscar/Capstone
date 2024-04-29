@@ -38,24 +38,28 @@ export default function EditForum() {
     getForum();
   }, [forumName]);
 
+  const setUsers = () => {
+    let users = {}
+    for(const user of forum.users) {
+      if(user.forum_role === 'creator' && user._id !== currentUser._id) {
+        navigate(`/forum/${forum.name}`);
+        toast.error('You do not have permission to edit this forum.');
+        break;
+      }
+      if(user.forum_role !== 'creator') {
+        users[user._id] = {username: user.username, role: user.forum_role};
+      }
+    }
+    form.setValue('users', users);
+  }
+
   useEffect(() => {
     if(forum) {
       form.setValue('name', forum.name);
       form.setValue('description', forum.description);
       form.setValue('profileImg', forum.profile_img);
       form.setValue('bannerImg', forum.banner_img);
-      let users = {}
-      for(const user of forum.users) {
-        if(user.forum_role === 'creator' && user._id !== currentUser._id) {
-          navigate(`/forum/${forum.name}`);
-          toast.error('You do not have permission to edit this forum.');
-          break;
-        }
-        if(user.forum_role !== 'creator') {
-          users[user._id] = {username: user.username, role: user.forum_role};
-        }
-      }
-      form.setValue('users', users);
+      setUsers();
     }
   }, [forum, currentUser._id]);
 
