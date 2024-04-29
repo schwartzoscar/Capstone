@@ -6,6 +6,7 @@ import News from "../news/news";
 import Forum from "../forums/Forum";
 import NewForum from "../forums/NewForum";
 import EditForum from "../forums/EditForum";
+import UsersList from "../userslist/userslist";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home/> },
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
     { path: ':forumName', element: <Forum/> },
     { path: ':forumName/edit', element: <EditForum/> }
   ]},
+  { path: "/userslist", element: <UsersList/>},
   { path: "/news", element: <News/>},
   { path: "*", element: <Navigate to="/" replace /> }
 ]);

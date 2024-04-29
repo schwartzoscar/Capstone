@@ -50,6 +50,8 @@ export default function Home() {
             <Button to="/home" className="btn-home">HOME</Button>
             <hr />
             <Button to="/news" className="btn-home">NEWS</Button>
+            <hr />
+            <Button to="/UsersList" className="btn-home">USERS LIST</Button>
           </div>
           <div>
             <Button onClick={handleContentModalButtonClick} className="btn-home-solid">CONTENT POLICY</Button>
