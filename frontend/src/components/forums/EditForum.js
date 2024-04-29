@@ -60,12 +60,15 @@ export default function EditForum() {
   }, [forum, currentUser._id]);
 
   const updateForm = async(data) => {
-    const resp = await apiClient.post('/forums/update', data);
+    const resp = await apiClient.post('/forums/update', {forumId: forum._id, ...data});
     handleResp(resp, respData => {
       navigate('/forum/' + respData.forum.name);
       toast.success('Forum updated!');
     }, errors => handleFormErrors(errors, form));
   }
+
+  // TODO loading wrapper
+  if(!forum) return null;
 
   return(
     <Base>
@@ -77,12 +80,12 @@ export default function EditForum() {
               pattern: {value: /^\S+$/g, message: "Forum name cannot contain spaces."}
             }}/>
             <RichTextField name="description" label="Description" allowImages={false}
-                           placeholder="What is this forum about?"
+                           placeholder="What is this forum about?" initialValue={forum.description}
             />
             <AddForumUsers/>
             <div className="d-flex justify-content-end g-8 mt-20">
               <Button onClick={() => navigate(`/forum/${forum?.name}`)} className="btn-secondary">Cancel</Button>
-              <SubmitButton onClick={updateForm} className="btn-primary mt-0">Create</SubmitButton>
+              <SubmitButton onClick={updateForm} className="btn-primary mt-0">Update</SubmitButton>
             </div>
           </ForumImageSection>
         </FormProvider>

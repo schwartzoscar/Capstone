@@ -94,14 +94,14 @@ def leave_forum():
 @jwt_required()
 def create_forum():
     data = request.get_json()
-    current_user = Users.get_current_user(raw=True)
+    current_user = Users.get_current_user()
     if current_user:
         forum_name = data.get('name').lower()
         existing = Forums.find_one({'name': forum_name}, raw=True)
         if existing:
             return {"message": "Failure", "errors": {"name": "A forum with this name already exists."}}
         else:
-            users = [{'_id': current_user['_id'], 'forum_role': 'creator'}]
+            users = [{'_id': current_user._id, 'forum_role': 'creator'}]
             for user_id, role in data.get('users').items():
                 users.append({'_id': ObjectId(user_id), 'forum_role': role})
             forum = Forums({
@@ -116,4 +116,32 @@ def create_forum():
             if resp.inserted_id:
                 new_forum = Forums.find_by_id(resp.inserted_id)
                 return {"message": "OK", "forum": new_forum}
+    return {"message": "Failure"}
+
+
+@forums_bp.post('/update')
+@jwt_required()
+def update_forum():
+    data = request.get_json()
+    current_user = Users.get_current_user()
+    if current_user:
+        forum_id = data.get('forumId')
+        forum = Forums.find_one({
+            "_id": ObjectId(forum_id),
+            "users": {"_id": current_user._id, "forum_role": "creator"}
+        })
+        if forum:
+            users = [{'_id': current_user._id, 'forum_role': 'creator'}]
+            for user_id, role in data.get('users').items():
+                users.append({'_id': ObjectId(user_id), 'forum_role': role})
+            forum.update({
+                "name": data.get('name'),
+                "description": data.get('description'),
+                "profile_img": data.get('profileImg'),
+                "banner_img": data.get('bannerImg'),
+                "users": users
+            })
+            forum.save()
+            updated = Forums.find_by_id(forum_id)
+            return {"message": "OK", "forum": updated}
     return {"message": "Failure"}

@@ -42,7 +42,7 @@ export default function RichText(props) {
   const [showImageModal, setShowImageModal] = useState(false);
 
   const allowImages = props.hasOwnProperty('allowImages') ? props.allowImages : true;
-  const initialValue = [{ type: 'paragraph', children: [{ text: '' }] }];
+  const initialValue = props.initialValue ?? [{ type: 'paragraph', children: [{ text: '' }] }];
 
   useDebounce(() => {
     if(props.hasOwnProperty('setImages')) {
