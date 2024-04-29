@@ -5,6 +5,7 @@ from db.collections.Users import Users
 from db.collections.Posts import Posts
 from db.collections.Follows import Follows
 
+
 profile_bp = Blueprint("profile_bp", __name__)
 
 
@@ -136,6 +137,7 @@ def delete_account():
             user = Users.find_by_id(current_user_id)
             if user:
                 user.delete()
+                user.save()
                 return {"message": "OK"}
             else:
                 return {"message": "Failure"}, 404
