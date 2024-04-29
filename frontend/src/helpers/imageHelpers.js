@@ -15,7 +15,7 @@ export function getForumProfileImage(filename) {
 }
 
 export function getForumBannerImage(filename) {
-  return filename ? getSpacesImage(filename) : 'https://t3.ftcdn.net/jpg/03/16/91/28/360_F_316912806_RCeHVmUx5LuBMi7MKYTY5arkE4I0DcpU.jpg';
+  return filename ? getSpacesImage(filename) : '/images/Defaultforumbanner.jpg';
 }
 
 export async function updateCanvas(image, canvas, crop, callback)  {
