@@ -46,6 +46,50 @@ def get_forum_user_options():
     return {"message": "Failure"}
 
 
+@forums_bp.post('/join')
+@jwt_required()
+def join_forum():
+    current_user = Users.get_current_user()
+    if current_user:
+        data = request.get_json()
+        forum_id = data.get('forumId')
+        forum = Forums.find_by_id(forum_id)
+        if forum:
+            users = forum.fields['users']
+            already_joined = False
+            for user in users:
+                if user['_id'] == current_user._id:
+                    already_joined = True
+                    break
+            if not already_joined:
+                users.append({"_id": current_user._id, "forum_role": "member"})
+                forum.update({"users": users})
+                forum.save()
+                updated = Forums.find_by_id(forum_id)
+                return {"message": "OK", "forum": updated}
+    return {"message": "Failure"}
+
+
+@forums_bp.post('/leave')
+@jwt_required()
+def leave_forum():
+    current_user = Users.get_current_user()
+    if current_user:
+        data = request.get_json()
+        forum_id = data.get('forumId')
+        forum = Forums.find_by_id(forum_id)
+        if forum:
+            users = forum.fields['users']
+            for i, user in enumerate(users):
+                if user['_id'] == current_user._id:
+                    del users[i]
+            forum.update({"users": users})
+            forum.save()
+            updated = Forums.find_by_id(forum_id)
+            return {"message": "OK", "forum": updated}
+    return {"message": "Failure"}
+
+
 @forums_bp.post('/create')
 @jwt_required()
 def create_forum():

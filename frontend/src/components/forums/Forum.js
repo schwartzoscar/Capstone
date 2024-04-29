@@ -9,6 +9,7 @@ import PostList from "../posts/PostList";
 import { Static as ForumImageSection } from "./ForumImageSection";
 import RichTextReadOnly from "../elements/RichTextReadOnly";
 import Button from "../elements/Button";
+import {set} from "react-hook-form";
 
 export default function Forum() {
 
@@ -16,6 +17,7 @@ export default function Forum() {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
   const [forum, setForum] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getForum = async() => {
     const resp = await apiClient.post('/forums/get', {forumName: forumName.toLowerCase()});
@@ -32,11 +34,23 @@ export default function Forum() {
   }, [forumName]);
 
   const joinForum = async() => {
-
+    if(!forum) return;
+    setLoading(true);
+    const resp = await apiClient.post('/forums/join', {forumId: forum._id});
+    handleResp(resp, data => {
+      setForum(data.forum);
+      setLoading(false);
+    });
   }
 
   const leaveForum = async() => {
-
+    if(!forum) return;
+    setLoading(true);
+    const resp = await apiClient.post('/forums/leave', {forumId: forum._id});
+    handleResp(resp, data => {
+      setForum(data.forum);
+      setLoading(false);
+    });
   }
 
   const forumRole = useMemo(() => {
@@ -53,13 +67,13 @@ export default function Forum() {
   const forumActionBtn = useMemo(() => {
     if(!forum) return null;
     if(forum.public && !forumRole) {
-      return <Button className="btn-primary" onClick={joinForum}>Join Forum</Button>
+      return <Button className="btn-primary" onClick={joinForum} disabled={loading}>Join Forum</Button>
     } else if(forumRole === 'creator') {
       return <Button className="btn-primary" onClick={() => navigate(`/forum/${forum.name}/edit`)}>Edit Forum</Button>
     } else if(forumRole && forumRole !== 'creator') {
-      return <Button className="btn-secondary" onClick={leaveForum}>Leave Forum</Button>
+      return <Button className="btn-secondary" onClick={leaveForum} disabled={loading}>Leave Forum</Button>
     }
-  }, [forum, forumRole]);
+  }, [forum, forumRole, loading]);
 
   // TODO loading wrapper
   if(!forum) return null;
