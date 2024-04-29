@@ -4,6 +4,7 @@ import Profile from "../profile/Profile";
 import BlogCreation from "../blog/BlogCreation";
 import Forum from "../forums/Forum";
 import NewForum from "../forums/NewForum";
+import EditForum from "../forums/EditForum";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home/> },
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
   { path: "/forum", children: [
     { path: '', element: <Navigate to="/" replace /> },
     { path: 'new', element: <NewForum/> },
-    { path: ':forumName', element: <Forum/> }
+    { path: ':forumName', element: <Forum/> },
+    { path: ':forumName/edit', element: <EditForum/> }
   ]},
   { path: "*", element: <Navigate to="/" replace /> }
 ]);

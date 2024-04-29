@@ -54,6 +54,8 @@ export default function Forum() {
     if(!forum) return null;
     if(forum.public && !forumRole) {
       return <Button className="btn-primary" onClick={joinForum}>Join Forum</Button>
+    } else if(forumRole === 'creator') {
+      return <Button className="btn-primary" onClick={() => navigate(`/forum/${forum.name}/edit`)}>Edit Forum</Button>
     } else if(forumRole && forumRole !== 'creator') {
       return <Button className="btn-secondary" onClick={leaveForum}>Leave Forum</Button>
     }
