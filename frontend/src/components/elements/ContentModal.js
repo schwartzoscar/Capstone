@@ -2,7 +2,7 @@ import Modal from "./Modal";
 
 export default function ContentModal(props) {
   return (
-    <Modal show={props.show} setShow={props.setShow}>
+    <Modal show={props.show} setShow={props.setShow} hideFooter={true}>
                 <br></br>
         <h3>General Guidelines</h3>
                 <br></br>

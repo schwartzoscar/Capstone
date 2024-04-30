@@ -18,7 +18,7 @@ export default function CreationModal(props) {
 
   return(
     <Modal title="Create a new..." size="lg" show={show} setShow={setShow} hideFooter={true}>
-      <div className="d-flex g-20">
+      <div className="d-flex flex-wrap g-20">
         <div className="creation-modal-btn creation-modal-btn-one" onClick={createBlog}>
           <h2>Blog</h2>
           <span className="fas fa-pen-to-square"/>
@@ -27,7 +27,7 @@ export default function CreationModal(props) {
         <div className="creation-modal-btn creation-modal-btn-two" onClick={createForum}>
           <h2>Forum</h2>
           <span className="fas fa-users-between-lines"/>
-          <p>Start the discussion with a dedication forum!</p>
+          <p>Start the discussion with a dedicated forum!</p>
         </div>
       </div>
     </Modal>
