@@ -13,7 +13,7 @@ export function Static(props) {
   return(
     <div className="page-section">
       <div className="forum-banner-wrapper">
-        <ImageRounded editable={false} src={getForumProfileImage(profileSrc)} alt="Forum Profile Image"/>
+        <ImageRounded editable={false} src={getForumProfileImage(profileSrc)} alt="Forum Profile"/>
         <div className="forum-banner-image img-responsive">
           <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner"/>
         </div>
