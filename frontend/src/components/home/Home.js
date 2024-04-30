@@ -6,7 +6,7 @@ import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
 import PrivacyModal from "../elements/PrivacyModal";
-import BlogCreation from "../blog/BlogCreation";
+import BlogCreation from "../posts/BlogCreation";
 
 export default function Home() {
   const [showContentModal, setContentShowModal] = useState(false);

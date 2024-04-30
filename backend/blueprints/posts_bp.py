@@ -55,3 +55,19 @@ def delete_post_images():
         if success:
             return {"message": "OK"}
     return {"message": "Failure"}
+
+
+@posts_bp.post('/create')
+@jwt_required()
+def create_post():
+    data = request.get_json()
+    user = Users.get_current_user()
+    if user:
+        post = Posts({
+            "title": data.get('title'),
+            "content": data.get('content'),
+            "user_id": user._id
+        })
+        post.save()
+        return {"message": "OK"}
+    return {"message": "Failure"}

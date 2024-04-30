@@ -40,7 +40,7 @@ export default function BlogCreation({ onClose }) {
         <div className="modal-body">
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
-            <RichTextField name="body" label="Body" setImages={setImages}/>
+            <RichTextField name="content" label="Body" setImages={setImages}/>
             <div className="d-flex justify-content-end gc-8 pt-8">
               <Button className="btn-secondary" onClick={cancelPost} loading={cancelLoading}>Cancel</Button>
               <SubmitButton onClick={handleFormSubmit} className="btn-primary mt-0" disabled={cancelLoading}/>

@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import Home from "../home/Home";
 import Profile from "../profile/Profile";
-import BlogCreation from "../blog/BlogCreation";
+import BlogCreation from "../posts/BlogCreation";
 import News from "../news/news";
 import Forum from "../forums/Forum";
 import NewForum from "../forums/NewForum";
