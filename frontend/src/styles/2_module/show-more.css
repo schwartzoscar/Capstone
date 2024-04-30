@@ -1,0 +1,15 @@
+.show-more-link {
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--bs-primary);
+  margin-top: 12px;
+}
+
+.show-more-content {
+  overflow: hidden;
+  position: relative;
+}
+
+.show-more-content.is-collapsed {
+  box-shadow: 0 -40px 20px -20px rgba(0,0,0,0.45) inset;
+}

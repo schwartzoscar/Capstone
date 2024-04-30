@@ -8,11 +8,12 @@ import ContentModal from "../elements/ContentModal";
 import PrivacyModal from "../elements/PrivacyModal";
 import BlogCreation from "../blog/BlogCreation";
 import SearchBar from "../elements/SearchBar";
+import CreationModal from "./CreationModal";
 
 export default function Home() {
   const [showContentModal, setContentShowModal] = useState(false);
   const [showPrivacyModal, setPrivacyShowModal] = useState(false);
-  const [showBlogCreationModal, setShowBlogCreationModal] = useState(false);
+  const [showCreationModal, setShowCreationModal] = useState(false);
 
   const handleContentModalButtonClick = () => {
     setContentShowModal(true);
@@ -61,16 +62,21 @@ export default function Home() {
           </div>
         </div>
         <div className="flex-grow-1 page-section">
-          <h3>POSTS</h3>
-          <div className="btn-blog-container">
-            <Button onClick={() => setShowBlogCreationModal(true)} className="btn-blog">Create Blog</Button>
+          <div className="d-flex justify-content-between">
+            <div/>
+            <h3>POSTS</h3>
+            <div className="btn-blog-container">
+              <Button onClick={() => setShowCreationModal(true)}
+                      className="btn-primary" icon="fa-plus">
+                Create
+              </Button>
+            </div>
           </div>
-          
           <hr/>
           <PostList/>
         </div>
       </div>
-      {showBlogCreationModal && <BlogCreation onClose={() => setShowBlogCreationModal(false)} />}
+      {showCreationModal && <CreationModal show={showCreationModal} setShow={setShowCreationModal}/>}
     </div>
   );
 }
