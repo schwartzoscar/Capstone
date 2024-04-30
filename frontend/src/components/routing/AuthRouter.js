@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     { path: ":userId", element: <Profile/> }
   ]},
   { path: "/profile/:userId", element: <Profile/> },
-  { path: "/create-blog", element: <BlogCreation/> },
+  { path: "/blog/new", element: <BlogCreation/> },
   { path: "/forum", children: [
     { path: '', element: <Navigate to="/" replace /> },
     { path: 'new', element: <NewForum/> },
