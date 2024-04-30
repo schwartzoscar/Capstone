@@ -19,7 +19,7 @@ export default function BlogCreation() {
 
   const handleFormSubmit = async(data) => {
     data.images = images;
-    data.forumId = currentForum?._id ?? null;
+    if(currentForum) data.forum = currentForum._id;
     const resp = await apiClient.post('/posts/create', data);
     handleResp(resp, () => {
       navigate(currentForum ? `/forum/${currentForum.name}` : '/');
@@ -48,7 +48,7 @@ export default function BlogCreation() {
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
             <RichTextField name="content" label="Body" setImages={setImages}/>
             {!currentForum && (
-              <SelectField name="Forum" label="Forum" optionsUrl="/posts/forumOptions" onChangeOverride={onForumSelect}/>
+              <SelectField name="forum" label="Forum" optionsUrl="/posts/forumOptions" onChangeOverride={onForumSelect}/>
             )}
             <div className="d-flex justify-content-end g-8 mt-20">
               <Button className="btn-secondary" onClick={cancelPost} loading={cancelLoading}>Cancel</Button>

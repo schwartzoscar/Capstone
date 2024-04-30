@@ -76,12 +76,18 @@ def create_post():
     data = request.get_json()
     user = Users.get_current_user()
     if user:
-        post = Posts({
+        post_data = {
             "title": data.get('title'),
             "content": data.get('content'),
-            "user_id": user._id,
-            "forum_id": data.get('forumId')
-        })
+            "user_id": user._id
+        }
+        forum_id = data.get('forum')
+        if forum_id:
+            forum = Forums.find_by_id(forum_id, raw=True)
+            if not forum:
+                return {"message": "Failure"}
+            post_data["forum_id"] = ObjectId(forum_id)
+        post = Posts(post_data)
         post.save()
         return {"message": "OK"}
     return {"message": "Failure"}
