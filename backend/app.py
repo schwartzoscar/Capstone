@@ -11,6 +11,7 @@ from services.S3 import S3
 from blueprints.auth_bp import auth_bp
 from blueprints.posts_bp import posts_bp
 from blueprints.profile_bp import profile_bp
+from blueprints.forums_bp import forums_bp
 
 load_dotenv()
 app = Flask(__name__, static_folder='../app/build', static_url_path='/')
@@ -31,6 +32,7 @@ S3.initialize()
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(posts_bp, url_prefix='/api/posts')
 app.register_blueprint(profile_bp, url_prefix='/api/profile')
+app.register_blueprint(forums_bp, url_prefix='/api/forums')
 
 
 # After every request, refresh any token that is within 30 minutes of expiring.

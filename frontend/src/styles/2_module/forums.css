@@ -1,0 +1,105 @@
+.forum-banner-wrapper {
+  position: relative;
+  margin: -20px -20px 20px -20px;
+  padding: 12px 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.forum-banner-wrapper .profile-img-full {
+  z-index: 3;
+  width: 150px;
+  height: 150px;
+}
+
+.forum-banner-wrapper .profile-img-edit-icon:before {
+  font-size: 36px;
+}
+
+.forum-banner-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.forum-banner-image.is-editable:hover {
+  cursor: pointer;
+}
+
+.forum-banner-image-overlay, .forum-banner-image-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.forum-banner-image-overlay {
+  background-color: black;
+  z-index: 1;
+}
+
+.forum-banner-image-icon {
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.forum-banner-image-icon:before {
+  content: "\f303";
+  font-family: FontAwesome, serif;
+  color: white;
+  font-size: 50px;
+}
+
+.forum-banner-image.is-editable:hover .forum-banner-image-overlay {
+  opacity: 0.4;
+}
+
+.forum-banner-image.is-editable:hover .forum-banner-image-icon {
+  opacity: 1;
+}
+
+.forum-add-users {
+  border-left: 2px solid slateblue;
+  padding-left: 24px;
+}
+
+.forum-added-user {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 300px;
+  padding-bottom: 8px;
+}
+
+.forum-added-user p {
+  font-weight: bold;
+  color: gray;
+  flex-grow: 1;
+}
+
+.forum-added-user .react-select {
+  width: 140px;
+}
+
+.forum-name {
+  font-size: 20px;
+  color: gray;
+  flex-grow: 1;
+}
+
+.forum-description {
+  padding-left: 20px;
+  border-left: 2px solid slateblue;
+}

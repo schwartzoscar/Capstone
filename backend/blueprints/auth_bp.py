@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required
+from db.collections.SharedConfig import Config
 from db.collections.Users import Users
 import bcrypt
 
@@ -39,7 +40,9 @@ def login():
     password = data.get('password')
 
     # Find the user by email
-    user = Users.find_one({'email': email})
+    with_password = Config.get_def_fields(Users.collection)
+    with_password['password'] = 1
+    user = Users.find_one({'email': email}, projection=with_password)
 
     if user and bcrypt.checkpw(password.encode('utf-8'), user.fields['password']):
         del user.fields['password']

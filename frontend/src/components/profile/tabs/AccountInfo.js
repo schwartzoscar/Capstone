@@ -69,7 +69,7 @@ function Editable({ setEditing }) {
         </div>
         <div className="d-flex g-8">
           <Button onClick={() => setEditing(false)} className="btn-secondary">Cancel</Button>
-          <SubmitButton onClick={updateProfile} className="btn-primary mt-0">Save</SubmitButton>
+          <SubmitButton onClick={updateProfile} className="btn-primary mt-0" disableOnInvalid>Save</SubmitButton>
         </div>
       </div>
     </FormProvider>

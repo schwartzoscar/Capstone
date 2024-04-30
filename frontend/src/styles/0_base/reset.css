@@ -6,3 +6,32 @@ body {
 p {
     margin: 0;
 }
+
+.blog-creation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+  
+.modal-content {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+  padding: 20px;
+}
+
+.modal-header {
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  padding-bottom: 20px;
+}
+  
+  

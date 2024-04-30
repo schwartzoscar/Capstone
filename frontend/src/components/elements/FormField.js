@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Button from "./Button";
 import Tooltip from "./Tooltip";
 import RichText from "./RichText";
+import Select from "./Select";
 
 function FormFieldLabel(props) {
 
@@ -14,7 +15,11 @@ function FormFieldLabel(props) {
     const tooltip = props.tooltip ? (
       <Tooltip id={`tooltip_${props.name}`} className="ml-4">{props.tooltip}</Tooltip>
     ) : null;
-    label = <Form.Label>{icon}{props.label}{tooltip}</Form.Label>;
+    label = (
+      <Form.Label className={clsx({'d-inline': props.inline})}>
+        {icon}{props.label}{tooltip}
+      </Form.Label>
+    );
   }
 
   return label;
@@ -63,15 +68,63 @@ export function RichTextField(props) {
   );
 }
 
+export function SelectField(props) {
+
+  const { control } = useFormContext();
+  const { className, name, label, icon, validation, onChangeOverride, ...rest } = props;
+
+  const onSelectChange = (v, onChange) => {
+    if(onChangeOverride) {
+      onChangeOverride(v, onChange);
+    } else {
+      onChange(v);
+    }
+  }
+
+  return(
+    <Form.Group className={clsx(className, "form-field")}>
+      <FormFieldLabel label={label} icon={icon}/>
+      <Controller
+        control={control} name={name}
+        render={({ field: { onChange } }) => (
+          <Select onChange={v => onSelectChange(v, onChange)} {...rest}/>
+        )}
+      />
+      <FormFieldError name={name}/>
+    </Form.Group>
+  );
+}
+
+export function SwitchField(props) {
+
+  const { control } = useFormContext();
+  const { className, name, label, icon, tooltip, validation, ...rest } = props;
+
+  return(
+    <Form.Group className={clsx(className, "form-field")}>
+      <Controller
+        control={control} name={name}
+        render={({ field: { onChange } }) => (
+          <Form.Check type="switch" inline id={name} onChange={onChange}/>
+        )}
+      />
+      <FormFieldLabel label={label} icon={icon} tooltip={tooltip} inline={true}/>
+      <FormFieldError name={name}/>
+    </Form.Group>
+  );
+}
+
 export function SubmitButton(props) {
 
-  const { onClick, children, className, ...btnProps } = props;
+  const { onClick, children, className, disableOnInvalid, ...btnProps } = props;
   const { handleSubmit, formState: { isValid } } = useFormContext();
 
-  if(btnProps.hasOwnProperty('disabled')) {
-    btnProps.disabled ||= !isValid;
-  } else {
-    btnProps['disabled'] = !isValid;
+  if(disableOnInvalid) {
+    if(btnProps.hasOwnProperty('disabled')) {
+      btnProps.disabled ||= !isValid;
+    } else {
+      btnProps['disabled'] = !isValid;
+    }
   }
 
   return(

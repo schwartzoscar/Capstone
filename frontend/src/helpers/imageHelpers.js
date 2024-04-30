@@ -10,6 +10,14 @@ export function getProfileImage(filename) {
   return filename ? getSpacesImage(filename) : '/images/Defaultprofile.jpg';
 }
 
+export function getForumProfileImage(filename) {
+  return filename ? getSpacesImage(filename) : '/images/Defaultforumprofile.jpg';
+}
+
+export function getForumBannerImage(filename) {
+  return filename ? getSpacesImage(filename) : '/images/Defaultforumbanner.jpg';
+}
+
 export async function updateCanvas(image, canvas, crop, callback)  {
   // Getting Canvas Context
   const ctx = canvas.getContext('2d');

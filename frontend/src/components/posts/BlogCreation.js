@@ -2,26 +2,27 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useForm, FormProvider } from "react-hook-form";
+import { useCurrentForumContext } from "../../contexts/CurrentForumContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { SubmitButton, TextField, RichTextField } from "../elements/FormField";
+import {SubmitButton, TextField, RichTextField, SelectField} from "../elements/FormField";
 import Button from "../elements/Button";
+import Base from "../base/Base";
 
 export default function BlogCreation() {
 
   const navigate = useNavigate();
+  const { currentForum } = useCurrentForumContext();
   const form = useForm();
   const [images, setImages] = useState([]);
   const [cancelLoading, setCancelLoading] = useState(false);
 
-  // Function to handle form submission
   const handleFormSubmit = async(data) => {
     data.images = images;
-    // Make an API call to your server to create a new blog post
+    if(currentForum) data.forum = currentForum._id;
     const resp = await apiClient.post('/posts/create', data);
-    // Handle the response as needed (e.g., show a success message, redirect the user)
     handleResp(resp, () => {
-      navigate('/');
+      navigate(currentForum ? `/forum/${currentForum.name}` : '/');
       toast.success('Post created!');
     });
   };
@@ -31,25 +32,31 @@ export default function BlogCreation() {
     const resp = await apiClient.post('/posts/deleteImages', { images });
     setCancelLoading(false);
     handleResp(resp, () => {
-      navigate('/');
+      navigate(currentForum ? `/forum/${currentForum.name}` : '/');
     });
   }
 
+  const onForumSelect = (forumOption, formOnChange) => {
+    formOnChange(forumOption.value);
+  }
+
   return (
-    <div className="page-container" id="blog-creation-page">
-      <div className="d-flex g-20 mt-20 justify-content-center">
+    <Base>
+      <div className="max-w-xl mx-auto">
         <div className="page-section">
-          <h3>Create a New Blog Post</h3>
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
-            <RichTextField name="body" label="Body" setImages={setImages}/>
-            <div className="d-flex justify-content-end gc-8 pt-8">
+            <RichTextField name="content" label="Body" setImages={setImages}/>
+            {!currentForum && (
+              <SelectField name="forum" label="Forum" optionsUrl="/posts/forumOptions" onChangeOverride={onForumSelect}/>
+            )}
+            <div className="d-flex justify-content-end g-8 mt-20">
               <Button className="btn-secondary" onClick={cancelPost} loading={cancelLoading}>Cancel</Button>
               <SubmitButton onClick={handleFormSubmit} className="btn-primary mt-0" disabled={cancelLoading}/>
             </div>
           </FormProvider>
         </div>
       </div>
-    </div>
+    </Base>
   );
 }
