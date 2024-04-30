@@ -24,7 +24,7 @@ export default function PostListItem({ post }) {
       </div>
       <div className="post-list-item-signature">
         <span>Posted by</span>
-        <Link to={`/profile/${post.user._id}`} className="d-flex g-4 align-items-center">
+        <Link to={`/profile/${post.user.username}`} className="d-flex g-4 align-items-center">
           <div className="img-responsive profile-img">
             <img src={getProfileImage(post.user.profile_img)} alt={`${post.user.username}'s Profile Image`}/>
           </div>
