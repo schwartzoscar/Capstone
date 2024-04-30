@@ -9,7 +9,7 @@ import PostList from "../posts/PostList";
 import { Static as ForumImageSection } from "./ForumImageSection";
 import RichTextReadOnly from "../elements/RichTextReadOnly";
 import Button from "../elements/Button";
-import {set} from "react-hook-form";
+import ShowMore from "../elements/ShowMore";
 
 export default function Forum() {
 
@@ -90,7 +90,9 @@ export default function Forum() {
             {forumActionBtn}
           </div>
           {forum.description && <div className="forum-description">
-            <RichTextReadOnly content={forum.description}/>
+            <ShowMore>
+              <RichTextReadOnly content={forum.description}/>
+            </ShowMore>
           </div>}
         </ForumImageSection>
         <div className="page-section mt-20">

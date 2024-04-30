@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import { getProfileImage, getForumProfileImage } from "../../helpers/imageHelpers";
 import RichTextReadOnly from "../elements/RichTextReadOnly";
+import ShowMore from "../elements/ShowMore";
 
 export default function PostListItem({ post }) {
 
@@ -17,7 +18,9 @@ export default function PostListItem({ post }) {
         <span className="fas fa-ellipsis-h"/>
       </div>
       <div className="post-list-item-content">
-        <RichTextReadOnly content={post.content}/>
+        <ShowMore>
+          <RichTextReadOnly content={post.content}/>
+        </ShowMore>
       </div>
       <div className="post-list-item-signature">
         <span>Posted by</span>
