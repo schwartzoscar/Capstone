@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useCurrentForumContext } from "../../contexts/CurrentForumContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import Base from "../base/Base";
@@ -16,6 +17,7 @@ export default function Forum() {
   const { forumName } = useParams();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
+  const { setCurrentForum } = useCurrentForumContext();
   const [forum, setForum] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -64,14 +66,29 @@ export default function Forum() {
     return role;
   }, [forum, currentUser._id]);
 
+  const createBlog = () => {
+    setCurrentForum(forum);
+    navigate(`/blog/new`);
+  }
+
   const forumActionBtn = useMemo(() => {
     if(!forum) return null;
     if(forum.public && !forumRole) {
-      return <Button className="btn-primary" onClick={joinForum} disabled={loading}>Join Forum</Button>
+      return <Button className="btn-primary" icon="fa-star" onClick={joinForum} disabled={loading}>Join Forum</Button>
     } else if(forumRole === 'creator') {
-      return <Button className="btn-primary" onClick={() => navigate(`/forum/${forum.name}/edit`)}>Edit Forum</Button>
+      return(
+        <>
+          <Button className="btn-outline-primary" icon="fa-pencil" onClick={() => navigate(`/forum/${forum.name}/edit`)}>Edit Forum</Button>
+          <Button className="btn-primary" icon="fa-plus" onClick={createBlog}>Create Blog</Button>
+        </>
+      );
     } else if(forumRole && forumRole !== 'creator') {
-      return <Button className="btn-secondary" onClick={leaveForum} disabled={loading}>Leave Forum</Button>
+      return(
+        <>
+          <Button className="btn-secondary" icon="fa-tree" onClick={leaveForum} disabled={loading}>Leave Forum</Button>
+          <Button className="btn-primary" icon="fa-plus" onClick={createBlog}>Create Blog</Button>
+        </>
+      );
     }
   }, [forum, forumRole, loading]);
 
@@ -87,7 +104,9 @@ export default function Forum() {
               <span>{forum.name}</span>
               {!forum.public && <span className="fas fa-lock ml-8"/>}
             </div>
-            {forumActionBtn}
+            <div className="d-flex gc-8">
+              {forumActionBtn}
+            </div>
           </div>
           {forum.description && <div className="forum-description">
             <ShowMore>

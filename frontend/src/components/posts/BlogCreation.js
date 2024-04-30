@@ -2,24 +2,27 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useForm, FormProvider } from "react-hook-form";
+import { useCurrentForumContext } from "../../contexts/CurrentForumContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
 import { SubmitButton, TextField, RichTextField } from "../elements/FormField";
 import Button from "../elements/Button";
 import Base from "../base/Base";
 
-export default function BlogCreation({ onClose }) {
+export default function BlogCreation() {
 
   const navigate = useNavigate();
+  const { currentForum } = useCurrentForumContext();
   const form = useForm();
   const [images, setImages] = useState([]);
   const [cancelLoading, setCancelLoading] = useState(false);
 
   const handleFormSubmit = async(data) => {
     data.images = images;
+    if(currentForum) data.forum_id = currentForum._id;
     const resp = await apiClient.post('/posts/create', data);
     handleResp(resp, () => {
-      onClose();
+      navigate(currentForum ? `/forum/${currentForum.name}` : '/');
       toast.success('Post created!');
     });
   };
@@ -29,7 +32,7 @@ export default function BlogCreation({ onClose }) {
     const resp = await apiClient.post('/posts/deleteImages', { images });
     setCancelLoading(false);
     handleResp(resp, () => {
-      navigate('/')
+      navigate(currentForum ? `/forum/${currentForum.name}` : '/');
     });
   }
 

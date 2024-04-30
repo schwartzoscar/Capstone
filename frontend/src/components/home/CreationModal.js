@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import { useCurrentForumContext } from "../../contexts/CurrentForumContext";
 import Modal from "../elements/Modal";
 
 export default function CreationModal(props) {
 
   const { show, setShow } = props;
+  const { setCurrentForum } = useCurrentForumContext();
   const navigate = useNavigate();
 
   const createBlog = () => {
+    setCurrentForum(null);
     navigate('/blog/new');
     setShow(false);
   }
