@@ -3,8 +3,11 @@ import { Form, Button , Alert} from 'react-bootstrap';
 import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
 import { handleFormErrors } from '../../../helpers/formHelpers';
+import { useNavigate } from 'react-router-dom';
 
-export default function PrivacySettings() {
+const PrivacySettings = () => {
+ const navigate = useNavigate(); // Initialize useNavigate hook
+
   const [privacySettings, setPrivacySettings] = useState({
     whoCanSeePosts: 'everyone',
     whoCanSendFriendRequests: 'everyone',
@@ -49,6 +52,7 @@ const handleDeleteAccount = async () => {
       () => {
         setLoading(false);
         setError(null);
+        navigate('/login');
       },
       (errors) => {
         setLoading(false);
@@ -85,4 +89,6 @@ return (
     </Form>
   </div>
  );
-}
+};
+
+export default PrivacySettings;
