@@ -40,13 +40,8 @@ function SearchBar() {
 
   return (
     <div className="search-wrapper">
-      <input
-        type="search"
-        id="search"
-        placeholder="Search Forums"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+      <input type="search" id="search" placeholder="To Search Forums, use F/input                                                                    To Search Posts, use P/input" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+      <hr></hr>
       {forums.length > 0 && (
         <div className="forum-results">
           {forums.map((forum) => (
