@@ -1,5 +1,5 @@
-from flask import Blueprint, request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity, unset_jwt_cookies
 from bson.objectid import ObjectId
 from db.collections.Users import Users
 from db.collections.Posts import Posts
@@ -98,6 +98,7 @@ def unfollow_user():
     # TODO
     return {"message": "OK"}
 
+
 @profile_bp.post('/updatePrivacySettings')
 @jwt_required()
 def update_privacy_setting():
@@ -128,6 +129,7 @@ def update_privacy_setting():
 
     return {"message": "OK"}
 
+
 @profile_bp.delete('/deleteAccount')
 @jwt_required()
 def delete_account():
@@ -138,10 +140,12 @@ def delete_account():
             if user:
                 user.delete()
                 user.save()
-                return {"message": "OK"}
+                resp = jsonify({"message": "OK"})
+                unset_jwt_cookies(resp)
+                return resp
             else:
                 return {"message": "Failure"}, 404
         else:
             return {"message": "Failure"}, 401
     except Exception as e:
-        return {"message": "Failure", "error": str(e)}, 500    
+        return {"message": "Failure", "error": str(e)}, 500
