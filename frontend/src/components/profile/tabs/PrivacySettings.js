@@ -4,9 +4,11 @@ import { apiClient } from "../../../helpers/requestHelpers";
 import { handleResp } from "../../../helpers/responseHelpers";
 import { handleFormErrors } from '../../../helpers/formHelpers';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 const PrivacySettings = () => {
  const navigate = useNavigate(); // Initialize useNavigate hook
+ const { setCurrentUser } = useAuthContext();
 
   const [privacySettings, setPrivacySettings] = useState({
     whoCanSeePosts: 'everyone',
@@ -52,6 +54,7 @@ const handleDeleteAccount = async () => {
       () => {
         setLoading(false);
         setError(null);
+        setCurrentUser(null);
         navigate('/login');
       },
       (errors) => {
