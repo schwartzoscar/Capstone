@@ -5,7 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useCurrentForumContext } from "../../contexts/CurrentForumContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
-import { SubmitButton, TextField, RichTextField } from "../elements/FormField";
+import {SubmitButton, TextField, RichTextField, SelectField} from "../elements/FormField";
 import Button from "../elements/Button";
 import Base from "../base/Base";
 
@@ -19,7 +19,7 @@ export default function BlogCreation() {
 
   const handleFormSubmit = async(data) => {
     data.images = images;
-    if(currentForum) data.forum_id = currentForum._id;
+    data.forumId = currentForum?._id ?? null;
     const resp = await apiClient.post('/posts/create', data);
     handleResp(resp, () => {
       navigate(currentForum ? `/forum/${currentForum.name}` : '/');
@@ -36,6 +36,10 @@ export default function BlogCreation() {
     });
   }
 
+  const onForumSelect = (forumOption, formOnChange) => {
+    formOnChange(forumOption.value);
+  }
+
   return (
     <Base>
       <div className="max-w-xl mx-auto">
@@ -43,6 +47,9 @@ export default function BlogCreation() {
           <FormProvider {...form}>
             <TextField name="title" label="Title" validation={{ required: "Title is required." }}/>
             <RichTextField name="content" label="Body" setImages={setImages}/>
+            {!currentForum && (
+              <SelectField name="Forum" label="Forum" optionsUrl="/posts/forumOptions" onChangeOverride={onForumSelect}/>
+            )}
             <div className="d-flex justify-content-end g-8 mt-20">
               <Button className="btn-secondary" onClick={cancelPost} loading={cancelLoading}>Cancel</Button>
               <SubmitButton onClick={handleFormSubmit} className="btn-primary mt-0" disabled={cancelLoading}/>

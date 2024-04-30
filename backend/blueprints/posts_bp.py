@@ -57,6 +57,19 @@ def delete_post_images():
     return {"message": "Failure"}
 
 
+@posts_bp.post('/forumOptions')
+@jwt_required()
+def forum_options_for_post():
+    user = Users.get_current_user()
+    if user:
+        options = []
+        forums = Forums.aggregate(pipeline=[{"$match": {"users._id": user._id}}], joins=[*Forums.joins['users']], raw=True)
+        for forum in forums:
+            options.append({"label": forum['name'], "value": forum['_id']})
+        return {"message": "OK", "options": options}
+    return {"message": "Failure"}
+
+
 @posts_bp.post('/create')
 @jwt_required()
 def create_post():
@@ -66,7 +79,8 @@ def create_post():
         post = Posts({
             "title": data.get('title'),
             "content": data.get('content'),
-            "user_id": user._id
+            "user_id": user._id,
+            "forum_id": data.get('forumId')
         })
         post.save()
         return {"message": "OK"}
