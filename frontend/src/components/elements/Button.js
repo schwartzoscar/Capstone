@@ -9,7 +9,7 @@ export default function Button(props) {
 
   const icon = useMemo(() => {
     if(props.loading) return <LoadingBars/>;
-    if(props.icon) return <i className={`fas ${props.icon}`}/>;
+    if(props.icon) return <i className={`fas ${props.icon} mr-4`}/>;
     return null;
   }, [props.loading, props.icon]);
 
