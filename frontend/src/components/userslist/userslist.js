@@ -10,7 +10,7 @@ export default function UsersList() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await apiClient.post('/users/get');
+        const response = await apiClient.post('/users/get', {});
         setUsers(response.data.users);
       } catch (error) {
         console.error(error);

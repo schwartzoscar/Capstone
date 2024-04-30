@@ -7,7 +7,7 @@ users_bp = Blueprint("users_bp", __name__)
 @users_bp.post('/get')
 def get_users():
     data = request.get_json()
-    users = Users.find(data, {'password': 0})
+    users = Users.find(data, raw=True)
     user_list = []
     for user in users:
         user_list.append({

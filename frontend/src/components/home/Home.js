@@ -7,6 +7,7 @@ import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
 import PrivacyModal from "../elements/PrivacyModal";
 import BlogCreation from "../blog/BlogCreation";
+import SearchBar from "../elements/SearchBar";
 
 export default function Home() {
   const [showContentModal, setContentShowModal] = useState(false);
@@ -35,10 +36,8 @@ export default function Home() {
     <div className="page-container" id="home-page">
       <hr />
       <div className="nav-home">
-        <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>
-        <div className="search-wrapper">
-          <input type="search" id="search" placeholder="SEARCH POSTS" />
-        </div>
+        <img src="/images/logo.png" alt="THRIDDER LOGO" className="img-fade" width="200" height="auto"></img>        
+        <SearchBar />
         <Button onClick={handleLogout} loading={loading} className="btn-bar">LOGOUT</Button>
       </div>
       <hr />
@@ -51,7 +50,7 @@ export default function Home() {
             <hr />
             <Button to="/news" className="btn-home">NEWS</Button>
             <hr />
-            <Button to="/UsersList" className="btn-home">USERS LIST</Button>
+            <Button to="/UsersList" className="btn-home">USERS</Button>
           </div>
           <div>
             <Button onClick={handleContentModalButtonClick} className="btn-home-solid">CONTENT POLICY</Button>

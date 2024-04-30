@@ -6,7 +6,6 @@ from db.collections.Users import Users
 
 forums_bp = Blueprint("forums_bp", __name__)
 
-
 @forums_bp.post('/get')
 @jwt_required()
 def get_forum():
@@ -17,7 +16,6 @@ def get_forum():
         if len(forums):
             return {"message": "OK", "forum": forums[0]}
     return {"message": "Failure"}
-
 
 @forums_bp.post('/uploadTemp')
 @jwt_required()
@@ -32,7 +30,6 @@ def upload_temp_forum():
             return {"message": "OK", "url": url}
     return {"message": "Failure"}
 
-
 @forums_bp.post('/userOptions')
 @jwt_required()
 def get_forum_user_options():
@@ -44,7 +41,6 @@ def get_forum_user_options():
             options.append({"label": user['username'], "value": user['_id']})
         return {"message": "OK", "options": options}
     return {"message": "Failure"}
-
 
 @forums_bp.post('/join')
 @jwt_required()
@@ -69,7 +65,6 @@ def join_forum():
                 return {"message": "OK", "forum": updated}
     return {"message": "Failure"}
 
-
 @forums_bp.post('/leave')
 @jwt_required()
 def leave_forum():
@@ -88,7 +83,6 @@ def leave_forum():
             updated = Forums.find_by_id(forum_id)
             return {"message": "OK", "forum": updated}
     return {"message": "Failure"}
-
 
 @forums_bp.post('/create')
 @jwt_required()
@@ -118,7 +112,6 @@ def create_forum():
                 return {"message": "OK", "forum": new_forum}
     return {"message": "Failure"}
 
-
 @forums_bp.post('/update')
 @jwt_required()
 def update_forum():
@@ -145,3 +138,16 @@ def update_forum():
             updated = Forums.find_by_id(forum_id)
             return {"message": "OK", "forum": updated}
     return {"message": "Failure"}
+
+@forums_bp.post('/search')
+@jwt_required()
+def search_forums():
+    data = request.get_json()
+    search_term = data.get('searchTerm', '').strip()
+    if search_term:
+        forums = Forums.aggregate([
+            {"$match": {"name": {"$regex": search_term, "$options": "i"}}}
+        ])
+        return {"message": "OK", "forums": list(forums)}
+    else:
+        return {"message": "Failure", "error": "Search term is empty"}
