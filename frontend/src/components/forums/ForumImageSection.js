@@ -15,7 +15,7 @@ export function Static(props) {
       <div className="forum-banner-wrapper">
         <ImageRounded editable={false} src={getForumProfileImage(profileSrc)} alt="Forum Profile Image"/>
         <div className="forum-banner-image img-responsive">
-          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner Image"/>
+          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner"/>
         </div>
       </div>
       {children}
@@ -51,13 +51,13 @@ export function Editable(props) {
     <div className="page-section">
       <div className="forum-banner-wrapper">
         <ImageRounded
-          editable={true} src={getForumProfileImage(profileSrc)} alt="Forum Profile Image"
+          editable={true} src={getForumProfileImage(profileSrc)} alt="Forum Profile"
           onSubmit={blob => onSubmit(blob, 'profile')} show={profileShow} setShow={setProfileShow}
         />
         <div className="forum-banner-image img-responsive is-editable" onClick={toggleBannerModal}>
           <div className="forum-banner-image-icon"/>
           <div className="forum-banner-image-overlay"/>
-          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner Image"/>
+          <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner"/>
         </div>
         <ImageCropModal show={bannerShow} setShow={setBannerShow} onSubmit={blob => onSubmit(blob, 'banner')}/>
       </div>

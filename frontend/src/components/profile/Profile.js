@@ -38,7 +38,7 @@ export default function Profile() {
       navigate('/');
       toast.error('This user does not exist.')
     });
-  }, [params]);
+  }, [params, navigate]);
 
   useEffect(() => {
     if(isMe !== null) {

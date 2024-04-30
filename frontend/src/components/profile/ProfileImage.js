@@ -27,7 +27,7 @@ export default function ProfileImage() {
   return(
     <ImageRounded
       editable={isMe} src={getProfileImage(visitedUser.profile_img)}
-      alt={isMe ? "Update Profile Image" : `${visitedUser.username}'s Avatar`}
+      alt={isMe ? "Update Profile" : `${visitedUser.username}'s Profile`}
       onSubmit={onSubmit} show={show} setShow={setShow}
     />
   );
