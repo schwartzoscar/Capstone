@@ -59,7 +59,8 @@ export function Editable(props) {
           <div className="forum-banner-image-overlay"/>
           <img src={getForumBannerImage(bannerSrc)} alt="Forum Banner"/>
         </div>
-        <ImageCropModal show={bannerShow} setShow={setBannerShow} onSubmit={blob => onSubmit(blob, 'banner')}/>
+        <ImageCropModal show={bannerShow} setShow={setBannerShow} aspect={16/9}
+                        onSubmit={blob => onSubmit(blob, 'banner')}/>
       </div>
       {children}
     </div>
