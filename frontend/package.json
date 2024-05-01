@@ -21,13 +21,8 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-loading": "^2.0.3",
     "react-password-strength-bar": "^0.4.1",
-<<<<<<< HEAD
-    "react-router-dom": "^6.22.1",
-    "react-scripts": "^5.0.1",
-=======
     "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
->>>>>>> 909896e3005fa653b8f96a5d290b32715f8ca8db
     "react-select": "^5.8.0",
     "react-time-ago": "^7.3.1",
     "react-toastify": "^10.0.4",
