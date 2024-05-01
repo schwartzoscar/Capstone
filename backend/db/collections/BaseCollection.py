@@ -59,7 +59,7 @@ class BaseCollection(ABC):
         ]
         coll_name = Config.get_name(cls.collection)
         res = DB.instance[coll_name].aggregate(full_pipeline)
-        return list(res)[0] if raw else list(map(lambda d: cls(d), res))
+        return list(res) if raw else list(map(lambda d: cls(d), res))
 
     @classmethod
     def find_paginated(cls, last_id="0", query={}, joins=[], projection={}, oldest_first=False, limit=25):

@@ -53,6 +53,7 @@ def login():
         return resp
     else:
         return {"message": "Failure"}
+    
 
 
 @auth_bp.post('/cookieLogin')

@@ -9,7 +9,7 @@ import Button from "./Button";
 
 export default function ImageCropModal(props) {
 
-  const { show, setShow, onSubmit } = props;
+  const { show, setShow, onSubmit, aspect, circular } = props;
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
   const [crop, setCrop] = useState(null);
@@ -42,7 +42,7 @@ export default function ImageCropModal(props) {
     setUpdating(true);
     if(currentBlob && onSubmit) await onSubmit(currentBlob);
     setUpdating(false);
-  }, [currentBlob]);
+  }, [currentBlob, onSubmit]);
 
   if(loading) return <div>Loading...</div>;
   if(errors.length) return <div>Error...</div>;
@@ -57,7 +57,8 @@ export default function ImageCropModal(props) {
             onChange={(_, pc) => setCrop(pc)}
             onComplete={(c) => setCompletedCrop(c)}
             minHeight={100}
-            circularCrop
+            circularCrop={circular ?? false}
+            aspect={aspect ?? null}
           >
             <img ref={imgRef} src={file.content} alt={file.name}/>
           </ReactCrop>

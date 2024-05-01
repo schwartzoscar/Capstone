@@ -11,7 +11,7 @@ export default function RichTextReadOnly({ content }) {
     <Slate editor={editor} initialValue={content}>
       <Editable
         readOnly
-        renderElement={props => <Element {...props}/>}
+        renderElement={props => <Element readOnly={true} {...props}/>}
         renderLeaf={props => <Leaf {...props}/>}
       />
     </Slate>

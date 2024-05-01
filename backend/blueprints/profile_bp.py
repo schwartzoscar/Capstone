@@ -1,9 +1,10 @@
-from flask import Blueprint, request
-from flask_jwt_extended import jwt_required
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity, unset_jwt_cookies
 from bson.objectid import ObjectId
 from db.collections.Users import Users
 from db.collections.Posts import Posts
 from db.collections.Follows import Follows
+
 
 profile_bp = Blueprint("profile_bp", __name__)
 
@@ -12,9 +13,9 @@ profile_bp = Blueprint("profile_bp", __name__)
 @jwt_required()
 def get_visited_profile():
     data = request.get_json()
-    visited_id = data.get('visitedId')
-    if visited_id:
-        visited = Users.find_by_id(visited_id, projection=Users.visitor_fields)
+    visited_username = data.get('visitedUsername')
+    if visited_username:
+        visited = Users.find_one({"username": visited_username}, projection=Users.visitor_fields)
         if visited:
             return {"message": "OK", "visited": visited}
     return {"message": "Failure"}
@@ -96,3 +97,55 @@ def follow_user():
 def unfollow_user():
     # TODO
     return {"message": "OK"}
+
+
+@profile_bp.post('/updatePrivacySettings')
+@jwt_required()
+def update_privacy_setting():
+    user = Users.get_current_user()
+    if not user:
+        return {"message": "Failure"}
+    
+    data = request.get_json()
+
+    # Extract privacy settings data from the request
+    who_can_see_posts = data.get('whoCanSeePosts')
+    who_can_send_friend_requests = data.get('whoCanSendFriendRequests')
+    profile_viewing_option = data.get('profileViewingOption')
+    delete_history = data.get('deleteHistory')
+
+    # Update the user's privacy settings
+    user.update({
+        "privacySettings": {
+            "whoCanSeePosts": who_can_see_posts,
+            "whoCanSendFriendRequests": who_can_send_friend_requests,
+            "profileViewingOption": profile_viewing_option,
+            "deleteHistory": delete_history,
+        }
+    })
+
+    # Save the changes to the user document
+    user.save()
+
+    return {"message": "OK"}
+
+
+@profile_bp.delete('/deleteAccount')
+@jwt_required()
+def delete_account():
+    try:
+        current_user_id = get_jwt_identity()
+        if current_user_id:
+            user = Users.find_by_id(current_user_id)
+            if user:
+                user.delete()
+                user.save()
+                resp = jsonify({"message": "OK"})
+                unset_jwt_cookies(resp)
+                return resp
+            else:
+                return {"message": "Failure"}, 404
+        else:
+            return {"message": "Failure"}, 401
+    except Exception as e:
+        return {"message": "Failure", "error": str(e)}, 500

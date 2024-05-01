@@ -120,11 +120,11 @@ export default function RichText(props) {
   );
 }
 
-export const Element = ({ attributes, children, element }) => {
+export const Element = ({ attributes, children, element, readOnly }) => {
   const style = { textAlign: element.align };
   switch (element.type) {
     case 'image':
-      return <Image attributes={attributes} element={element}>{children}</Image>;
+      return <Image attributes={attributes} element={element} readOnly={readOnly}>{children}</Image>;
     case 'block-quote':
       return <blockquote style={style} {...attributes}>{children}</blockquote>;
     case 'bulleted-list':
@@ -150,7 +150,7 @@ export const Leaf = ({ attributes, children, leaf }) => {
   return <span {...attributes}>{children}</span>
 }
 
-const Image = ({ attributes, children, element }) => {
+const Image = ({ attributes, children, element, readOnly }) => {
   const editor = useSlateStatic();
   const path = ReactEditor.findPath(editor, element);
   const selected = useSelected();
@@ -162,15 +162,15 @@ const Image = ({ attributes, children, element }) => {
       <div contentEditable={false} className="position-relative">
         <img
           src={element.url} className="rich-text-image"
-          style={{ boxShadow: `${selected && focused ? '0 0 0 3px #B4D5FF' : 'none'}` }}
+          style={{ boxShadow: `${selected && focused && !readOnly ? '0 0 0 3px #B4D5FF' : 'none'}` }}
         />
-        <Button
+        {!readOnly && <Button
           active className="rich-text-image-remove"
           onClick={() => Transforms.removeNodes(editor, { at: path })}
           style={{ display: `${selected && focused ? 'inline' : 'none'}` }}
         >
           <span className="fas fa-trash"/>
-        </Button>
+        </Button>}
       </div>
     </div>
   )

@@ -1,13 +1,32 @@
 .post-list-item {
   border: 1px solid #202020;
-  padding: 8px;
-  background-color: #efefef;
+  padding: 8px 12px;
+  background-color: #f6f6f6;
   border-radius: 8px;
   margin-bottom: 8px;
 }
 
-.post-list-item .profile-img {
-  width: 35px;
-  height: 35px;
-  margin: 10px;
+.post-list-item-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.post-list-item-content {
+  padding-left: 20px;
+  border-left: 2px solid slateblue;
+}
+
+.post-list-item-signature {
+  display: flex;
+  column-gap: 8px;
+  margin-top: 14px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.post-list-item-signature .profile-img {
+  width: 30px;
+  height: 30px;
+  margin-right: 4px;
 }
