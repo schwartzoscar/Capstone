@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Base from '../../components/base/Base';
-import axios from 'axios';
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
+import FollowButton from "../elements/FollowButton";
 
 export default function UsersList() {
   const [users, setUsers] = useState([]);
@@ -10,7 +10,7 @@ export default function UsersList() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await apiClient.post('/users/get', {});
+        const response = await apiClient.post('http://localhost:5000/api/users/get', {});
         setUsers(response.data.users);
       } catch (error) {
         console.error(error);
@@ -29,9 +29,17 @@ export default function UsersList() {
           <div style={{ flex: 1, overflow: 'auto' }}>
             {users.map(user => (
               <div key={user._id}>
-                <h2>User Information</h2>
-                <h3>Username: {user.username}</h3>
-                <h3>Email: {user.email}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  {user.profile_img ? (
+                    <img src={`http://localhost:5000/${user.profile_img}`} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }} />
+                  ) : (
+                    <img src="/default-profile-img.jpg" alt="Default" style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }} />
+                  )}
+                  <div>
+                    <h3>Username: {user.username}</h3>
+                  </div>
+                  <FollowButton userId={user._id} />
+                </div>
                 <hr />
               </div>
             ))}

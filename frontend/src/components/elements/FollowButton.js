@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import React from 'react';
 import { apiClient } from '../../helpers/requestHelpers';
 import { toast } from 'react-toastify';
 
-export default function FollowButton({ userId, isFollowing }) {
-  const [loading, setLoading] = useState(false);
-
-  const handleFollowToggle = async () => {
-    setLoading(true);
+/*THIS IS NOT DONE*/
+const FollowButton = ({ userId }) => {
+  const handleFollow = async () => {
     try {
-      const endpoint = isFollowing ? `/api/unfollow/${userId}` : `/api/follow/${userId}`;
-      await apiClient.post(endpoint);
-      toast.success(`${isFollowing ? 'Unfollowed' : 'Followed'} User ${userId}`);
+      const response = await apiClient.post(`/profile/follow`, { userId });
+      if (response.data.message === "OK") {
+        toast.success('Followed successfully.');
+      } else {
+        toast.error('Could not follow user.');
+      }
     } catch (error) {
-      toast.error(`Could not ${isFollowing ? 'Unfollow' : 'Follow'} User ${userId}`);
-    } finally {
-      setLoading(false);
+      console.error('Error details:', error);
+      toast.error('Could not follow user.');
     }
   };
 
   return (
-    <Button variant="primary" onClick={handleFollowToggle} disabled={loading}>
-      {isFollowing ? 'Unfollow' : 'Follow'}
-    </Button>
+    <button className="btn btn-primary" onClick={handleFollow}>
+      Follow
+    </button>
   );
-}
+};
+
+export default FollowButton;

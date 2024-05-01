@@ -4,6 +4,7 @@ from flask_jwt_extended import get_jwt_identity
 from db.collections.BaseCollection import BaseCollection
 from db.collections.SharedConfig import Collection
 from services.S3 import S3
+from bson import ObjectId
 
 
 class Users(BaseCollection):

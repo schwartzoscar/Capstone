@@ -3,7 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import { apiClient } from '../../../helpers/requestHelpers';
 import FollowButton from '../../elements/FollowButton';
 
-export default function Following() {
+export default function Following({ userId }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,11 @@ export default function Following() {
       try {
         const response = await apiClient.get('/api/users/');
         if (response && response.data && response.data.users) {
-          setUsers(response.data.users);
+          const updatedUsers = response.data.users.map(user => ({
+            ...user,
+            isFollowing: user.followers.includes(userId),
+          }));
+          setUsers(updatedUsers);
         } else {
           console.error('Invalid response format:', response);
         }
@@ -21,7 +25,7 @@ export default function Following() {
     };
 
     fetchUsers();
-  }, []);
+  }, [userId]);
 
   return (
     <div>

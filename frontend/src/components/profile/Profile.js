@@ -6,6 +6,7 @@ import { handleResp } from "../../helpers/responseHelpers";
 import Base from '../../components/base/Base';
 import ProfileOverview from "./ProfileOverview";
 import ProfileContent from "./ProfileContent";
+import FollowButton from '../elements/FollowButton';
 
 const ProfileContext = createContext({isMe: true, visitedUser: null});
 export const useProfileContext = () => useContext(ProfileContext);
@@ -45,6 +46,14 @@ export default function Profile() {
   // TODO loading wrapper component
   if(!visitedUser) return null;
 
+  const handleFollow = async () => {
+    const route = visitedUser.isFollowing ? 'unfollow' : 'follow';
+    const resp = await apiClient.post(`/profile/${route}`, { userId: visitedUser._id });
+    handleResp(resp, () => {
+      setVisitedUser({ ...visitedUser, isFollowing: !visitedUser.isFollowing });
+    });
+  };
+
   return(
     <Base>
       <div className="max-w-xl mx-auto">
@@ -53,6 +62,14 @@ export default function Profile() {
           <div className="d-flex flex-wrap-reverse g-20 mt-20">
             <ProfileContent/>
             <ProfileOverview/>
+            {!isMe && (
+              <div>
+                <FollowButton
+                  isFollowing={visitedUser.isFollowing}
+                  onClick={handleFollow}
+                />
+              </div>
+            )}
           </div>
         </ProfileContext.Provider>
       </div>

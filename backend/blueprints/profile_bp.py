@@ -9,6 +9,10 @@ from db.collections.Follows import Follows
 profile_bp = Blueprint("profile_bp", __name__)
 
 
+def retrieve_profiles(search_term):
+    profiles = Users.find({"username": {"$regex": search_term, "$options": "i"}})
+    return list(profiles)
+
 @profile_bp.post('/visited')
 @jwt_required()
 def get_visited_profile():
@@ -88,14 +92,24 @@ def update_account_info():
 @profile_bp.post('/follow')
 @jwt_required()
 def follow_user():
-    # TODO
-    return {"message": "OK"}
-
+    data = request.get_json()
+    user_to_follow = data.get('userId')
+    current_user_id = get_jwt_identity()
+    
+    if user_to_follow != current_user_id:
+        Follows.follow(current_user_id, user_to_follow)
+        return {"message": "OK"}
+    else:
+        return {"message": "Failure", "error": "Cannot follow yourself"}
 
 @profile_bp.post('/unfollow')
 @jwt_required()
 def unfollow_user():
-    # TODO
+    data = request.get_json()
+    user_to_unfollow = data.get('userId')
+    current_user_id = get_jwt_identity()
+    
+    Follows.unfollow(current_user_id, user_to_unfollow)
     return {"message": "OK"}
 
 
@@ -149,3 +163,16 @@ def delete_account():
             return {"message": "Failure"}, 401
     except Exception as e:
         return {"message": "Failure", "error": str(e)}, 500
+
+
+@profile_bp.post('/search')
+@jwt_required()
+def search_profiles():
+    data = request.get_json()
+    searchTerm = data.get('searchTerm')
+
+    if searchTerm:
+        profiles = retrieve_profiles(searchTerm)
+        return {"message": "OK", "profiles": profiles}
+    else:
+        return {"message": "Failure", "error": "Search term is required"}
