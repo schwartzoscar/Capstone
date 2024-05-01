@@ -6,8 +6,11 @@ import PostList from "../posts/PostList";
 import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
 import PrivacyModal from "../elements/PrivacyModal";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+
+  const navigate = useNavigate();
 
   const [showContentModal, setContentShowModal] = useState(false);
 
@@ -31,6 +34,10 @@ export default function Home() {
     setLoading(false);
   };
 
+  const navigateToBlogPage = () => {
+    navigate('/blog-creation'); // Navigate to the blog creation page
+  };
+
   return (
     <div className="page-container" id="home-page">
       <hr />
@@ -50,6 +57,7 @@ export default function Home() {
             <Button to="/home" className="btn-home">HOME</Button>
             <hr />
             <Button to="/news" className="btn-home">NEWS</Button>
+            <Button onClick={navigateToBlogPage} className="btn-home">CREATE BLOG</Button>
           </div>
           <div>
             <Button onClick={handleContentModalButtonClick} className="btn-home-solid">CONTENT POLICY</Button>
