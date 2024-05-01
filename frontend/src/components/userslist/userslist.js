@@ -30,11 +30,6 @@ export default function UsersList() {
             {users.map(user => (
               <div key={user._id}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  {user.profile_img ? (
-                    <img src={`http://localhost:5000/${user.profile_img}`} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }} />
-                  ) : (
-                    <img src="/default-profile-img.jpg" alt="Default" style={{ width: '50px', height: '50px', borderRadius: '50%', marginRight: '10px' }} />
-                  )}
                   <div>
                     <h3>Username: {user.username}</h3>
                   </div>
