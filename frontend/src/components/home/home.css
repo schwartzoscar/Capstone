@@ -68,3 +68,8 @@ button {
 button:hover {
     background-color: #ff6f61; /* Lighter shade of orangeish */
 }
+
+.img-fade {
+    filter: invert(1); /* Invert the colors of the image */
+}
+
