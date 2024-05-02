@@ -7,6 +7,7 @@ import Button from "../elements/Button";
 import ContentModal from "../elements/ContentModal";
 import PrivacyModal from "../elements/PrivacyModal";
 import CreationModal from "./CreationModal";
+import './home.css';
 
 export default function Home() {
   const [showContentModal, setContentShowModal] = useState(false);

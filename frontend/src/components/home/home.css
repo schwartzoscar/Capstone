@@ -1,0 +1,48 @@
+/* Styling for header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+
+.page-container {
+    margin-top: 80px; /* To push content below header */
+    padding: 20px;
+}
+
+
+a, button {
+    color: #ff6f61; 
+}
+
+.accent {
+    color: #8a2be2; 
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: 1s;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); }
+    to { transform: translateY(0); }
+}
+
+.slideIn {
+    animation-name: slideIn;
+    animation-duration: 1s;
+}
