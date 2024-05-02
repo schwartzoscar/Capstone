@@ -14,7 +14,7 @@ export default function PostList(props) {
 
 function PostListBody(props) {
 
-  const { iSProps, className } = props;
+  const { iSProps, height, className } = props;
   const [{ items: posts }] = usePaginationContext();
 
   const items = useMemo(() => posts.map(post => (
@@ -23,7 +23,7 @@ function PostListBody(props) {
 
   return(
     <div className={clsx(className, "flex-grow-1")}>
-      <InfiniteScroll url="/posts/list" limit={25} wrapperProps={{style: {height: '100%'}}} {...iSProps}>
+      <InfiniteScroll url="/posts/list" limit={25} wrapperProps={{style: {height: height, maxHeight: height}}} {...iSProps}>
         {items}
       </InfiniteScroll>
     </div>
