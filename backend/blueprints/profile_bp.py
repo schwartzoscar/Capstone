@@ -181,7 +181,7 @@ def search_profiles():
         return {"message": "Failure", "error": "Search term is required"}
 
 
-@profile_bp.route('/profile/getFollowing', methods=['POST'])
+@profile_bp.post('/getFollowing')
 @jwt_required()
 def get_following_users():
     try:

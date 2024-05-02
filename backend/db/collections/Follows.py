@@ -16,6 +16,16 @@ class Follows:
     def follow(follower_id, following_id):
         try:
             db_instance = Follows.get_db_instance()
+            
+            # Check if the user is already being followed
+            existing_follow = db_instance[Follows.collection_name].find_one({
+                "follower": ObjectId(follower_id),
+                "following": ObjectId(following_id)
+            })
+            
+            if existing_follow:
+                raise Exception("User is already being followed")
+            
             follow_doc = {
                 "follower": ObjectId(follower_id),
                 "following": ObjectId(following_id)

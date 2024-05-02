@@ -14,7 +14,7 @@ export default function Following({ userId }) {
           setError('User ID is required');
           return;
         }
-        const response = await apiClient.post('/profile/getFollowing', { userId }); // Removed the duplicate '/api' prefix
+        const response = await apiClient.post('/profile/getFollowing', { userId });
         if (response && response.data && response.data.users) {
           setFollowingUsers(response.data.users);
         } else {
