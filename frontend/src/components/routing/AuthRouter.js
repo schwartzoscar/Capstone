@@ -11,9 +11,8 @@ import UsersList from "../userslist/userslist";
 const router = createBrowserRouter([
   { path: "/", element: <Home/> },
   { path: "/profile", element: <Profile/>, children: [
-    { path: ":userId", element: <Profile/> }
+    { path: ":username", element: <Profile/> }
   ]},
-  { path: "/profile/:userId", element: <Profile/> },
   { path: "/blog/new", element: <BlogCreation/> },
   { path: "/forum", children: [
     { path: '', element: <Navigate to="/" replace /> },

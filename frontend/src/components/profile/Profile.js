@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
@@ -32,8 +33,11 @@ export default function Profile() {
     const resp = await apiClient.post('/profile/visited', post);
     handleResp(resp, data => {
       setVisitedUser(data.visited);
+    }, () => {
+      navigate('/');
+      toast.error('This user does not exist.')
     });
-  }, [params]);
+  }, [params, navigate]);
 
   useEffect(() => {
     if (isMe !== null) {

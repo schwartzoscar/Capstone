@@ -16,7 +16,7 @@ export default function ImageRounded(props) {
         {editable && <div className="profile-img-edit-overlay"/>}
         <img src={src} alt={alt}/>
       </div>
-      {editable && <ImageCropModal show={show} setShow={setShow} onSubmit={onSubmit}/>}
+      {editable && <ImageCropModal show={show} setShow={setShow} onSubmit={onSubmit} aspect={1} circular={true}/>}
     </>
   );
 }

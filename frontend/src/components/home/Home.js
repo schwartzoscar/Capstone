@@ -73,7 +73,7 @@ export default function Home() {
             </div>
           </div>
           <hr/>
-          <PostList/>
+          <PostList height={600}/>
         </div>
       </div>
       {showCreationModal && <CreationModal show={showCreationModal} setShow={setShowCreationModal}/>}

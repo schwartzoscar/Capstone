@@ -115,7 +115,7 @@ export default function Forum() {
           </div>}
         </ForumImageSection>
         <div className="page-section mt-20">
-          <PostList iSProps={{postData: {forumId: forum._id}}}/>
+          <PostList height={380} iSProps={{postData: {forumId: forum._id}}}/>
         </div>
       </div>
     </Base>
