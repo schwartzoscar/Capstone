@@ -1,9 +1,10 @@
 from bson.objectid import ObjectId
 from db.DB import DB
 from db.collections.SharedConfig import Collection
+from db.collections.Users import Users
 
 class Follows:
-    collection = Collection.FOLLOWS
+    collection_name = 'follows'
 
     @staticmethod
     def get_db_instance():
@@ -13,29 +14,51 @@ class Follows:
 
     @staticmethod
     def follow(follower_id, following_id):
-        db_instance = Follows.get_db_instance()
-        follow_doc = {
-            "follower": ObjectId(follower_id),
-            "following": ObjectId(following_id)
-        }
-        db_instance[Follows.collection].insert_one(follow_doc)
+        try:
+            db_instance = Follows.get_db_instance()
+            follow_doc = {
+                "follower": ObjectId(follower_id),
+                "following": ObjectId(following_id)
+            }
+            db_instance[Follows.collection_name].insert_one(follow_doc)
+        except Exception as e:
+            print(f"Error occurred while following: {str(e)}")
+
+    @staticmethod
+    def unfollow(follower_id, following_id):
+        try:
+            db_instance = Follows.get_db_instance()
+            db_instance[Follows.collection_name].delete_one({
+                "follower": ObjectId(follower_id),
+                "following": ObjectId(following_id)
+            })
+        except Exception as e:
+            print(f"Error occurred while unfollowing: {str(e)}")
 
     @staticmethod
     def get_stats(user_id):
-        db_instance = Follows.get_db_instance()
-        uid = ObjectId(user_id)
-        stats = db_instance[Follows.collection].aggregate([
-            {"$facet": {
-                "following": [
-                    {"$match": {"follower": uid}},
-                    {"$count": "total"}
-                ],
-                "followers": [
-                    {"$match": {"following": uid}},
-                    {"$count": "total"}
-                ]
-            }}
-        ], raw=True)
-        following = stats['following'][0]['total'] if len(stats['following']) > 0 else 0
-        followers = stats['followers'][0]['total'] if len(stats['followers']) > 0 else 0
-        return {"following": following, "followers": followers}
+        try:
+            db_instance = Follows.get_db_instance()
+            followers_count = db_instance[Follows.collection_name].count_documents({"following": ObjectId(user_id)})
+            following_count = db_instance[Follows.collection_name].count_documents({"follower": ObjectId(user_id)})
+            return {"followers_count": followers_count, "following_count": following_count}
+        except Exception as e:
+            print(f"Error occurred while getting stats: {str(e)}")
+            return {"followers_count": 0, "following_count": 0}
+
+    @staticmethod
+    def get_following_users(user_id):
+        try:
+            db_instance = Follows.get_db_instance()
+            follow_docs = db_instance[Follows.collection_name].find({"follower": ObjectId(user_id)})
+            following_ids = [doc['following'] for doc in follow_docs]
+            
+            if following_ids:
+                following_users = db_instance[Users.collection_name].find({"_id": {"$in": following_ids}})
+                return list(following_users)
+            else:
+                return []
+            
+        except Exception as e:
+            print(f"Error Occoured while getting followed- {str(e)}")
+            return [] 

@@ -1,44 +1,49 @@
+// following.js
 import React, { useState, useEffect } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { apiClient } from '../../../helpers/requestHelpers';
-import FollowButton from '../../elements/FollowButton';
 
 export default function Following({ userId }) {
-  const [users, setUsers] = useState([]);
+  const [followingUsers, setFollowingUsers] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchFollowingUsers = async () => {
       try {
-        const response = await apiClient.get('/api/users/');
+        if (!userId) {
+          setError('User ID is required');
+          return;
+        }
+        const response = await apiClient.post('/profile/getFollowing', { userId }); // Removed the duplicate '/api' prefix
         if (response && response.data && response.data.users) {
-          const updatedUsers = response.data.users.map(user => ({
-            ...user,
-            isFollowing: user.followers.includes(userId),
-          }));
-          setUsers(updatedUsers);
+          setFollowingUsers(response.data.users);
         } else {
-          console.error('Invalid response format:', response);
+          setError('Invalid response format');
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching following users:', error);
+        setError('Failed to fetch following data');
       }
     };
 
-    fetchUsers();
+    fetchFollowingUsers();
   }, [userId]);
+
+  if (error) {
+    return <Alert variant="danger">{error}</Alert>;
+  }
 
   return (
     <div>
-      <p className="tab-content-header">All Profiles</p>
-      {users.length > 0 ? (
-        users.map(user => (
+      <p className="tab-content-header">Following</p>
+      {followingUsers.length > 0 ? (
+        followingUsers.map(user => (
           <div key={user._id}>
             <p>{user.username}</p>
-            <FollowButton userId={user._id} isFollowing={user.isFollowing} />
           </div>
         ))
       ) : (
-        <Alert variant="warning">No profiles found.</Alert>
+        <Alert variant="warning">You are not following anyone.</Alert>
       )}
     </div>
   );

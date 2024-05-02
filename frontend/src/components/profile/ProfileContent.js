@@ -8,7 +8,7 @@ import Following from "./tabs/Following";
 
 export default function ProfileContent() {
 
-  const { isMe } = useProfileContext();
+  const { isMe, visitedUser } = useProfileContext();
   const [activeTab, setActiveTab] = useState("accountInfo");
 
   const navContent = useMemo(() => {
@@ -18,12 +18,12 @@ export default function ProfileContent() {
       case 'userPosts':
         return <UserPosts/>;
       case 'following':
-        return <Following/>;
+        return <Following userId={visitedUser._id}/>;
       case 'privacySettings':
         return isMe ? <PrivacySettings/> : null;
       default: return null;
     }
-  }, [activeTab, isMe]);
+  }, [activeTab, isMe, visitedUser]);
 
   return(
     <div className="page-section flex-grow-1">

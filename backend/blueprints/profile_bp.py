@@ -25,18 +25,21 @@ def get_visited_profile():
     return {"message": "Failure"}
 
 
-@profile_bp.post('/getStats')
+@profile_bp.route('/getStats', methods=['GET', 'POST'])
 @jwt_required()
 def get_visited_stats():
-    data = request.get_json()
-    user_id = data.get('userId')
-    if user_id:
-        user = Users.find_by_id(user_id)
-        if user:
-            stats = Follows.get_stats(user_id)
-            stats['posts'] = Posts.count({"user_id": ObjectId(user_id)})
-            return {"message": "OK", "stats": stats}
-    return {"message": "Failure"}
+    if request.method == 'POST':
+        data = request.get_json()
+        user_id = data.get('userId')
+        if user_id:
+            user = Users.find_by_id(user_id)
+            if user:
+                stats = Follows.get_stats(user_id)
+                stats['posts'] = Posts.count({"user_id": ObjectId(user_id)})
+                return {"message": "OK", "stats": stats}
+        return {"message": "Failure"}
+    elif request.method == 'GET':
+        pass
 
 
 @profile_bp.post('/updateImage')
@@ -176,3 +179,18 @@ def search_profiles():
         return {"message": "OK", "profiles": profiles}
     else:
         return {"message": "Failure", "error": "Search term is required"}
+
+
+@profile_bp.route('/profile/getFollowing', methods=['POST'])
+@jwt_required()
+def get_following_users():
+    try:
+        data = request.get_json()
+        user_id = data.get('userId')
+        if user_id:
+            following_users = Follows.get_following_users(user_id)
+            return {"message": "OK", "users": following_users}
+        else:
+            return {"message": "Failure", "error": "User ID is required"}, 400
+    except Exception as e:
+        return {"message": "Failure", "error": str(e)}, 500

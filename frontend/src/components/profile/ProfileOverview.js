@@ -32,6 +32,10 @@ export default function ProfileOverview() {
     });
   }, [visitedUser, getUserStats]);
 
+
+  //This is just for looking at the following/followers count in console
+  console.log("userStats:", userStats);
+
   return(
     <div className="page-section" style={{minWidth: 300}}>
       <ProfileImage/>
@@ -39,8 +43,8 @@ export default function ProfileOverview() {
         <p>Joined {formatDate(visitedUser.created_at)}</p>
         { !loading && <>
           <p>Total Posts: {userStats.posts}</p>
-          <p>Following: {userStats.following}</p>
-          <p>Followers: {userStats.followers}</p>
+          <p>Following: {userStats.following_count}</p>
+          <p>Followers: {userStats.followers_count}</p>
           {!isMe && (
             <div className="link-primary is-clickable" onClick={() => followUpdate(true)}>
               <span className="fas fa-plus mr-4"/>

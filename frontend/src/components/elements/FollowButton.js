@@ -2,12 +2,11 @@ import React from 'react';
 import { apiClient } from '../../helpers/requestHelpers';
 import { toast } from 'react-toastify';
 
-/*THIS IS NOT DONE*/
 const FollowButton = ({ userId }) => {
   const handleFollow = async () => {
     try {
-      const response = await apiClient.post(`/profile/follow`, { userId });
-      if (response.data.message === "OK") {
+      const response = await apiClient.post(`/profile/follow`, userId);
+      if (response && response.data && response.data.message === "OK") {
         toast.success('Followed successfully.');
       } else {
         toast.error('Could not follow user.');
