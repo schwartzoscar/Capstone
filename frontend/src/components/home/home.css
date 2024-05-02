@@ -13,7 +13,7 @@ header {
 
 
 .page-container {
-    /*margin-top: 80px; /* To push content below header */
+    background-color: #ff6f61;
     padding: 20px;
 }
 
