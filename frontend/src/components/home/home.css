@@ -13,8 +13,18 @@ header {
 
 
 .page-container {
-    background-color: #ff6347;
-    padding: 20px;
+    /*background-color: #ff6347;
+    padding: 20px;*/
+position: absolute;
+  top: calc(50% - 100px);
+  left: calc(50% - 200px);
+  width: 400px;
+  height: 200px;
+  background-color: #8b0000; /* Dark red */
+  border: solid 1px #8b0000; /* Dark red */
+  box-shadow:
+    inset 60px 0 120px #800080, /* Purple */
+    inset -60px 0 120px #8b0000; /* Dark red */
 }
 
 
