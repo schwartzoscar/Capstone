@@ -19,11 +19,8 @@ class DB:
             username=os.environ['MONGODB_USERNAME'],
             password=os.environ['MONGODB_PASSWORD'],
             port=27017,
-            authSource="admin"
+            authSource=os.getenv('MONGODB_AUTH_SOURCE')
         )
         print("Connected to MongoDB.")
         DB.instance = client[os.environ['MONGODB_NAME']]
         print("Using database:", os.environ['MONGODB_NAME'])
-        # TODO run migrations
-
-        # Update exisiting records to store hased passwords
