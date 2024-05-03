@@ -12,7 +12,7 @@ export default function UserPosts() {
       <p className="tab-content-header">
         {isMe ? "My Posts" : `Posts by ${visitedUser?.username ?? "Anonymous"}`}
       </p>
-      <PostList iSProps={{ postData: {userId: isMe ? currentUser._id : visitedUser._id} }}/>
+      <PostList height={500} iSProps={{ postData: {userId: isMe ? currentUser._id : visitedUser._id} }}/>
     </div>
   );
 }

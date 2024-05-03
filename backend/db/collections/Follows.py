@@ -36,6 +36,7 @@ class Follows:
                 ]
             }}
         ], raw=True)
+        stats = stats[0]
         following = stats['following'][0]['total'] if len(stats['following']) > 0 else 0
         followers = stats['followers'][0]['total'] if len(stats['followers']) > 0 else 0
         return {"following": following, "followers": followers}

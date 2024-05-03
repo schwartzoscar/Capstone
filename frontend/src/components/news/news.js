@@ -11,7 +11,7 @@ export default function News() {
           <h3>POSTS</h3>
           <hr />
           <div style={{ flex: 1, overflow: 'auto' }}>
-            <PostList />
+            <PostList height={575} />
           </div>
         </div>
       </div>

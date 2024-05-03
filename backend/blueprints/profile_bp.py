@@ -17,9 +17,9 @@ def retrieve_profiles(search_term):
 @jwt_required()
 def get_visited_profile():
     data = request.get_json()
-    visited_id = data.get('visitedId')
-    if visited_id:
-        visited = Users.find_by_id(visited_id, projection=Users.visitor_fields)
+    visited_username = data.get('visitedUsername')
+    if visited_username:
+        visited = Users.find_one({"username": visited_username}, projection=Users.visitor_fields)
         if visited:
             return {"message": "OK", "visited": visited}
     return {"message": "Failure"}

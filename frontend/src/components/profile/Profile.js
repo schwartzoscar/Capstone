@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuthContext } from "../../contexts/AuthContext";
 import { apiClient } from "../../helpers/requestHelpers";
 import { handleResp } from "../../helpers/responseHelpers";
@@ -20,9 +21,9 @@ export default function Profile() {
   const [visitedUser, setVisitedUser] = useState(null);
 
   useEffect(() => {
-    if(!params.hasOwnProperty('userId')) {
+    if(!params.hasOwnProperty('username')) {
       setIsMe(true);
-    } else if(params.userId === "me" || params.userId === currentUser._id) {
+    } else if(params.username === currentUser.username) {
       navigate('/profile');
     } else {
       setIsMe(false);
@@ -30,12 +31,15 @@ export default function Profile() {
   }, [params, currentUser, navigate]);
 
   const getVisitedProfile = useCallback(async() => {
-    const post = {visitedId: params?.userId};
+    const post = {visitedUsername: params?.username};
     const resp = await apiClient.post('/profile/visited', post);
     handleResp(resp, data => {
       setVisitedUser(data.visited);
+    }, () => {
+      navigate('/');
+      toast.error('This user does not exist.')
     });
-  }, [params]);
+  }, [params, navigate]);
 
   useEffect(() => {
     if(isMe !== null) {
